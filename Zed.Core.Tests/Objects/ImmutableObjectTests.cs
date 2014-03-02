@@ -1,0 +1,86 @@
+﻿using NUnit.Framework;
+using Zed.Core.Objects;
+
+namespace Zed.Core.Tests.Objects {
+    [TestFixture]
+    public class ImmutableObjectTests {
+
+        class Car : ImmutableObject {
+            private string name;
+
+            public string Name {
+                get { return name; }
+                set {
+                    FailIfImmutable();
+                    name = value;
+                }
+
+            }
+
+            private float topSpeed;
+
+            public float TopSpeed {
+                get { return topSpeed; }
+                set {
+                    FailIfImmutable();
+                    topSpeed = value;
+                }
+            }
+
+            protected override void OnFrozen() {
+                name = name + " is Frozen";
+            }
+
+
+        }
+
+        [Test]
+        public void After_Freeze_Object_Is_Immutable() {
+            // Arrange
+            Car car = new Car();
+            car.Name = "BMW";
+            car.TopSpeed = 250.3f;
+            car.Freeze();
+
+            // Act
+            var isImmutable = car.IsImmutable;
+
+            // Assert
+            Assert.IsTrue(isImmutable);
+
+        }
+
+        [Test]
+        public void After_Freeze_OnFrozen_Is_Called() {
+            // Arrange
+            Car car = new Car();
+            car.Name = "BMW";
+            car.TopSpeed = 250.3f;
+            car.Freeze();
+
+            // Act
+
+            // Assert
+            Assert.IsTrue(car.IsImmutable);
+            Assert.AreEqual("BMW is Frozen", car.Name);
+
+        }
+
+        [Test]
+        [ExpectedException(typeof(ImmutableObjectException))]
+        public void Cant_Change_Data_Members_After_Freeze() {
+            // Arrange
+            Car car = new Car();
+            car.Name = "BMW";
+            car.TopSpeed = 250.3f;
+            car.Freeze();
+
+            // Act
+            car.Name = "Audi";
+
+            // Assert
+
+        }
+
+    }
+}
