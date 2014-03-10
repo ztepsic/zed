@@ -35,7 +35,7 @@ namespace Zed.Core.Tests.Objects {
         }
 
         [Test]
-        public void After_Freeze_Object_Is_Immutable() {
+        public void IsImmutable_FreezedObject_IsImmutable() {
             // Arrange
             Car car = new Car();
             car.Name = "BMW";
@@ -51,7 +51,7 @@ namespace Zed.Core.Tests.Objects {
         }
 
         [Test]
-        public void After_Freeze_OnFrozen_Is_Called() {
+        public void OnFrozen_AfterFreezeCallOnImmutableObject_OnFrozenIsCalled() {
             // Arrange
             Car car = new Car();
             car.Name = "BMW";
@@ -68,7 +68,7 @@ namespace Zed.Core.Tests.Objects {
 
         [Test]
         [ExpectedException(typeof(ImmutableObjectException))]
-        public void Cant_Change_Data_Members_After_Freeze() {
+        public void DataChangeAfterFreeze_ThrowsImmutableObjectException() {
             // Arrange
             Car car = new Car();
             car.Name = "BMW";

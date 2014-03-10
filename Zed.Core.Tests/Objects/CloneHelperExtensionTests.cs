@@ -15,7 +15,7 @@ namespace Zed.Core.Tests.Objects {
         }
 
         [Test]
-        public void Can_Create_Object_With_Deep_Copy() {
+        public void DeepClone_ObjectThatsNeedsToBeCloned_CreatesClonedObject() {
             // Arrange
             var objectA = new MyClass() {
                 Name = "Object22",
@@ -31,7 +31,7 @@ namespace Zed.Core.Tests.Objects {
         }
 
         [Test]
-        public void Can_Create_Array_With_Deep_Copy_Elements_From_Collection() {
+        public void ToArrayWithDeepClone_ObjectArray_CreatesClonedArrayWithDeepClonedElements() {
             // Arrange
             IList<MyClass> myClasses = new List<MyClass> {
 				new MyClass() {

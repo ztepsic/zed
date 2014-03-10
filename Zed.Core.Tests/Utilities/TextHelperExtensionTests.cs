@@ -10,7 +10,7 @@ namespace Zed.Core.Tests.Utilities {
         #region LimitWords Test
 
         [Test]
-        public void Can_Limit_Words() {
+        public void LimitWords_StringWithWords_StringWithLimitedNumberOfWords() {
             // Arrange
             const int numberOfWords = 4;
 
@@ -29,7 +29,7 @@ namespace Zed.Core.Tests.Utilities {
         }
 
         [Test]
-        public void Can_Limit_Words_Preserves_Whitespace_Characters() {
+        public void LimitWords_StringWithWordsAndWhiteSpaces_LimitingWordsPreserveWhiteSpaceCharacters() {
             // Arrange
             const int numberOfWords = 4;
 
@@ -74,7 +74,7 @@ namespace Zed.Core.Tests.Utilities {
         #endregion
 
         [Test]
-        public void Can_Ellipsize() {
+        public void Ellipsize_LongString_EllipsizedString() {
             // Arrange
             const int maxLength = 32;
 
@@ -245,7 +245,7 @@ namespace Zed.Core.Tests.Utilities {
         #endregion
 
         [Test]
-        public void Can_Translate_Accented_Foreign_Characters_ToAscii_Characters() {
+        public void ToAscii_AccentedForeignCharacters_TranslatedToAsciiCharacters() {
             // Arrange
             StringBuilder foreignCharacters = new StringBuilder();
             StringBuilder asciiCharacters = new StringBuilder();
@@ -462,7 +462,7 @@ namespace Zed.Core.Tests.Utilities {
         }
 
         [Test]
-        public void Can_Generate_Slug_From_Provided_String() {
+        public void ToSlug_StringWithSpacesAndSpecialCharacters_TranslatedToNormalizedString() {
             // Arrange
             string text = "What's wrong with **CSS**?";
 
