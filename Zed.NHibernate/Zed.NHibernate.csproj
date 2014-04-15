@@ -55,6 +55,9 @@
     <Compile Include="NHibernateRepository.cs" />
     <Compile Include="NHibernateSessionProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\NHibernateTestFixture.cs" />
+    <Compile Include="Test\TestConnectionProvider.cs" />
+    <Compile Include="Test\SQLiteTestNHibernateSessionProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

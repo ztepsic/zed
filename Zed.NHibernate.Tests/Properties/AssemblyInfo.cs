@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Zed.NHibernate.Test")]
+[assembly: AssemblyTitle("Zed.NHibernate.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Zed.NHibernate.Test")]
+[assembly: AssemblyProduct("Zed.NHibernate.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7690c239-583c-4920-ae34-2836b74990f3")]
+[assembly: Guid("292c8350-5744-4c1d-bc72-afc0d5bf4a1e")]
 
 // Version information for an assembly consists of the following four values:
 //
