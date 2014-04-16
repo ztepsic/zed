@@ -11,14 +11,26 @@ namespace Zed.NHibernate {
         #region Fields and Properties
 
         /// <summary>
+        /// NHibernate configuration
+        /// </summary>
+        private static readonly Configuration configuration;
+
+        /// <summary>
+        /// Gets NHibernate configuration
+        /// </summary>
+        public static Configuration Configuration { get { return configuration; } }
+
+        /// <summary>
         /// Session factory
         /// </summary>
-        private static readonly ISessionFactory sessionFactory;
+        private static ISessionFactory sessionFactory;
 
         /// <summary>
         /// Gets session factory
         /// </summary>
-        public static ISessionFactory SessionFactory { get { return sessionFactory; } }
+        public static ISessionFactory SessionFactory {
+            get { return sessionFactory ?? (sessionFactory = Configuration.BuildSessionFactory()); }
+        }
 
         /// <summary>
         /// Gets the current session
@@ -30,15 +42,7 @@ namespace Zed.NHibernate {
         #region Constructors and Init
 
         static NHibernateSessionProvider() {
-            ILog log = LogManager.GetLogger(typeof (NHibernateSessionProvider));
-            log.Debug("Trying to create NHibernate session factory.");
-            try {
-                Configuration nHConfig = new Configuration().Configure();
-                sessionFactory = nHConfig.BuildSessionFactory();
-            } catch (HibernateException ex) {
-                log.Error("Can't create NHibernate session factory.", ex);
-                throw;
-            }
+            configuration = new Configuration();
         }
 
         /// <summary>

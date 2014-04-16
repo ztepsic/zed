@@ -2,6 +2,7 @@
 using System.Data;
 using log4net;
 using NHibernate;
+using NHibernate.Cfg;
 using NHibernate.Context;
 using NHibernate.Tool.hbm2ddl;
 
@@ -22,28 +23,23 @@ namespace Zed.NHibernate.Test {
         }).Invoke();
 
         /// <summary>
+        /// Configuration
+        /// </summary>
+        protected static Configuration Configuration { get { return NHibernateSessionProvider.Configuration; } }
+
+        /// <summary>
         /// Session factory
         /// </summary>
-        protected ISessionFactory SessionFactory { get { return SQLiteTestNHibernateSessionProvider.SessionFactory; } }
+        protected static ISessionFactory SessionFactory { get { return NHibernateSessionProvider.SessionFactory; } }
 
         /// <summary>
         /// Session
         /// </summary>
-        protected ISession Session { get { return SessionFactory.GetCurrentSession(); } }
+        protected ISession CurrentSession { get { return SessionFactory.GetCurrentSession(); } }
 
         #endregion
 
         #region Constructors and Init
-
-        /// <summary>
-        /// Creates NHibernate test fixture
-        /// </summary>
-        /// <param name="createConnectionFunc">Function for creation of database connection</param>
-        protected NHibernateTestFixture(Func<string, IDbConnection> createConnectionFunc) {
-            if (TestConnectionProvider.CreateConnectionFunc == null) TestConnectionProvider.CreateConnectionFunc = createConnectionFunc;
-        }
-
-
         #endregion
 
         #region Methods
@@ -91,16 +87,16 @@ namespace Zed.NHibernate.Test {
         }
 
         private void tearDownContextualSession() {
-            var sessionFactory = SQLiteTestNHibernateSessionProvider.SessionFactory;
+            var sessionFactory = NHibernateSessionProvider.SessionFactory;
             var session = CurrentSessionContext.Unbind(sessionFactory);
             session.Close();
         }
 
         private void buildSchema() {
-            var cfg = SQLiteTestNHibernateSessionProvider.Configuration;
+            var cfg = NHibernateSessionProvider.Configuration;
             var schemaExport = new SchemaExport(cfg);
             //schemaExport.Create(false, true);
-            schemaExport.Execute(false, true, false, Session.Connection, null);
+            schemaExport.Execute(false, true, false, CurrentSession.Connection, null);
         }
 
         #endregion

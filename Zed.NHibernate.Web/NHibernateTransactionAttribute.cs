@@ -35,6 +35,11 @@ namespace Zed.NHibernate.Web {
         #region Constructors and Init
 
         /// <summary>
+        /// Configures NHibernate
+        /// </summary>
+        static NHibernateTransactionAttribute() { NHibernateSessionProvider.Configuration.Configure(); }
+
+        /// <summary>
         /// Creates NHibernate transaction attribute instance
         /// </summary>
         public NHibernateTransactionAttribute() {

@@ -6,14 +6,20 @@ namespace Zed.NHibernate.Test {
     /// <summary>
     /// SQLite test connection provider
     /// </summary>
-    class TestConnectionProvider : ConnectionProvider {
+    public class TestConnectionProvider : ConnectionProvider {
 
-        private static IDbConnection connection = null;
+        #region Fields and Properties
+
+        private static IDbConnection connection;
 
         /// <summary>
         /// Create connection func
         /// </summary>
         public static Func<string, IDbConnection> CreateConnectionFunc { get; set; }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Get an open <see cref="T:System.Data.IDbConnection"/>.
@@ -52,5 +58,7 @@ namespace Zed.NHibernate.Test {
                 connection.Close();
             }
         }
+
+        #endregion
     }
 }
