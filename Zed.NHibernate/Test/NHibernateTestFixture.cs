@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using log4net;
 using NHibernate;
 using NHibernate.Cfg;
@@ -93,7 +92,7 @@ namespace Zed.NHibernate.Test {
         }
 
         private void buildSchema() {
-            var cfg = NHibernateSessionProvider.Configuration;
+            var cfg = Configuration;
             var schemaExport = new SchemaExport(cfg);
             //schemaExport.Create(false, true);
             schemaExport.Execute(false, true, false, CurrentSession.Connection, null);

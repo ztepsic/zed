@@ -54,6 +54,9 @@
     <Compile Include="NHibernateReadOnlyRepository.cs" />
     <Compile Include="NHibernateRepository.cs" />
     <Compile Include="NHibernateSessionProvider.cs" />
+    <Compile Include="NHibernateUnitOfWork.cs" />
+    <Compile Include="NHibernateUnitOfWorkRootScope.cs" />
+    <Compile Include="NHibernateUnitOfWorkScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test\NHibernateTestFixture.cs" />
     <Compile Include="Test\TestConnectionProvider.cs" />

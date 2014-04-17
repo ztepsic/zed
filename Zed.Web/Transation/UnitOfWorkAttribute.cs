@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Web.Mvc;
-using NHibernate;
-using NHibernate.Context;
+using Zed.Core.Transaction;
 
-namespace Zed.NHibernate.Web {
+namespace Zed.Web.Transation {
     /// <summary>
-    /// ASP.NET MVC NHibernate transaction action filter attribute
+    /// ASP.NET MVC Unit of Work action filter attribute
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-    public class NHibernateTransactionAttribute : ActionFilterAttribute {
+    public class UnitOfWorkAttribute : ActionFilterAttribute {
 
         #region Fields and Properties
 
@@ -20,10 +19,14 @@ namespace Zed.NHibernate.Web {
         private const int ORDER_OF_ATTRIBUTE_IN_STACK_OF_ATTRIBUTES = 100;
 
         /// <summary>
-        /// NHibernate session factory.
-        /// Only one session factory should be created during request
+        /// Unit of work
         /// </summary>
-        private readonly ISessionFactory sessionFactory;
+        private readonly IUnitOfWork unitOfWork;
+
+        /// <summary>
+        /// Current unit of work scope
+        /// </summary>
+        private IUnitOfWorkScope currentUnitOfWorkScope;
 
         /// <summary>
         /// Gets or Sets indication should we rollback on model state error
@@ -35,11 +38,11 @@ namespace Zed.NHibernate.Web {
         #region Constructors and Init
 
         /// <summary>
-        /// Creates NHibernate transaction attribute instance
+        /// Creates Unit of Work attribute instance
         /// </summary>
-        public NHibernateTransactionAttribute() {
+        public UnitOfWorkAttribute(IUnitOfWork unitOfWork) {
+            this.unitOfWork = unitOfWork;
             Order = ORDER_OF_ATTRIBUTE_IN_STACK_OF_ATTRIBUTES;
-            sessionFactory = NHibernateSessionProvider.SessionFactory;
             RollbackOnModelStateError = true;
         }
 
@@ -48,35 +51,29 @@ namespace Zed.NHibernate.Web {
         #region Methods
 
         /// <summary>
-        /// The method opens NHibernate session and begins transaction
+        /// The method begins with transaction
         /// </summary>
         /// <param name="filterContext">Filter context</param>
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
-            ISession session = sessionFactory.OpenSession();
-            CurrentSessionContext.Bind(session);
-            session.BeginTransaction();
+            currentUnitOfWorkScope = unitOfWork.Start();
         }
 
         /// <summary>
-        /// The method commits or rollbacks ongoing transaction and finally closes NHibernate session.
+        /// The method commits or rollbacks ongoing transaction.
         /// </summary>
         /// <param name="filterContext">Filter context</param>
         public override void OnActionExecuted(ActionExecutedContext filterContext) {
-            ISession session = CurrentSessionContext.Unbind(sessionFactory);
-            if (session != null) {
+            if (currentUnitOfWorkScope != null) {
                 try {
-                    var transaction = session.Transaction;
-                    if (transaction != null && transaction.IsActive) {
-                        if ((filterContext.Exception != null) && (!filterContext.ExceptionHandled) || shouldRollback(filterContext)) {
-                            session.Transaction.Rollback();
-                        } else {
-                            session.Transaction.Commit();
-                        }
+                    if ((filterContext.Exception != null) && (!filterContext.ExceptionHandled) || shouldRollback(filterContext)) {
+                        currentUnitOfWorkScope.Rollback();
+                    } else {
+                        currentUnitOfWorkScope.Commit();
                     }
-                } catch (HibernateException) {
-                    session.Transaction.Rollback();
+                } catch (Exception) {
+                    currentUnitOfWorkScope.Rollback();
                 } finally {
-                    session.Close();
+                    currentUnitOfWorkScope.Dispose();
                 }
             }
         }
@@ -89,4 +86,5 @@ namespace Zed.NHibernate.Web {
         #endregion
 
     }
+
 }

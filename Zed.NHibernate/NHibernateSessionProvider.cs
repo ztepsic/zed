@@ -1,4 +1,4 @@
-﻿using log4net;
+﻿using System;
 using NHibernate;
 using NHibernate.Cfg;
 
@@ -29,7 +29,7 @@ namespace Zed.NHibernate {
         /// Gets session factory
         /// </summary>
         public static ISessionFactory SessionFactory {
-            get { return sessionFactory ?? (sessionFactory = Configuration.BuildSessionFactory()); }
+            get { return sessionFactory ?? (sessionFactory = configuration.BuildSessionFactory()); }
         }
 
         /// <summary>
@@ -46,10 +46,10 @@ namespace Zed.NHibernate {
         }
 
         /// <summary>
-        /// Initialize NHibernate session provider.
-        /// Method ensures that static constructor of NHibernateSessionProvider is called
+        /// Initialize NHibernate session provider with NHibernate configuration
         /// </summary>
-        public static void Init() { }
+        /// <param name="configFunc">NHibernate configuration function</param>
+        public static void Init(Func<Configuration, Configuration> configFunc) { configFunc(configuration); }
 
         #endregion
 

@@ -30,7 +30,7 @@ namespace Zed.NHibernate.Test {
         public override IDbConnection GetConnection() {
             if (connection == null) {
                 // new connection
-                connection = CreateConnectionFunc.Invoke(ConnectionString);
+                connection = CreateConnectionFunc(ConnectionString);
             }
 
             if (connection.State != ConnectionState.Open) {
