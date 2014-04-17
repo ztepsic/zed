@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NHibernateUnitOfWorkTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test\NHibernateTestFixtureTests.cs" />
   </ItemGroup>
@@ -70,6 +71,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Zed.Core\Zed.Core.csproj">
+      <Project>{87015608-e77a-4aec-85ee-26b97f43ed6d}</Project>
+      <Name>Zed.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Zed.NHibernate\Zed.NHibernate.csproj">
       <Project>{4fd63655-10b9-41e5-9900-2f2c383474fd}</Project>
       <Name>Zed.NHibernate</Name>
