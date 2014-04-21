@@ -27,14 +27,14 @@ namespace Zed.NHibernate.Test {
         protected static Configuration Configuration { get { return NHibernateSessionProvider.Configuration; } }
 
         /// <summary>
-        /// Session factory
+        /// Gets session factory
         /// </summary>
         protected static ISessionFactory SessionFactory { get { return NHibernateSessionProvider.SessionFactory; } }
 
         /// <summary>
-        /// Session
+        /// Gets current session
         /// </summary>
-        protected ISession CurrentSession { get { return SessionFactory.GetCurrentSession(); } }
+        protected ISession Session { get { return SessionFactory.GetCurrentSession(); } }
 
         #endregion
 
@@ -95,7 +95,7 @@ namespace Zed.NHibernate.Test {
             var cfg = Configuration;
             var schemaExport = new SchemaExport(cfg);
             //schemaExport.Create(false, true);
-            schemaExport.Execute(false, true, false, CurrentSession.Connection, null);
+            schemaExport.Execute(false, true, false, Session.Connection, null);
         }
 
         #endregion
