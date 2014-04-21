@@ -34,9 +34,8 @@ namespace Zed.Core.Domain {
         /// <typeparam name="TId">Identifier (Id) type</typeparam>
         /// <param name="entity">entity instance</param>
         /// <param name="id">identifier (Id) value</param>
-        public static Entity<TId> SetIdTo<TId>(this Entity<TId> entity, TId id) {
+        public static void SetIdTo<TId>(this Entity<TId> entity, TId id) {
             SetIdOf(entity, id);
-            return entity;
         }
 
 
