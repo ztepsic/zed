@@ -1,4 +1,5 @@
 ﻿using System.Data.SQLite;
+using NHibernate.Bytecode;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Driver;
@@ -13,13 +14,15 @@ namespace Zed.NHibernate.Tests.Test {
 
         static NHibernateTestFixtureTests() {
             TestConnectionProvider.CreateConnectionFunc = connString => new SQLiteConnection(connString);
-            Configuration.DataBaseIntegration(db => {
-                db.Dialect<SQLiteDialect>();
-                db.Driver<SQLite20Driver>();
-                db.ConnectionProvider<TestConnectionProvider>();
-                db.ConnectionString = CONNECTION_STRING;
-            })
-            .SetProperty(Environment.CurrentSessionContextClass, "thread_static");
+            Configuration.Proxy(p => p.ProxyFactoryFactory<DefaultProxyFactoryFactory>())
+                .DataBaseIntegration(db => {
+                    db.Dialect<SQLiteDialect>();
+                    db.Driver<SQLite20Driver>();
+                    db.ConnectionProvider<TestConnectionProvider>();
+                    db.ConnectionString = CONNECTION_STRING;
+                })
+                .SetProperty(Environment.CurrentSessionContextClass, "thread_static")
+                .SetProperty("show_sql", "true");
 
             var configProperties = Configuration.Properties;
             if (configProperties.ContainsKey(Environment.ConnectionStringName)) {
@@ -44,10 +47,8 @@ namespace Zed.NHibernate.Tests.Test {
             // Arrange
 
             // Act
-            using (var session = SessionFactory.OpenSession()) {
-                using (var trx = session.BeginTransaction()) {
-                    trx.Rollback();
-                }
+            using (var trx = Session.BeginTransaction()) {
+                trx.Rollback();
             }
 
             // Assert
