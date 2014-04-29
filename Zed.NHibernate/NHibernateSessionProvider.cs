@@ -44,15 +44,13 @@ namespace Zed.NHibernate {
 
         #region Constructors and Init
 
-        static NHibernateSessionProvider() {
-            configuration = new Configuration();
-        }
+        static NHibernateSessionProvider() { configuration = new Configuration(); }
 
         /// <summary>
         /// Initialize NHibernate session provider with NHibernate configuration
         /// </summary>
         /// <param name="configFunc">NHibernate configuration function</param>
-        public static void Init(Func<Configuration, Configuration> configFunc) {
+        public static void Init(Action<Configuration> configFunc) {
             configFunc(configuration);
             Init();
         }
