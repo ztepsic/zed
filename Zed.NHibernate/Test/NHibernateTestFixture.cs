@@ -68,6 +68,7 @@ namespace Zed.NHibernate.Test {
         /// </summary>
         protected void SetupNHibernateSession() {
             TestConnectionProvider.CloseDatabase();
+            NHibernateSessionProvider.Init();
             setupContextualSession();
             buildSchema();
         }

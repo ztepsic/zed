@@ -29,13 +29,16 @@ namespace Zed.NHibernate {
         /// Gets session factory
         /// </summary>
         public static ISessionFactory SessionFactory {
-            get { return sessionFactory ?? (sessionFactory = configuration.BuildSessionFactory()); }
+            get {
+                if(sessionFactory == null) Init();
+                return sessionFactory;
+            }
         }
 
         /// <summary>
         /// Gets the current session
         /// </summary>
-        public static ISession CurrentSession { get { return sessionFactory.GetCurrentSession(); } }
+        public static ISession CurrentSession { get { return SessionFactory.GetCurrentSession(); } }
 
         #endregion
 
@@ -49,7 +52,15 @@ namespace Zed.NHibernate {
         /// Initialize NHibernate session provider with NHibernate configuration
         /// </summary>
         /// <param name="configFunc">NHibernate configuration function</param>
-        public static void Init(Func<Configuration, Configuration> configFunc) { configFunc(configuration); }
+        public static void Init(Func<Configuration, Configuration> configFunc) {
+            configFunc(configuration);
+            Init();
+        }
+
+        /// <summary>
+        /// Initialize NHibernate session provider with previously configured NHibernate configuration
+        /// </summary>
+        public static void Init() { sessionFactory = configuration.BuildSessionFactory(); }
 
         #endregion
 
