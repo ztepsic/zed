@@ -19,7 +19,7 @@ namespace Zed.Web.Helpers {
         public static bool HasValidationErrorFor<TModel>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, object>> expression) {
             FormContext formContext = htmlHelper.ViewContext.FormContext;
             if (formContext == null) return false;
-            return htmlHelper.ViewData.ModelState.IsValidField(expression);
+            return !htmlHelper.ViewData.ModelState.IsValidField(expression);
         }
     }
 }
