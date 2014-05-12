@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{87015608-E77A-4AEC-85EE-26B97F43ED6D}</ProjectGuid>
+    <ProjectGuid>{4FD63655-10B9-41E5-9900-2F2C383474FD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Zed.Core</RootNamespace>
-    <AssemblyName>Zed.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Zed.NHibernate</RootNamespace>
+    <AssemblyName>Zed.NHibernate</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -28,9 +28,18 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Zed.Core.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Zed.NHibernate.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.1001\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,31 +49,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\BusinessKeyAttribute.cs" />
-    <Compile Include="Domain\DomainObjectSignatureProperty.cs" />
-    <Compile Include="Domain\DomainObjectsSrv.cs" />
-    <Compile Include="Domain\Entity.cs" />
-    <Compile Include="Domain\EntityIdSetter.cs" />
-    <Compile Include="Domain\EntityWithOcc.cs" />
-    <Compile Include="Domain\ICrudRepository.cs" />
-    <Compile Include="Domain\IDomainObjectSignature.cs" />
-    <Compile Include="Domain\IReadOnlyRepository.cs" />
-    <Compile Include="Domain\NotValueMemberAttribute.cs" />
-    <Compile Include="Domain\PrecisionAttribute.cs" />
-    <Compile Include="Domain\ValueObject.cs" />
-    <Compile Include="Objects\CloneHelper.cs" />
-    <Compile Include="Objects\IImmutable.cs" />
-    <Compile Include="Objects\ImmutableObject.cs" />
-    <Compile Include="Objects\ImmutableObjectException.cs" />
+    <Compile Include="DateTimeUserType.cs" />
+    <Compile Include="NHibernateCrudRepository.cs" />
+    <Compile Include="NHibernateReadOnlyRepository.cs" />
+    <Compile Include="NHibernateRepository.cs" />
+    <Compile Include="NHibernateSessionProvider.cs" />
+    <Compile Include="NHibernateUnitOfWork.cs" />
+    <Compile Include="NHibernateUnitOfWorkRootScope.cs" />
+    <Compile Include="NHibernateUnitOfWorkScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transaction\IUnitOfWork.cs" />
-    <Compile Include="Transaction\IUnitOfWorkScope.cs" />
-    <Compile Include="Utilities\LineBreakEnumProvider.cs" />
-    <Compile Include="Utilities\NumericHelper.cs" />
-    <Compile Include="Utilities\TextHelper.cs" />
-    <Compile Include="Utilities\WordSeparatorEnumProvider.cs" />
+    <Compile Include="Test\NHibernateTestFixture.cs" />
+    <Compile Include="Test\TestConnectionProvider.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Zed.Core\Zed.Core.csproj">
+      <Project>{87015608-e77a-4aec-85ee-26b97f43ed6d}</Project>
+      <Name>Zed.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
