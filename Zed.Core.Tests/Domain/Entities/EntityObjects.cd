@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Zed.Core.Tests.Domain.Entities.Animal" Collapsed="true">
+    <Position X="2.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAEAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Domain\Entities\Animal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zed.Core.Tests.Domain.Entities.Mammal" Collapsed="true">
+    <Position X="2.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Entities\Mammal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zed.Core.Tests.Domain.Entities.Wolf" Collapsed="true">
+    <Position X="1" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CQAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Domain\Entities\Wolf.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zed.Core.Tests.Domain.Entities.Dog" Collapsed="true">
+    <Position X="1" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Domain\Entities\Dog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zed.Core.Tests.Domain.Entities.Lion" Collapsed="true">
+    <Position X="3.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Entities\Lion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zed.Core.Tests.Domain.Entities.Car" Collapsed="true">
+    <Position X="5.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Entities\Car.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

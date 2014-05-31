@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Zed.Core.Tests.Domain.ValueObjects.Point" Collapsed="true">
+    <Position X="2.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAA=</HashCode>
+      <FileName>Domain\ValueObjects\Point.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zed.Core.Tests.Domain.ValueObjects.Point2D" Collapsed="true">
+    <Position X="2.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAIAA=</HashCode>
+      <FileName>Domain\ValueObjects\Point2D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zed.Core.Tests.Domain.ValueObjects.Point3D" Collapsed="true">
+    <Position X="1.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAE=</HashCode>
+      <FileName>Domain\ValueObjects\Point3D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zed.Core.Tests.Domain.ValueObjects.ColoredPoint2D" Collapsed="true">
+    <Position X="3.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAA=</HashCode>
+      <FileName>Domain\ValueObjects\ColoredPoint2D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zed.Core.Tests.Domain.ValueObjects.ColoredPoint3D" Collapsed="true">
+    <Position X="1.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAA=</HashCode>
+      <FileName>Domain\ValueObjects\ColoredPoint3D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
