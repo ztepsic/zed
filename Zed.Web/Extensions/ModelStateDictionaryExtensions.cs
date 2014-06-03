@@ -12,10 +12,11 @@ namespace Zed.Web.Extensions {
         /// Indicates if the expression is a valid field for the current model.
         /// </summary>
         /// <typeparam name="TModel">The type of the model.</typeparam>
+        /// <typeparam name="TProperty">The property of the model which we are cheking.</typeparam>
         /// <param name="modelStateDictionary">The model state dictionary.</param>
         /// <param name="expression">The expression tree representing a property to validate.</param>
         /// <returns>true if the expression is a valid field for the current model, otherwise false.</returns>
-        public static bool IsValidField<TModel>(this ModelStateDictionary modelStateDictionary, Expression<Func<TModel, object>> expression) {
+        public static bool IsValidField<TModel, TProperty>(this ModelStateDictionary modelStateDictionary, Expression<Func<TModel, TProperty>> expression) {
             if (expression == null) throw new ArgumentNullException("expression");
             return modelStateDictionary.IsValidField(ExpressionHelper.GetExpressionText(expression));
         }
