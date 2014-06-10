@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Zed.Web")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Zed.Web is a library for Asp.Net support, mostly for Asp.Net MVC")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("ztepsi")]
 [assembly: AssemblyProduct("Zed.Web")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]

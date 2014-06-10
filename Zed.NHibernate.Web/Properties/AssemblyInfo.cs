@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Zed.NHibernate.Web")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Zed.NHibernate.Web is a library for NHibernate support in web applications")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("ztepsic")]
 [assembly: AssemblyProduct("Zed.NHibernate.Web")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]

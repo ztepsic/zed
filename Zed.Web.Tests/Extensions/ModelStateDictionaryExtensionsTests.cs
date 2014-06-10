@@ -22,8 +22,8 @@ namespace Zed.Web.Tests.Extensions {
             modlModelStateDictionary.AddModelError<Model>(x => x.PropertyB, new Exception());
 
             // Act
-            var isPropertyAValid = modlModelStateDictionary.IsValidField<Model>(x => x.PropertyA);
-            var isPropertyBValid = modlModelStateDictionary.IsValidField<Model>(x => x.PropertyB);
+            var isPropertyAValid = modlModelStateDictionary.IsValidField<Model, object>(x => x.PropertyA);
+            var isPropertyBValid = modlModelStateDictionary.IsValidField<Model, object>(x => x.PropertyB);
 
             // Assert
             Assert.IsTrue(isPropertyAValid);
