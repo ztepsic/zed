@@ -14,5 +14,8 @@
     <releaseNotes>$description$</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>Zed NHibernate</tags>
+	<dependencies>
+      <dependency id="Zed.Core" version="1.0" />
+    </dependencies>
   </metadata>
 </package>
