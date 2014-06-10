@@ -13,6 +13,6 @@
     <description>$description$</description>
     <releaseNotes>$description$</releaseNotes>
     <copyright>Copyright 2014</copyright>
-    <tags>Zed Core Zed.Core</tags>
+    <tags>Zed Web</tags>
   </metadata>
 </package>
