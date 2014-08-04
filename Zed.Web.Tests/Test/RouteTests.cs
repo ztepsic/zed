@@ -28,5 +28,24 @@ namespace Zed.Web.Tests.Test {
 
         }
 
+        [Test]
+        public void RouteNotMatch() {
+            // Arrange
+            RouteCollection routes = new RouteCollection();
+            //RouteConfig.RegisterRoutes(routes);
+
+            routes.MapRoute(
+               name: "Default",
+               url: "{controller}/{action}/{id}",
+               defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+           );
+
+            const string url = "~/testC/testA/111/test-param";
+
+            // Assert
+            Assert.IsTrue(RouteTest.RouteNotMatch(url, routes));
+            
+        }
+
     }
 }
