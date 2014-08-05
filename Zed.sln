@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zed.Core", "Zed.Core\Zed.Core.csproj", "{87015608-E77A-4AEC-85EE-26B97F43ED6D}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zed.NHibernate.Web.Tests", "Zed.NHibernate.Web.Tests\Zed.NHibernate.Web.Tests.csproj", "{D307101C-0785-43C2-8AE4-AB7BAA3E9796}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zed.NHibernate.Tests", "Zed.NHibernate.Tests\Zed.NHibernate.Tests.csproj", "{46BEEC50-6A46-4BF0-8F43-0D14116AA770}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zed.Web.Test", "Zed.Web.Test\Zed.Web.Test.csproj", "{43B01C0A-1FDE-4EDA-A075-8E3502FE176D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{46BEEC50-6A46-4BF0-8F43-0D14116AA770}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46BEEC50-6A46-4BF0-8F43-0D14116AA770}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46BEEC50-6A46-4BF0-8F43-0D14116AA770}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43B01C0A-1FDE-4EDA-A075-8E3502FE176D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43B01C0A-1FDE-4EDA-A075-8E3502FE176D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43B01C0A-1FDE-4EDA-A075-8E3502FE176D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43B01C0A-1FDE-4EDA-A075-8E3502FE176D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

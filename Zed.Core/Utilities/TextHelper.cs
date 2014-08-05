@@ -322,11 +322,13 @@ namespace Zed.Core.Utilities {
             transformations[@"&\#\d+?;"] = string.Empty;
             transformations[@"&\S+?;"] = string.Empty;
             transformations[@"\s+"] = replace;
-            transformations[@"[^a-zA-Z0-9\-\._]"] = string.Empty;
+            transformations[@"\.+"] = replace;
+            //transformations[@"[^a-zA-Z0-9\-\._]"] = string.Empty; // supports dots
+            transformations[@"[^a-zA-Z0-9\-_]"] = string.Empty; // supports dots
             transformations[replace + "+"] = replace;
             transformations[replace + "$"] = replace;
             transformations["^" + replace] = replace;
-            transformations[@"\.+$"] = string.Empty;
+            transformations[@"[\.\-_]+$"] = string.Empty;
 
             slug = transformations.Aggregate(slug, (current, transformation) => Regex.Replace(current, transformation.Key, transformation.Value));
 

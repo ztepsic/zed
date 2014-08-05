@@ -461,6 +461,8 @@ namespace Zed.Core.Tests.Utilities {
             Assert.AreEqual(asciiCharacters.ToString(), result);
         }
 
+        #region ToSlug Tests
+
         [Test]
         public void ToSlug_StringWithSpacesAndSpecialCharacters_TranslatedToNormalizedString() {
             // Arrange
@@ -474,5 +476,19 @@ namespace Zed.Core.Tests.Utilities {
             Assert.AreEqual("whats-wrong-with-css", resultWithDashSeparator);
             Assert.AreEqual("whats_wrong_with_css", resultWithUnderscoreSeparator);
         }
+
+        [Test]
+        public void ToSlug_StringWithDots_DotsReplacedWithValidSeparator() {
+            // Arrange
+            const string text = "string.with dots.";
+
+            // Act
+            var result = text.ToSlug();
+
+            // Assert
+            Assert.AreEqual("string-with-dots", result);
+        }
+
+        #endregion
     }
 }

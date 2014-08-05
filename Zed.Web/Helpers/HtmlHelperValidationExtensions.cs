@@ -7,7 +7,7 @@ namespace Zed.Web.Helpers {
     /// <summary>
     /// HTML validation helper/extension methods
     /// </summary>
-    public static class HtmlValidationHelper {
+    public static class HtmlHelperValidationExtensions {
 
         /// <summary>
         /// Checks the ModelState for an error, and returns true if error exists, otherwise false

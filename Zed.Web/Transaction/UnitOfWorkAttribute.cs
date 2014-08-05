@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using Zed.Core.Transaction;
 
-namespace Zed.Web.Transation {
+namespace Zed.Web.Transaction {
     /// <summary>
     /// ASP.NET MVC Unit of Work action filter attribute
     /// </summary>
