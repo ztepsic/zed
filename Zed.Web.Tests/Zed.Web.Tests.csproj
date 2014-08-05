@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq, Version=4.2.1402.2112, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
@@ -47,8 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\ModelStateDictionaryExtensionsTests.cs" />
-    <Compile Include="Helpers\HtmlValidationHelperTests.cs" />
+    <Compile Include="Helpers\HtmlHelperExtensionsTests.cs" />
+    <Compile Include="Helpers\HtmlHelperValidationExtensionsTests.cs" />
+    <Compile Include="Helpers\UrlHelperExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routes\RouteHelperTests.cs" />
     <Compile Include="Test\RouteTests.cs" />
   </ItemGroup>
   <ItemGroup>

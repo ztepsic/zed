@@ -20,11 +20,11 @@ namespace Zed.Web.Tests.Test {
            );
 
             const string url1 = "~/";
-            const string url2 = "~/testC/testA/111";
+            const string url2 = "~/testController/testAction/111";
 
             // Assert
-            Assert.IsTrue(RouteTest.RouteMatch(url1, routes, "Home", "Index"));
-            Assert.IsTrue(RouteTest.RouteMatch(url2, routes, "testC", "testA", new { id = 111 }));
+            Assert.IsTrue(RouteTest.RouteMatch(url1, routes, "Index", "Home"));
+            Assert.IsTrue(RouteTest.RouteMatch(url2, routes, "testAction", "testController", new { id = 111 }));
 
         }
 
@@ -40,7 +40,7 @@ namespace Zed.Web.Tests.Test {
                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
            );
 
-            const string url = "~/testC/testA/111/test-param";
+            const string url = "~/testController/testAction/111/test-param";
 
             // Assert
             Assert.IsTrue(RouteTest.RouteNotMatch(url, routes));

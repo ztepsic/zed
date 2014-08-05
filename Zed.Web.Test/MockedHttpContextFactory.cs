@@ -3,7 +3,7 @@ using Moq;
 
 namespace Zed.Web.Test {
     /// <summary>
-    /// Class that represents mocked http context factory.
+    /// Factory class that creates mocked http context.
     /// </summary>
     public static class MockedHttpContextFactory {
 

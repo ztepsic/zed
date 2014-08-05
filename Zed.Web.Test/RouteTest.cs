@@ -1,21 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Web;
+﻿using System.Web;
 using System.Web.Routing;
+using Zed.Web.Routes;
 
 namespace Zed.Web.Test {
     /// <summary>
     /// Class provides set of methods for testing routes
     /// </summary>
     public static class RouteTest {
-
-        #region Constants
-
-        private const string ROUTE_VALUE_KEY_CONTROLLER = "controller";
-        private const string ROUTE_VALUE_KEY_ACTION = "action";
-
-        #endregion
 
         #region Methods
 
@@ -26,18 +17,18 @@ namespace Zed.Web.Test {
         /// </summary>
         /// <param name="url">URL to test. URL must be prefixed with tilda (~) character.</param>
         /// <param name="routes">Collection of routes to match from.</param>
-        /// <param name="expectedControllerName">Expected value for the controler segment variable.</param>
         /// <param name="expectedActionName">Excepted value for the action segment variable.</param>
+        /// <param name="expectedControllerName">Expected value for the controler segment variable.</param>
         /// <param name="expectedRouteValues">Object that contains the expceted values for any additional segment variables.</param>
         /// <param name="httpMethod">Http method.</param>
         /// <returns>True if provieded URL does match with provided routes, false otherwise.</returns>
-        public static bool RouteMatch(string url, RouteCollection routes, string expectedControllerName, string expectedActionName,
+        public static bool RouteMatch(string url, RouteCollection routes, string expectedActionName, string expectedControllerName, 
             object expectedRouteValues = null, string httpMethod = "GET") {
             HttpContextBase httpContext = MockedHttpContextFactory.CreateHttpContext(url, httpMethod);
             RouteData routeDataResult = routes.GetRouteData(httpContext);
 
             return routeDataResult != null
-                   && routeDataResultMatchWith(routeDataResult, expectedControllerName, expectedActionName, expectedRouteValues);
+                && routeDataResult.MatchWith(expectedActionName, expectedControllerName, expectedRouteValues);
         }
 
 
@@ -52,33 +43,6 @@ namespace Zed.Web.Test {
             RouteData routeDataResult = routes.GetRouteData(httpContext);
 
             return (routeDataResult == null || routeDataResult.Route == null);
-        }
-
-        /// <summary>
-        /// Method which compares the result obtained from the routing system with the expected segment
-        /// variable values.
-        /// </summary>
-        /// <param name="routeDataResult">Result obtainded from the routeing system</param>
-        /// <param name="expectedControllerName">Expected controller name</param>
-        /// <param name="expectedActionName">Expected action name</param>
-        /// <param name="expectedRouteValues">Expected other segment variable values</param>
-        private static bool routeDataResultMatchWith(RouteData routeDataResult, string expectedControllerName, string expectedActionName, object expectedRouteValues = null) {
-            // helper function to compare two strings
-            Func<object, object, bool> stringCompare = (v1, v2) => StringComparer.InvariantCultureIgnoreCase.Compare(v1.ToString(), v2.ToString()) == 0;
-
-            // compare controller and action values
-            bool result = stringCompare(routeDataResult.Values[ROUTE_VALUE_KEY_CONTROLLER], expectedControllerName)
-                          && stringCompare(routeDataResult.Values[ROUTE_VALUE_KEY_ACTION], expectedActionName);
-
-            if (expectedRouteValues != null) {
-                PropertyInfo[] propertyInfos = expectedRouteValues.GetType().GetProperties();
-                if (propertyInfos.Any(propertyInfo => !(routeDataResult.Values.ContainsKey(propertyInfo.Name)
-                                                        && stringCompare(routeDataResult.Values[propertyInfo.Name], propertyInfo.GetValue(expectedRouteValues, null))))) {
-                    result = false;
-                }
-            }
-
-            return result;
         }
 
         #endregion
