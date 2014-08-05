@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Zed.Web")]
 [assembly: AssemblyDescription("Zed.Web is a library for Asp.Net support, mostly for Asp.Net MVC")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("ztepsi")]
+[assembly: AssemblyCompany("ztepsic")]
 [assembly: AssemblyProduct("Zed.Web")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]

@@ -6,13 +6,14 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Zed.Web.Test")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Zed.Web.Test is a library for tesing support of Asp.Net applications, mostly for Asp.Net MVC.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("ztepsic")]
 [assembly: AssemblyProduct("Zed.Web.Test")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
