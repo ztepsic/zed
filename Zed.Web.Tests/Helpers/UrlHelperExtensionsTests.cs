@@ -32,7 +32,7 @@ namespace Zed.Web.Tests.Helpers {
             UrlHelper urlHelper = mockedUrlHelperBuilder.GetResult();
 
             // Act
-            var routeActive = urlHelper.IsRouteActive(expectedActionName, expectedControllerName, expectedRouteValues);
+            var routeActive = urlHelper.IsRouteActive(expectedControllerName, expectedActionName, expectedRouteValues);
             var routeNotActive = urlHelper.IsRouteActive(expectedActionName+"NOT", expectedControllerName, expectedRouteValues);
             
 
@@ -40,6 +40,37 @@ namespace Zed.Web.Tests.Helpers {
             Assert.IsTrue(routeActive);
             Assert.IsFalse(routeNotActive);
         }
+
+         [Test]
+        public void IsRouteActive_ActiveRouteMatchOnlyByController_True() {
+            // Arrange
+            const string expectedActionName = "actionName";
+            const string expectedControllerName = "controllerName";
+            var expectedRouteValues = new { id = 111 };
+
+            var mockedHttpContextBuilder = new MockedHttpContextBuilder();
+
+            var mockedUrlHelperBuilder = new MockedUrlHelperBuilder {
+                RouteData = new RouteData() {
+                    Values = {
+                        {"controller", expectedControllerName},
+                        {"action", expectedActionName},
+                        {"id", "111"}
+                    }
+                },
+                HttpContext = mockedHttpContextBuilder.GetResult()
+            };
+
+            UrlHelper urlHelper = mockedUrlHelperBuilder.GetResult();
+
+            // Act
+            var routeActive = urlHelper.IsRouteActive(expectedControllerName);
+            
+
+            // Assert
+            Assert.IsTrue(routeActive);
+        }
+
 
     }
 }
