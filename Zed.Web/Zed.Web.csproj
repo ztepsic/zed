@@ -47,6 +47,8 @@
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\HtmlHelperValidationExtensions.cs" />
     <Compile Include="Helpers\UrlHelperExtensions.cs" />
+    <Compile Include="Models\BreadcrumbsModel.cs" />
+    <Compile Include="Models\PageInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routes\RouteHelper.cs" />
     <Compile Include="Transaction\UnitOfWorkAttribute.cs" />

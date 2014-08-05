@@ -26,8 +26,8 @@ namespace Zed.Web.Tests.Helpers {
 
            
             // Act
-            var cssActiveClass = htmlHelper.GetActiveCssClassIfRouteActive("active", "actionName", "controllerName");
-            var cssActiveClassWithRouteValues = htmlHelper.GetActiveCssClassIfRouteActive("active", "actionName", "controllerName", new { id = 111 });
+            var cssActiveClass = htmlHelper.GetCssClassIfCurrentRouteIs("active", "actionName", "controllerName");
+            var cssActiveClassWithRouteValues = htmlHelper.GetCssClassIfCurrentRouteIs("active", "actionName", "controllerName", new { id = 111 });
 
             // Assert
             Assert.AreEqual("active", cssActiveClass);
@@ -52,8 +52,8 @@ namespace Zed.Web.Tests.Helpers {
 
 
             // Act
-            var cssActiveClass = htmlHelper.GetActiveCssClassIfRouteActive("active", "actionNameNotActive", "controllerNameNotActive");
-            var cssActiveClassWithRouteValues = htmlHelper.GetActiveCssClassIfRouteActive("active", "actionName", "controllerName", new { id = 333 });
+            var cssActiveClass = htmlHelper.GetCssClassIfCurrentRouteIs("active", "actionNameNotActive", "controllerNameNotActive");
+            var cssActiveClassWithRouteValues = htmlHelper.GetCssClassIfCurrentRouteIs("active", "actionName", "controllerName", new { id = 333 });
 
             // Assert
             Assert.IsEmpty(cssActiveClass);
