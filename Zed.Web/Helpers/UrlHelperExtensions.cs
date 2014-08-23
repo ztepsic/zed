@@ -13,11 +13,11 @@ namespace Zed.Web.Helpers {
         /// Checks if provided route is active.
         /// </summary>
         /// <param name="url">Url helper.</param>
-        /// <param name="actionName">Action name.</param>
         /// <param name="controllerName">Controller name.</param>
+        /// <param name="actionName">Action name.</param>
         /// <param name="routeValues">Other route values</param>
         /// <returns>True if provieded route is active, otherwise false.</returns>
-        public static bool IsRouteActive(this UrlHelper url, string actionName, string controllerName, object routeValues = null) {
+        public static bool IsRouteActive(this UrlHelper url, string controllerName, string actionName = null, object routeValues = null) {
             return url.RequestContext.RouteData.MatchWith(actionName, controllerName, routeValues);
         }
 

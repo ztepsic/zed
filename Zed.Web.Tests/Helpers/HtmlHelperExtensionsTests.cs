@@ -26,8 +26,8 @@ namespace Zed.Web.Tests.Helpers {
 
            
             // Act
-            var cssActiveClass = htmlHelper.GetCssClassIfCurrentRouteIs("active", "actionName", "controllerName");
-            var cssActiveClassWithRouteValues = htmlHelper.GetCssClassIfCurrentRouteIs("active", "actionName", "controllerName", new { id = 111 });
+            var cssActiveClass = htmlHelper.GetCssClassIfCurrentRouteIs("active", "controllerName", "actionName");
+            var cssActiveClassWithRouteValues = htmlHelper.GetCssClassIfCurrentRouteIs("active", "controllerName", "actionName", new { id = 111 });
 
             // Assert
             Assert.AreEqual("active", cssActiveClass);
@@ -52,12 +52,36 @@ namespace Zed.Web.Tests.Helpers {
 
 
             // Act
-            var cssActiveClass = htmlHelper.GetCssClassIfCurrentRouteIs("active", "actionNameNotActive", "controllerNameNotActive");
-            var cssActiveClassWithRouteValues = htmlHelper.GetCssClassIfCurrentRouteIs("active", "actionName", "controllerName", new { id = 333 });
+            var cssActiveClass = htmlHelper.GetCssClassIfCurrentRouteIs("active", "controllerNameNotActive", "actionNameNotActive");
+            var cssActiveClassWithRouteValues = htmlHelper.GetCssClassIfCurrentRouteIs("active", "controllerName", "actionName", new { id = 333 });
 
             // Assert
             Assert.IsEmpty(cssActiveClass);
             Assert.IsEmpty(cssActiveClassWithRouteValues);
+        }
+
+        [Test]
+        public void GetActiveCssClassIfRouteActive_ActiveRouteMatchOnlyByController_ActiveCssClass() {
+            // Arrange
+
+            var mockedHtmlHelperBuilder = new MockedHtmlHelperBuilder();
+            mockedHtmlHelperBuilder.ViewContextMock.Setup(m => m.RouteData)
+               .Returns(new RouteData() {
+                   Values = {
+                        {"controller", "controllerName"},
+                        {"action", "actionName"},
+                        {"id", "111"}
+                    }
+               });
+
+            HtmlHelper htmlHelper = mockedHtmlHelperBuilder.GetResult();
+
+
+            // Act
+            var cssActiveClass = htmlHelper.GetCssClassIfCurrentRouteIs("active", "controllerName");
+
+            // Assert
+            Assert.AreEqual("active", cssActiveClass);
         }
 
     }

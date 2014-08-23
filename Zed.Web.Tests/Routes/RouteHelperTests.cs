@@ -22,7 +22,7 @@ namespace Zed.Web.Tests.Routes {
             };
 
             // Act
-            var isMatched = RouteHelper.RouteDataMatchWith(routeData, expectedActionName, expectedControllerName, expectedRouteValues);
+            var isMatched = RouteHelper.RouteDataMatchWith(routeData, expectedControllerName, expectedActionName, expectedRouteValues);
 
             // Assert
             Assert.IsTrue(isMatched);
@@ -45,10 +45,33 @@ namespace Zed.Web.Tests.Routes {
             };
 
             // Act
-            var isMatched = RouteHelper.RouteDataMatchWith(routeData, expectedActionName, expectedControllerName, expectedRouteValues);
+            var isMatched = RouteHelper.RouteDataMatchWith(routeData, expectedControllerName, expectedActionName, expectedRouteValues);
 
             // Assert
             Assert.IsFalse(isMatched);
+
+        }
+
+        [Test]
+        public void RouteDataMatchWith_RouteValuesThatMatchBasedOnController_RouteMatch() {
+            // Arrange
+            const string expectedActionName = "actionName";
+            const string expectedControllerName = "controllerName";
+            var expectedRouteValues = new { id = 111 };
+
+            RouteData routeData = new RouteData() {
+                Values = {
+                    { "controller",  expectedControllerName },
+                    { "action", expectedActionName },
+                    { "id", "111" }
+                }
+            };
+
+            // Act
+            var isMatched = RouteHelper.RouteDataMatchWith(routeData, expectedControllerName, expectedActionName, expectedRouteValues);
+
+            // Assert
+            Assert.IsTrue(isMatched);
 
         }
 
