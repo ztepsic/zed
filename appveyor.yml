@@ -1,0 +1,19 @@
+version: 1.0.0.{build}
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+before_build:
+- nuget restore
+build:
+  verbosity: minimal
+after_build:
+- Zed_build_nuget.bat
+artifacts:
+- path: packages
+  name: Zed.Packages.$(APPVEYOR_BUILD_VERSION)
+- path: Zed.$(APPVEYOR_BUILD_VERSION).nupkg
+  name: Zed.$(APPVEYOR_BUILD_VERSION).nupkg
