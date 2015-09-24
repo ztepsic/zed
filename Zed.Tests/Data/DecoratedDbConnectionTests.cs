@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.SQLite;
 using NUnit.Framework;
 using Zed.Data;
@@ -9,7 +10,7 @@ namespace Zed.Tests.Data {
     public class DecoratedDbConnectionTests {
 
         private const string CONNECTION_STRING = "Data Source=:memory:;Version=3;New=True;";
-        private IDbConnection origDbConnection;
+        private DbConnection origDbConnection;
 
         [SetUp]
         public void SetUp() {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.Common;
 
 namespace Zed.Data {
     /// <summary>
@@ -12,7 +13,7 @@ namespace Zed.Data {
         /// <summary>
         /// Database connection create function
         /// </summary>
-        private readonly Func<IDbConnection> dbConnectionCreateFunc;
+        private readonly Func<DbConnection> dbConnectionCreateFunc;
 
         /// <summary>
         /// Current database connection
@@ -27,7 +28,7 @@ namespace Zed.Data {
         /// Creates an Ado.Net connection factory based on provided create function
         /// </summary>
         /// <param name="dbConnectionCreateFunc"></param>
-        public DbConnectionFactory(Func<IDbConnection> dbConnectionCreateFunc) {
+        public DbConnectionFactory(Func<DbConnection> dbConnectionCreateFunc) {
             this.dbConnectionCreateFunc = dbConnectionCreateFunc;
         }
 
