@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Zed</RootNamespace>
     <AssemblyName>Zed</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -47,7 +47,9 @@
     <Compile Include="Data\AdoNetUnitOfWork.cs" />
     <Compile Include="Data\AdoNetUnitOfWorkRootScope.cs" />
     <Compile Include="Data\AdoNetUnitOfWorkScope.cs" />
-    <Compile Include="Data\DecoratedDbConnection.cs" />
+    <Compile Include="Data\DecoratedDbConnection.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Data\IDbConnectionFactory.cs" />
     <Compile Include="Domain\BusinessKeyAttribute.cs" />
     <Compile Include="Domain\DomainObjectSignatureProperty.cs" />

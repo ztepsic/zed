@@ -115,7 +115,7 @@ namespace Zed.Tests.Data {
         }
 
         [Test]
-        [Ignore]
+        [Ignore("System.NotSupportedException : Invalid setup on a non-virtual member x => x.BeginTransaction()")]
         public void Commit_IUnitOfWorkScope_CommitCalledOnTransaction() {
             // Arrange
             Mock<DbTransaction> transactionMock = new Mock<DbTransaction>();
@@ -154,12 +154,12 @@ namespace Zed.Tests.Data {
         }
 
         [Test]
-        [Ignore]
+        [Ignore("System.NotSupportedException : Invalid setup on a non-virtual member x => x.BeginTransaction()")]
         public void Rollback_IUnitOfWorkScope_RollbackCalledOnTransaction() {
             // Arrange
             Mock<DbTransaction> transactionMock = new Mock<DbTransaction>();
 
-            Mock<WrappedDecoratedDbConnection> connectionMock = new Mock<WrappedDecoratedDbConnection>();
+            Mock<DecoratedDbConnection> connectionMock = new Mock<DecoratedDbConnection>();
             connectionMock.Setup(x => x.Transaction).Returns(transactionMock.Object);
             connectionMock.Setup(x => x.BeginTransaction()).Returns(transactionMock.Object);
             connectionMock.Setup(x => x.State).Returns(ConnectionState.Closed);

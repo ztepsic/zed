@@ -67,7 +67,6 @@ namespace Zed.Tests.Objects {
         }
 
         [Test]
-        [ExpectedException(typeof(ImmutableObjectException))]
         public void DataChangeAfterFreeze_ThrowsImmutableObjectException() {
             // Arrange
             Car car = new Car();
@@ -75,8 +74,8 @@ namespace Zed.Tests.Objects {
             car.TopSpeed = 250.3f;
             car.Freeze();
 
-            // Act
-            car.Name = "Audi";
+            // Act and Assert
+            Assert.Throws<ImmutableObjectException>(() => car.Name = "Audi");
 
             // Assert
 

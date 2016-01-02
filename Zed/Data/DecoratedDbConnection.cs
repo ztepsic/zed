@@ -55,7 +55,7 @@ namespace Zed.Data {
             if (connection != null) {
                 this.connection = connection;
             } else {
-                throw new ArgumentNullException("connection");
+                throw new ArgumentNullException(nameof(connection));
             }
             
         }

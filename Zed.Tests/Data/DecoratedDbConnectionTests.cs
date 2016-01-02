@@ -36,14 +36,13 @@ namespace Zed.Tests.Data {
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Ctor_NullConnection_ExceptionThrown() {
             // Arrange
 
             // Act
-            new DecoratedDbConnection(null);
 
             // Assert
+            Assert.Throws<ArgumentNullException>(() => new DecoratedDbConnection(null));
         }
 
         [Test]
@@ -63,20 +62,18 @@ namespace Zed.Tests.Data {
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void Open_MultipleCalls_ExceptionThrown() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
 
-            // Act
+            // Act and Assert
             try {
                 dbConnection.Open();
-                dbConnection.Open();
+                Assert.Throws<InvalidOperationException>(() => dbConnection.Open());
             } finally {
                 dbConnection.Close();
             }
             
-            // Assert
 
         }
 
@@ -129,18 +126,16 @@ namespace Zed.Tests.Data {
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void BeginTransaction_MultipleCalls_ExceptionThrown() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
             dbConnection.Open();
 
             // Act
-
             var tx1 = dbConnection.BeginTransaction();
-            var tx2 = dbConnection.BeginTransaction();
 
             // Assert
+            Assert.Throws<InvalidOperationException>(() => dbConnection.BeginTransaction());
 
         }
 

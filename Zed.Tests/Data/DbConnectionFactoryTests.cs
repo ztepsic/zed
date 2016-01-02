@@ -42,16 +42,13 @@ namespace Zed.Tests.Data {
         }
 
         [Test]
-        [ExpectedException(typeof (InvalidOperationException))]
         public void Open_CurrentDbConnectionExists_ThrownException() {
             // Arrange
             var dbConnectionFactory = new DbConnectionFactory(() => new SQLiteConnection(CONNECTION_STRING));
 
-            // Act
+            // Act and Assert
             var dbConnection = dbConnectionFactory.Open();
-            var dbConnection2 = dbConnectionFactory.Open();
-
-            // Assert
+            Assert.Throws<InvalidOperationException>(() => dbConnectionFactory.Open());
         }
 
         [Test]
