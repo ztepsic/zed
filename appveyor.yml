@@ -1,6 +1,6 @@
 version: 1.1.0.{build}
 skip_tags: true
-os: Visual Studio 2015
+image: Visual Studio 2015
 configuration: Release
 assembly_info:
   patch: true
@@ -9,11 +9,11 @@ assembly_info:
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
 before_build:
-- nuget restore
+- cmd: nuget restore
 build:
   verbosity: minimal
 after_build:
-- Zed_build_nuget.bat
+- cmd: Zed_build_nuget.bat
 artifacts:
 - path: packages
   name: Zed.Packages.$(APPVEYOR_BUILD_VERSION)
