@@ -86,6 +86,7 @@
     <Compile Include="Domain\ValueObjects\Point2D.cs" />
     <Compile Include="Domain\ValueObjects\Point3D.cs" />
     <Compile Include="Domain\ValueObjectTests.cs" />
+    <Compile Include="Extensions\EnumExtensionsTests.cs" />
     <Compile Include="Objects\CloneHelperExtensionTests.cs" />
     <Compile Include="Objects\ImmutableObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

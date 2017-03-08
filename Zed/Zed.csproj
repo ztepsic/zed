@@ -63,6 +63,7 @@
     <Compile Include="Domain\NotValueMemberAttribute.cs" />
     <Compile Include="Domain\PrecisionAttribute.cs" />
     <Compile Include="Domain\ValueObject.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Objects\CloneHelper.cs" />
     <Compile Include="Objects\IImmutable.cs" />
     <Compile Include="Objects\ImmutableObject.cs" />
