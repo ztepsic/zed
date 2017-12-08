@@ -10,8 +10,10 @@ namespace Zed.Tests.Data {
     public class AdoNetUnitOfWorkTests {
 
         public class WrappedDecoratedDbConnection : DecoratedDbConnection {
-            //protected WrappedDecoratedDbConnection() { }
+            protected WrappedDecoratedDbConnection() : base(new SQLiteConnection(CONNECTION_STRING)) { }
+
             public WrappedDecoratedDbConnection(DbConnection dbConnection) : base(dbConnection) { }
+
         }
 
         private const string CONNECTION_STRING = "Data Source=:memory:;Version=3;New=True;";

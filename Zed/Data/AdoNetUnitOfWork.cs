@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data;
+using System.Threading;
+using System.Threading.Tasks;
 using Zed.Transaction;
 
 namespace Zed.Data {
@@ -63,6 +65,31 @@ namespace Zed.Data {
 
             scope.BeginTransaction();
             return scope;
+        }
+
+
+        /// <summary>
+        /// Starts async unit of work scope
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation instruction.</param>
+        /// <returns>Unit of work scope</returns>
+        public async Task<IUnitOfWorkScope> StartAsync(CancellationToken cancellationToken) {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            IUnitOfWorkScope scope = dbConnectionFactory.GetCurrentConnection() == null || dbConnectionFactory.GetCurrentConnection().State == ConnectionState.Closed
+                ? rootScopeFactory()
+                : dependentScopeFactory();
+
+            await scope.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
+            return scope;
+        }
+
+        /// <summary>
+        /// Starts async unit of work scope
+        /// </summary>
+        /// <returns>Unit of work scope</returns>
+        public async Task<IUnitOfWorkScope> StartAsync() {
+            return await StartAsync(CancellationToken.None).ConfigureAwait(false);
         }
 
         #endregion

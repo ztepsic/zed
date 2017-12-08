@@ -76,7 +76,12 @@
     <Compile Include="Utilities\TextHelper.cs" />
     <Compile Include="Utilities\WordSeparatorEnumProvider.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="nuspec.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Zed.nuspec" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

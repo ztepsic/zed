@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SQLite;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Zed.Data;
 
@@ -42,12 +43,25 @@ namespace Zed.Tests.Data {
         }
 
         [Test]
+        public async Task OpenAsync_DbConnection_CreatedAndOpenedDbConnection() {
+            // Arrange
+            var dbConnectionFactory = new DbConnectionFactory(() => new SQLiteConnection(CONNECTION_STRING));
+
+            // Act
+            var dbConnection = await dbConnectionFactory.OpenAsync();
+
+            // Assert
+            Assert.IsNotNull(dbConnection);
+            Assert.AreEqual(ConnectionState.Open, dbConnection.State);
+        }
+
+        [Test]
         public void Open_CurrentDbConnectionExists_ThrownException() {
             // Arrange
             var dbConnectionFactory = new DbConnectionFactory(() => new SQLiteConnection(CONNECTION_STRING));
 
             // Act and Assert
-            var dbConnection = dbConnectionFactory.Open();
+            dbConnectionFactory.Open();
             Assert.Throws<InvalidOperationException>(() => dbConnectionFactory.Open());
         }
 

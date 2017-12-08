@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.Common;
 using System.Data.SQLite;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Zed.Data;
 
@@ -52,6 +53,22 @@ namespace Zed.Tests.Data {
 
             // Act
             dbConnection.Open();
+
+            // Assert
+            Assert.AreEqual(ConnectionState.Open, dbConnection.State);
+            Assert.IsFalse(dbConnection.HasTransaction);
+            Assert.IsFalse(dbConnection.IsTransactionActive);
+
+            dbConnection.Close();
+        }
+
+        [Test]
+        public async Task OpenAsync_DbConnection_OpenedConnection() {
+            // Arrange
+            var dbConnection = new DecoratedDbConnection(origDbConnection);
+
+            // Act
+            await dbConnection.OpenAsync();
 
             // Assert
             Assert.AreEqual(ConnectionState.Open, dbConnection.State);

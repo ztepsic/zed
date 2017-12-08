@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Zed.Data {
     /// <summary>
@@ -56,6 +58,43 @@ namespace Zed.Data {
 
             currentConnection = Create();
             currentConnection.Open();
+            return currentConnection;
+        }
+
+        /// <summary>
+        /// An asynchronous version of Open, which opens a database connection with the settings
+        /// specified by the ConnectionString. 
+        /// This method invokes the virtual method OpenAsync with CancellationToken.None.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public async Task<DecoratedDbConnection> OpenAsync() {
+            return await OpenAsync(CancellationToken.None).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// This is the asynchronous version of Open. Providers should override with an appropriate
+        /// implementation. The cancellation token can optionally be honored.
+        /// 
+        /// The default implementation invokes the synchronous Open call and returns a completed task.
+        /// The default implementation will return a cancelled task if passed an already cancelled 
+        /// cancellationToken. 
+        /// 
+        /// Exceptions thrown by Open will be communicated via the returned Task Exception property.
+        /// 
+        /// Do not invoke other methods and properties of the DbConnection object until the returned
+        /// Task is complete.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation instruction.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public async Task<DecoratedDbConnection> OpenAsync(CancellationToken cancellationToken) {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (currentConnection != null && currentConnection.State != ConnectionState.Closed) {
+                throw new InvalidOperationException("Current connection is active and not closed.");
+            }
+
+            currentConnection = Create();
+            await currentConnection.OpenAsync(cancellationToken).ConfigureAwait(false);
             return currentConnection;
         }
 

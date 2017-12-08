@@ -1,4 +1,6 @@
 ﻿using System.Data;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Zed.Data {
     /// <summary>
@@ -31,6 +33,31 @@ namespace Zed.Data {
                     DbConnectionFactory.Open();    
             }
             
+            base.BeginTransaction();
+        }
+
+        /// <summary>
+        /// This is the asynchronous version of <see cref="BeginTransaction"/>.
+        /// This method invokes the virtual method <see cref="BeginTransactionAsync()"/> with CancellationToken.None.
+        /// Begins/starts with transaction
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public override async Task BeginTransactionAsync() {
+            await base.BeginTransactionAsync(CancellationToken.None).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// This is the asynchronous version of <see cref="BeginTransaction"/>.
+        /// Begins/starts with transaction
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation instruction.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public override async Task BeginTransactionAsync(CancellationToken cancellationToken) {
+            if (DbConnectionFactory.GetCurrentConnection() == null ||
+                DbConnectionFactory.GetCurrentConnection().State == ConnectionState.Closed) {
+                await DbConnectionFactory.OpenAsync(cancellationToken).ConfigureAwait(false);
+            }
+
             base.BeginTransaction();
         }
 

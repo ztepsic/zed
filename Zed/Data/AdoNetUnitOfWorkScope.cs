@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data;
+using System.Threading;
+using System.Threading.Tasks;
 using Zed.Transaction;
 
 namespace Zed.Data {
@@ -70,6 +72,27 @@ namespace Zed.Data {
                 isTransactionCreated = true;
                 DbTransaction = DbConnection.BeginTransaction();
             }
+        }
+
+        /// <summary>
+        /// This is the asynchronous version of <see cref="BeginTransaction"/>.
+        /// This method invokes the virtual method <see cref="BeginTransactionAsync()"/> with CancellationToken.None.
+        /// Begins/starts with transaction
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public virtual async Task BeginTransactionAsync() {
+            await BeginTransactionAsync(CancellationToken.None).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// This is the asynchronous version of <see cref="BeginTransaction"/>.
+        /// Begins/starts with transaction
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation instruction.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public virtual async Task BeginTransactionAsync(CancellationToken cancellationToken) {
+            BeginTransaction();
+            await Task.CompletedTask;
         }
 
         /// <summary>
