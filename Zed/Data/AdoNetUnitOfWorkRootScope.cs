@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Zed.Data {
     /// <summary>
-    /// NHibernate Unit of Work Root Scope
+    /// Ado.Net Unit of Work Root Scope
     /// </summary>
     /// <remarks>Based on article: http://www.planetgeek.ch/2012/05/05/what-is-that-all-about-the-repository-anti-pattern/ </remarks>
     class AdoNetUnitOfWorkRootScope : AdoNetUnitOfWorkScope {
@@ -53,12 +53,14 @@ namespace Zed.Data {
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         public override async Task BeginTransactionAsync(CancellationToken cancellationToken) {
+            cancellationToken.ThrowIfCancellationRequested();
+
             if (DbConnectionFactory.GetCurrentConnection() == null ||
                 DbConnectionFactory.GetCurrentConnection().State == ConnectionState.Closed) {
                 await DbConnectionFactory.OpenAsync(cancellationToken).ConfigureAwait(false);
             }
 
-            base.BeginTransaction();
+            await base.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
         }
 
         protected override void Dispose(bool disposing) {

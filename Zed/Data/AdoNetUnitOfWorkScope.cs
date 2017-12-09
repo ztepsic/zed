@@ -91,10 +91,12 @@ namespace Zed.Data {
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         public virtual async Task BeginTransactionAsync(CancellationToken cancellationToken) {
+            cancellationToken.ThrowIfCancellationRequested();
             BeginTransaction();
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false); ;
         }
 
+        
         /// <summary>
         /// Commits transaction
         /// </summary>
@@ -106,6 +108,27 @@ namespace Zed.Data {
         }
 
         /// <summary>
+        /// This is the asynchronous version of <see cref="Commit"/>.
+        /// Commits transaction
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation instruction.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public async Task CommitAsync(CancellationToken cancellationToken) {
+            cancellationToken.ThrowIfCancellationRequested();
+            Commit();
+            await Task.CompletedTask.ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// This is the asynchronous version of <see cref="Commit"/>.
+        /// Commits transaction
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public async Task CommitAsync() {
+            await CommitAsync(CancellationToken.None).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Rollbacks transaction
         /// </summary>
         public virtual void Rollback() {
@@ -113,6 +136,27 @@ namespace Zed.Data {
             if (isTransactionCreated) {
                 DbTransaction.Rollback();
             }
+        }
+
+        /// <summary>
+        /// This is the asynchronous version of <see cref="Rollback"/>.
+        /// Rollbacks transaction
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation instruction.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public async Task RollbackAsync(CancellationToken cancellationToken) {
+            cancellationToken.ThrowIfCancellationRequested();
+            Rollback();
+            await Task.CompletedTask.ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// This is the asynchronous version of <see cref="Rollback"/>.
+        /// Rollbacks transaction
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public async Task RollbackAsync() {
+            await RollbackAsync(CancellationToken.None).ConfigureAwait(false);
         }
 
         /// <summary>

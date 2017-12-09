@@ -22,6 +22,13 @@ namespace Zed.Tests.Data {
         [SetUp]
         public void SetUp() {
             connectionFactory = new DbConnectionFactory(() => new SQLiteConnection(CONNECTION_STRING));
+            var connection = connectionFactory.Open();
+
+            const string sql = "create table Tag (name nvarchar(20))";
+
+            var command = new SQLiteCommand(sql, connection.Connection as SQLiteConnection);
+            command.ExecuteNonQuery();
+            connection.Close();
         }
 
         [Test]
@@ -99,6 +106,22 @@ namespace Zed.Tests.Data {
             var transaction2 = connectionFactory.GetCurrentConnection().Transaction;
 
             // Assert
+            Assert.AreSame(transaction1, transaction2);
+        }
+
+        [Test]
+        public void Start_OnTwoDifferentScopes_OneTransaction() {
+            // Arrange
+            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+
+            // Act
+            var unitOfWorkRootScope = unitOfWork.Start();
+            var transaction1 = connectionFactory.GetCurrentConnection().Transaction;
+            var unitOfWorkScope = unitOfWork.Start();
+            var transaction2 = connectionFactory.GetCurrentConnection().Transaction;
+
+            // Assert
+            Assert.AreNotEqual(unitOfWorkRootScope, unitOfWorkScope);
             Assert.AreSame(transaction1, transaction2);
         }
 
