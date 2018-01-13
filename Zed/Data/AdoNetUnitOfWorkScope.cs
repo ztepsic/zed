@@ -43,6 +43,12 @@ namespace Zed.Data {
         /// </summary>
         private bool isScopeCompleted;
 
+        /// <summary>
+        /// An indicator if transaction is active or not
+        /// </summary>
+        /// <returns></returns>
+        public bool IsTransactionActive => DbConnection.IsTransactionActive;
+
         #endregion
 
         #region Constructors and Init
@@ -68,7 +74,7 @@ namespace Zed.Data {
         /// Begins/starts with transaction
         /// </summary>
         public virtual void BeginTransaction() {
-            if (!DbConnection.IsTransactionActive) {
+            if (!IsTransactionActive) {
                 isTransactionCreated = true;
                 DbTransaction = DbConnection.BeginTransaction();
             }

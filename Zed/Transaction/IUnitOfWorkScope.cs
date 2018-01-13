@@ -14,6 +14,12 @@ namespace Zed.Transaction {
         void BeginTransaction();
 
         /// <summary>
+        /// An indicator if transaction is active or not
+        /// </summary>
+        /// <returns></returns>
+        bool IsTransactionActive { get; }
+
+        /// <summary>
         /// Commits transaction
         /// </summary>
         void Commit();

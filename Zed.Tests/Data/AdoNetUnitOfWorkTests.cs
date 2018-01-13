@@ -69,7 +69,7 @@ namespace Zed.Tests.Data {
         }
 
         [Test]
-        public void Start_ConnectionIsNotNullOrClosed_CreatesDependentUnitOfWorkScope() {
+        public void Start_SecondCallToStartWhileFirstUoWIsStillActive_CreatesDependentUnitOfWorkScope() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
 
@@ -78,7 +78,9 @@ namespace Zed.Tests.Data {
             var unitOfWorkScope = unitOfWork.Start();
 
             // Assert
+            Assert.AreEqual("AdoNetUnitOfWorkRootScope", unitOfWorkRootScope.GetType().Name);
             Assert.AreEqual("AdoNetUnitOfWorkScope", unitOfWorkScope.GetType().Name);
+            
         }
 
         [Test]
@@ -90,7 +92,7 @@ namespace Zed.Tests.Data {
             var unitOfWorkScope = unitOfWork.Start();
 
             // Assert
-            Assert.IsTrue(connectionFactory.GetCurrentConnection().IsTransactionActive);
+            Assert.IsTrue(unitOfWorkScope.IsTransactionActive);
         }
 
         [Test]
@@ -110,7 +112,7 @@ namespace Zed.Tests.Data {
         }
 
         [Test]
-        public void Start_OnTwoDifferentScopes_OneTransaction() {
+        public void Start_OnTwoDependedScopes_OneTransaction() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
 
@@ -125,6 +127,29 @@ namespace Zed.Tests.Data {
             Assert.AreSame(transaction1, transaction2);
         }
 
+
+        [Test]
+        public void Start_OnCommitedScope_CreatesDependedUnitOfWorkScopeWithNewTransaction() {
+            // Arrange
+            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+            var unitOfWorkScope = unitOfWork.Start();
+            var transaction1 = connectionFactory.GetCurrentConnection().Transaction;
+            unitOfWorkScope.Commit();
+
+            // Act
+            var unitOfWorkScope2 = unitOfWork.Start();
+            var transaction2 = connectionFactory.GetCurrentConnection().Transaction;
+
+
+            // Assert
+            Assert.AreEqual("AdoNetUnitOfWorkRootScope", unitOfWorkScope.GetType().Name);
+            Assert.AreEqual("AdoNetUnitOfWorkScope", unitOfWorkScope2.GetType().Name);
+
+            Assert.AreNotSame(transaction1, transaction2);
+
+            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
+        }
+
         [Test]
         public void Commit_IUnitOfWorkScope_CommitedTransactionAndConnectionStillOpen() {
             // Arrange
@@ -135,8 +160,52 @@ namespace Zed.Tests.Data {
             unitOfWorkScope.Commit();
 
             // Assert
-            Assert.IsFalse(connectionFactory.GetCurrentConnection().IsTransactionActive);
+            Assert.IsFalse(unitOfWorkScope.IsTransactionActive);
             Assert.AreEqual(ConnectionState.Open , connectionFactory.GetCurrentConnection().State);
+        }
+
+
+        [Test]
+        public void Commit_IUnitOfWorkScope_InSameUnitOfWorkAfterFirstCommitCanStartNewTransaction() {
+            // Arrange
+            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+
+            // Act
+            var unitOfWorkScope = unitOfWork.Start();
+            var transaction1 = connectionFactory.GetCurrentConnection().Transaction;
+            unitOfWorkScope.Commit();
+
+            unitOfWorkScope.BeginTransaction();
+            var transaction2 = connectionFactory.GetCurrentConnection().Transaction;
+
+            // Assert
+            Assert.AreNotSame(transaction1, transaction2);
+            Assert.IsTrue(unitOfWorkScope.IsTransactionActive);
+            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
+        }
+
+        [Test]
+        public void Commit_IUnitOfWorkScope_TwoDependentScopesOnlyRootScopeReallyCommits() {
+            // Arrange
+            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+
+            // Act
+            var unitOfWorkScope = unitOfWork.Start();
+            var unitOfWorkScope2 = unitOfWork.Start();
+            unitOfWorkScope2.Commit();
+
+            var isTransactionFromScope2Active = unitOfWorkScope2.IsTransactionActive;
+            var isTransactionFromScope1BeforeItsCommitActive = unitOfWorkScope.IsTransactionActive;
+
+            unitOfWorkScope.Commit();
+
+            var isTransactionFromScope1AfterItsCommitActive = unitOfWorkScope.IsTransactionActive;
+
+            // Assert
+            Assert.IsTrue(isTransactionFromScope2Active);
+            Assert.IsTrue(isTransactionFromScope1BeforeItsCommitActive);
+            Assert.IsFalse(isTransactionFromScope1AfterItsCommitActive);
+            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
         }
 
         [Test]
@@ -174,7 +243,7 @@ namespace Zed.Tests.Data {
             unitOfWorkScope.Rollback();
 
             // Assert
-            Assert.IsFalse(connectionFactory.GetCurrentConnection().IsTransactionActive);
+            Assert.IsFalse(unitOfWorkScope.IsTransactionActive);
             Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
         }
 
