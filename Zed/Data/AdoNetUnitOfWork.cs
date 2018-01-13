@@ -20,6 +20,16 @@ namespace Zed.Data {
         private readonly Func<IUnitOfWorkScope> rootScopeFactory;
         private readonly Func<IUnitOfWorkScope> dependentScopeFactory;
 
+        /// <summary>
+        /// An indication if implicit transactions are enabled
+        /// </summary>
+        private readonly bool isImplicitTransactionsEnabled;
+
+        /// <summary>
+        /// Gets an indication if implicit transactions are enabled
+        /// </summary>
+        public bool IsImplicitTransactionsEnabled => isImplicitTransactionsEnabled;
+
         #endregion
 
         #region Constructors and Init
@@ -27,11 +37,13 @@ namespace Zed.Data {
         /// <summary>
         /// Creates Ado.Net Unit of Work with default root and dependent scopes
         /// <param name="dbConnectionFactory">Database connection factory</param>
+        /// <param name="isImplicitTransactionsEnabled">An indication if implicit transactions are enabled. Default is false.</param>
         /// </summary>
-        public AdoNetUnitOfWork(IDbConnectionFactory dbConnectionFactory)
+        public AdoNetUnitOfWork(IDbConnectionFactory dbConnectionFactory, bool isImplicitTransactionsEnabled = false)
             : this(dbConnectionFactory,
-            () => new AdoNetUnitOfWorkRootScope(dbConnectionFactory),
-            () => new AdoNetUnitOfWorkScope(dbConnectionFactory)) { }
+            () => new AdoNetUnitOfWorkRootScope(dbConnectionFactory, isImplicitTransactionsEnabled),
+            () => new AdoNetUnitOfWorkScope(dbConnectionFactory, isImplicitTransactionsEnabled),
+            isImplicitTransactionsEnabled) { }
 
         /// <summary>
         /// Creates Ado.Net Unit of Work
@@ -39,7 +51,8 @@ namespace Zed.Data {
         /// <param name="dbConnectionFactory">Database connection factory</param>
         /// <param name="rootScopeFactory">Root transaction scope</param>
         /// <param name="dependentScopeFactory">Dependant transaction scope</param>
-        public AdoNetUnitOfWork(IDbConnectionFactory dbConnectionFactory, Func<IUnitOfWorkScope> rootScopeFactory, Func<IUnitOfWorkScope> dependentScopeFactory) {
+        /// <param name="isImplicitTransactionsEnabled">An indication if implicit transactions are enabled. Default is false.</param>
+        public AdoNetUnitOfWork(IDbConnectionFactory dbConnectionFactory, Func<IUnitOfWorkScope> rootScopeFactory, Func<IUnitOfWorkScope> dependentScopeFactory, bool isImplicitTransactionsEnabled = false) {
             if (dbConnectionFactory != null) {
                 this.dbConnectionFactory = dbConnectionFactory;
             } else {
@@ -48,6 +61,7 @@ namespace Zed.Data {
 
             this.rootScopeFactory = rootScopeFactory;
             this.dependentScopeFactory = dependentScopeFactory;
+            this.isImplicitTransactionsEnabled = isImplicitTransactionsEnabled;
         }
 
         #endregion
@@ -63,7 +77,10 @@ namespace Zed.Data {
                 ? rootScopeFactory()
                 : dependentScopeFactory();
 
+            //if (IsImplicitTransactionsEnabled) { scope.BeginTransaction(); }
+
             scope.BeginTransaction();
+
             return scope;
         }
 
@@ -80,7 +97,9 @@ namespace Zed.Data {
                 ? rootScopeFactory()
                 : dependentScopeFactory();
 
-            await scope.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
+            if (IsImplicitTransactionsEnabled) {
+                await scope.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
+            }
             return scope;
         }
 

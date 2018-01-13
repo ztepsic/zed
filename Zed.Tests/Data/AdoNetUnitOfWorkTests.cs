@@ -4,6 +4,7 @@ using System.Data.SQLite;
 using Moq;
 using NUnit.Framework;
 using Zed.Data;
+using Zed.Transaction;
 
 namespace Zed.Tests.Data {
     [TestFixture]
@@ -164,6 +165,20 @@ namespace Zed.Tests.Data {
             Assert.AreEqual(ConnectionState.Open , connectionFactory.GetCurrentConnection().State);
         }
 
+        [Test]
+        public void Commit_IUnitOfWorkScope__WithImplicitTransactions_AfterCommitedNewTransactionIsStarted() {
+            // Arrange
+            var unitOfWork = new AdoNetUnitOfWork(connectionFactory, true);
+
+            // Act
+            var unitOfWorkScope = unitOfWork.Start();
+            unitOfWorkScope.Commit();
+
+            // Assert
+            Assert.IsTrue(unitOfWorkScope.IsTransactionActive);
+            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
+        }
+
 
         [Test]
         public void Commit_IUnitOfWorkScope_InSameUnitOfWorkAfterFirstCommitCanStartNewTransaction() {
@@ -245,6 +260,37 @@ namespace Zed.Tests.Data {
             // Assert
             Assert.IsFalse(unitOfWorkScope.IsTransactionActive);
             Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
+        }
+
+        [Test]
+        public void Rollback_IUnitOfWorkScope_WithImplicitTransactions_AfterRollbackedTransactionNewTransationIsStarted() {
+            // Arrange
+            var unitOfWork = new AdoNetUnitOfWork(connectionFactory, true);
+
+            // Act
+            var unitOfWorkScope = unitOfWork.Start();
+            unitOfWorkScope.Rollback();
+
+            // Assert
+            Assert.IsTrue(unitOfWorkScope.IsTransactionActive);
+            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
+        }
+
+        [Test]
+        public void Dispose_IUnitOfWorkScope_WithImplicitTransactions_ActiveTransactionIsRolledback() {
+            // Arrange
+            var unitOfWork = new AdoNetUnitOfWork(connectionFactory, true);
+
+            // Act
+            IUnitOfWorkScope unitOfWorkScope = null;
+            using (unitOfWorkScope = unitOfWork.Start()) {
+                
+            }
+
+
+            // Assert
+            Assert.IsFalse(unitOfWorkScope.IsTransactionActive);
+            Assert.IsNull(connectionFactory.GetCurrentConnection());
         }
 
         [Test]

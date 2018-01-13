@@ -10,6 +10,7 @@ namespace Zed.Data {
     class AdoNetUnitOfWorkRootScope : AdoNetUnitOfWorkScope {
 
         #region Fields and Properties
+
         #endregion
 
         #region Constructors and Init
@@ -18,7 +19,9 @@ namespace Zed.Data {
         /// Creates Ado.Net unit of work root scope
         /// </summary>
         /// <param name="dbConnectionFactory">Database connection factory</param>
-        public AdoNetUnitOfWorkRootScope(IDbConnectionFactory dbConnectionFactory) : base(dbConnectionFactory) { }
+        /// <param name="isImplicitTransactionsEnabled">An indication if implicit transactions are enabled. Default is false.</param>
+        public AdoNetUnitOfWorkRootScope(IDbConnectionFactory dbConnectionFactory, bool isImplicitTransactionsEnabled = false) 
+            : base(dbConnectionFactory, isImplicitTransactionsEnabled) { }
 
         #endregion
 

@@ -20,6 +20,11 @@ namespace Zed.Transaction {
         bool IsTransactionActive { get; }
 
         /// <summary>
+        /// An indication if implicit transactions are enabled
+        /// </summary>
+        bool IsImplicitTransactionsEnabled { get; }
+
+        /// <summary>
         /// Commits transaction
         /// </summary>
         void Commit();

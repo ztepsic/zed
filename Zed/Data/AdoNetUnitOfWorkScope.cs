@@ -47,7 +47,17 @@ namespace Zed.Data {
         /// An indicator if transaction is active or not
         /// </summary>
         /// <returns></returns>
-        public bool IsTransactionActive => DbConnection.IsTransactionActive;
+        public bool IsTransactionActive =>  DbConnection != null && DbConnection.IsTransactionActive;
+
+        /// <summary>
+        /// An indication if implicit transactions are enabled
+        /// </summary>
+        private readonly bool isImplicitTransactionsEnabled;
+
+        /// <summary>
+        /// Gets an indication if implicit transactions are enabled
+        /// </summary>
+        public bool IsImplicitTransactionsEnabled => isImplicitTransactionsEnabled;
 
         #endregion
 
@@ -57,12 +67,15 @@ namespace Zed.Data {
         /// Creates an instance of Ado.Net unit of work scope
         /// </summary>
         /// <param name="dbConnectionFactory">Database connection factory</param>
-        public AdoNetUnitOfWorkScope(IDbConnectionFactory dbConnectionFactory) {
+        /// <param name="isImplicitTransactionsEnabled">An indication if implicit transactions are enabled. Default is false.</param>
+        public AdoNetUnitOfWorkScope(IDbConnectionFactory dbConnectionFactory, bool isImplicitTransactionsEnabled = false) {
             if (dbConnectionFactory != null) {
                 this.dbConnectionFactory = dbConnectionFactory;
             } else {
                 throw new ArgumentNullException("dbConnectionFactory");
             }
+
+            this.isImplicitTransactionsEnabled = isImplicitTransactionsEnabled;
 
         }
 
@@ -110,6 +123,11 @@ namespace Zed.Data {
             isScopeCompleted = true;
             if (isTransactionCreated) {
                 DbTransaction.Commit();
+
+                if (isImplicitTransactionsEnabled) {
+                    isScopeCompleted = false;
+                    BeginTransaction();
+                }
             }
         }
 
@@ -141,6 +159,11 @@ namespace Zed.Data {
             isScopeCompleted = true;
             if (isTransactionCreated) {
                 DbTransaction.Rollback();
+
+                if (isImplicitTransactionsEnabled) {
+                    isScopeCompleted = false;
+                    BeginTransaction();
+                }
             }
         }
 

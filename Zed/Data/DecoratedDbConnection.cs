@@ -192,6 +192,11 @@ namespace Zed.Data {
         /// <param name="disposing">false if pre-empted from a <c>finalizer</c></param>
         protected override void Dispose(bool disposing) {
             if (disposing && connection != null) {
+                if (HasTransaction) {
+                    Transaction.Dispose();
+                    Transaction = null;
+                }
+
                 connection.Dispose();
                 
             }

@@ -9,6 +9,11 @@ namespace Zed.Transaction {
     public interface IUnitOfWork {
 
         /// <summary>
+        /// An indication if implicit transactions are enabled
+        /// </summary>
+        bool IsImplicitTransactionsEnabled { get; }
+
+        /// <summary>
         /// Starts unit of work scope
         /// </summary>
         /// <returns>Unit of work scope</returns>
