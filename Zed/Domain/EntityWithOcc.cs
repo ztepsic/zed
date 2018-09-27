@@ -23,7 +23,7 @@
         /// <summary>
         /// Version property is used for versioning state of the entity.
         /// </summary>
-        public TVersion EntityVersion { get; protected set; }
+        public virtual TVersion EntityVersion { get; protected set; }
     }
 
 }
