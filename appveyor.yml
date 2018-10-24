@@ -21,3 +21,5 @@ artifacts:
   name: Zed.Packages.$(APPVEYOR_BUILD_VERSION)
 - path: Zed.$(APPVEYOR_BUILD_VERSION).nupkg
   name: Zed.$(APPVEYOR_BUILD_VERSION).nupkg
+- path: Zed.1.0.0.nupkg
+  name: Zed.1.0.0.nupkg
