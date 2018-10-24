@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -63,6 +64,7 @@
     <Compile Include="Domain\NotValueMemberAttribute.cs" />
     <Compile Include="Domain\PrecisionAttribute.cs" />
     <Compile Include="Domain\ValueObject.cs" />
+    <Compile Include="DataAnnotations\DisplayNameAttribute.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Objects\CloneHelper.cs" />
     <Compile Include="Objects\IImmutable.cs" />
@@ -82,6 +84,7 @@
     </None>
     <None Include="Zed.nuspec" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using DisplayNameAttribute = Zed.DataAnnotations.DisplayNameAttribute;
 
 namespace Zed.Extensions {
     /// <summary>
@@ -23,15 +25,80 @@ namespace Zed.Extensions {
 
             var memberInfo = type.GetMember(enumValue.ToString());
             if (memberInfo.Length > 0) {
-                var attributes = memberInfo[0].GetCustomAttributes(typeof (DescriptionAttribute), false);
+                var attributes = memberInfo[0].GetCustomAttributes(false);
+                var displayNameFound = false;
+                foreach (var attribute in attributes) {
+                    switch (attribute) {
+                        case DescriptionAttribute da:
+                            description = da.Description;
+                            displayNameFound = true;
+                            break;
+                        case DisplayAttribute da:
+                            description = da.Description;
+                            displayNameFound = true;
+                            break;
+                    }
+
+                    if (displayNameFound) break;
+                }
+
                 if (attributes.Length > 0) {
-                    var descriptionAttribute = attributes[0] as DescriptionAttribute;
-                    if (descriptionAttribute != null)
-                        description = descriptionAttribute.Description;
+                    var attribute = attributes[0];
+                    switch (attribute) {
+                        case DescriptionAttribute da:
+                            description = da.Description;
+                            break;
+                        case DisplayAttribute da:
+                            description = da.Description;
+                            break;
+                    }
                 }
             }
 
             return description;
+        }
+
+
+        /// <summary>
+        /// Gets a display name of enum
+        /// </summary>
+        /// <typeparam name="T">Enum type</typeparam>
+        /// <param name="enumValue">Current enum</param>
+        /// <returns>Enum display name</returns>
+        public static string GetEnumDisplayName<T>(this T enumValue) where T : struct {
+            var type = enumValue.GetType();
+            if (!type.IsEnum) {
+                throw new ArgumentException($"{nameof(enumValue)} must be of Enum type", nameof(enumValue));
+            }
+
+            string displayName = enumValue.ToString();
+            
+
+            var memberInfo = type.GetMember(enumValue.ToString());
+            if (memberInfo.Length > 0) {
+                var attributes = memberInfo[0].GetCustomAttributes(false);
+                var displayNameFound = false;
+                foreach (var attribute in attributes) {
+                    switch (attribute) {
+                        case System.ComponentModel.DisplayNameAttribute dna:
+                            displayName = dna.DisplayName;
+                            displayNameFound = true;
+                            break;
+                        case DisplayNameAttribute dna:
+                            displayName = dna.DisplayName;
+                            displayNameFound = true;
+                            break;
+                        case DisplayAttribute da:
+                            displayName = da.Name;
+                            displayNameFound = true;
+                            break;
+                    }
+
+                    if(displayNameFound) break;
+                }
+            }
+
+            return displayName;
         }
 
     }
