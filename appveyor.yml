@@ -1,6 +1,8 @@
 environment:
   version_major: 1
-version: $(version_major).2.4
+  version_minor: 2
+  version_patch: 4
+version: $(version_major).$(version_minor).$(version_patch).{build}
 skip_tags: true
 image: Visual Studio 2017
 configuration: Release
@@ -8,8 +10,8 @@ assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
   assembly_version: '$(version_major).0.0.0'
-  assembly_file_version: '{version}.{build}'
-  assembly_informational_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '$(version_major).$(version_minor).$(version_patch)'
 before_build:
 - cmd: nuget restore
 build:
