@@ -34,25 +34,14 @@ namespace Zed.Extensions {
                             displayNameFound = true;
                             break;
                         case DisplayAttribute da:
+                            displayNameFound = !string.IsNullOrEmpty(da.Description);
                             description = da.Description;
-                            displayNameFound = true;
                             break;
                     }
 
                     if (displayNameFound) break;
                 }
 
-                if (attributes.Length > 0) {
-                    var attribute = attributes[0];
-                    switch (attribute) {
-                        case DescriptionAttribute da:
-                            description = da.Description;
-                            break;
-                        case DisplayAttribute da:
-                            description = da.Description;
-                            break;
-                    }
-                }
             }
 
             return description;
@@ -72,7 +61,6 @@ namespace Zed.Extensions {
             }
 
             string displayName = enumValue.ToString();
-            
 
             var memberInfo = type.GetMember(enumValue.ToString());
             if (memberInfo.Length > 0) {
@@ -89,8 +77,8 @@ namespace Zed.Extensions {
                             displayNameFound = true;
                             break;
                         case DisplayAttribute da:
+                            displayNameFound = !string.IsNullOrEmpty(da.Name);
                             displayName = da.Name;
-                            displayNameFound = true;
                             break;
                     }
 
