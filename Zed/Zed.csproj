@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAnnotations\DataAnnotationExtensions.cs" />
     <Compile Include="Data\AdoNetRepository.cs" />
     <Compile Include="Data\DbConnectionFactory.cs" />
     <Compile Include="Data\AdoNetUnitOfWork.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Transaction\IUnitOfWorkScope.cs" />
     <Compile Include="Utilities\LineBreakEnumProvider.cs" />
     <Compile Include="Utilities\NumericHelper.cs" />
+    <Compile Include="Utilities\ReflectionHelper.cs" />
     <Compile Include="Utilities\TextHelper.cs" />
     <Compile Include="Utilities\WordSeparatorEnumProvider.cs" />
   </ItemGroup>

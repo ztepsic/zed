@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using NUnit.Framework;
-using Zed.DataAnnotations;
 using Zed.Extensions;
 
 namespace Zed.Tests.Extensions {
@@ -8,16 +7,16 @@ namespace Zed.Tests.Extensions {
     public enum TestEnum {
         [Display(Description = "NUMBER ONE")]
         [System.ComponentModel.Description("Number one")]
-        [DisplayName("ONE")]
+        [Zed.DataAnnotations.DisplayName("ONE")]
         One,
 
         [Display(Name = "Two")]
-        [DisplayName("TWO")]
+        [Zed.DataAnnotations.DisplayName("TWO")]
         [System.ComponentModel.Description("Number two")]
         Two,
 
         [System.ComponentModel.Description("Number three")]
-        [DisplayName("THREE")]
+        [Zed.DataAnnotations.DisplayName("THREE")]
         [Display(Name = "Three")]
         Three,
 
