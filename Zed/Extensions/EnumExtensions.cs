@@ -1,8 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using Zed.DataAnnotations;
-using DisplayNameAttribute = Zed.DataAnnotations.DisplayNameAttribute;
 
 namespace Zed.Extensions {
     /// <summary>

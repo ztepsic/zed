@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using NUnit.Framework;
 using Zed.Extensions;
+#pragma warning disable 618
 
 namespace Zed.Tests.Extensions {
 
