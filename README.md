@@ -1,4 +1,5 @@
 # Zed
+[![Zed on fuget.org](https://www.fuget.org/packages/Zed/badge.svg)](https://www.fuget.org/packages/Zed)
 
 ## CI build status
 
