@@ -31,5 +31,35 @@ namespace Zed.Extensions {
         /// <returns>Converted DateTime in destination time zone</returns>
         public static DateTime Convert(this DateTime dateTime, TimeZoneInfo sourceTimeZoneInfo, TimeZoneInfo destinationTimeZoneInfo) => TimeZoneInfo.ConvertTime(dateTime, sourceTimeZoneInfo, destinationTimeZoneInfo);
 
+        /// <summary>
+        /// This method returns the number of seconds in Unix time. 
+        /// The number of seconds that have elapsed since 1970-01-01T00:00:00Z
+        /// </summary>
+        /// <param name="dateTime">DateTime to convert from</param>
+        /// <returns>The number of seconds that have elapsed since 1970-01-01T00:00:00Z.</returns>
+        /// <remarks>
+        /// Unix time represents the number of seconds that have elapsed since 1970-01-01T00:00:00Z (January 1, 1970, at 12:00 AM UTC).
+        /// It does not take leap seconds into account.
+        /// 
+        /// This method first converts the current instance to UTC before returning its Unix time.
+        /// For date and time values before 1970-01-01T00:00:00Z, this method returns a negative value.
+        /// </remarks>
+        public static long ToUnixTimeSeconds(this DateTime dateTime) => ((DateTimeOffset) dateTime).ToUnixTimeSeconds();
+
+        /// <summary>
+        /// This method returns the number of milliseconds in Unix time. 
+        /// The number of milliseconds that have elapsed since 1970-01-01T00:00:00.000Z.
+        /// </summary>
+        /// <param name="dateTime">DateTime to convert from</param>
+        /// <returns>The number of milliseconds that have elapsed since 1970-01-01T00:00:00.000Z.</returns>
+        /// <remarks>
+        /// Unix time represents the number of seconds that have elapsed since 1970-01-01T00:00:00Z (January 1, 1970, at 12:00 AM UTC).
+        /// It does not take leap seconds into account. This method returns the number of milliseconds in Unix time.
+        /// 
+        /// This method first converts the current instance to UTC before returning the number of milliseconds in its Unix time.
+        /// For date and time values before 1970-01-01T00:00:00Z, this method returns a negative value.
+        /// </remarks>
+        public static long ToUnixTimeMilliseconds(this DateTime dateTime) => ((DateTimeOffset)dateTime).ToUnixTimeMilliseconds();
+
     }
 }
