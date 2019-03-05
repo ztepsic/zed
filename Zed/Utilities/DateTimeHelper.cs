@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Zed.Extensions {
+namespace Zed.Utilities {
     /// <summary>
     /// <see cref="DateTime"/> extension methods
     /// </summary>
-    public static class DateTimeExtensions {
+    public static class DateTimeHelper {
 
         /// <summary>
         /// Converts DateTime from UTC to destination time zone
@@ -47,6 +47,17 @@ namespace Zed.Extensions {
         public static long ToUnixTimeSeconds(this DateTime dateTime) => ((DateTimeOffset) dateTime).ToUnixTimeSeconds();
 
         /// <summary>
+        /// Converts a Unix time expressed as the number of seconds that have elapsed since 1970-01-01T00:00:00Z
+        /// to a UTC DateTime value.
+        /// </summary>
+        /// <param name="seconds">
+        /// A Unix time, expressed as the number of seconds that have elapsed since 1970-01-01T00:00:00Z (January 1, 1970, at 12:00 AM UTC).
+        /// For Unix times before this date, its value is negative.
+        /// </param>
+        /// <returns>A date and time value that represents the same moment in time as the Unix time.</returns>
+        public static DateTime FromUnixTimeSeconds(long seconds) => DateTimeOffset.FromUnixTimeSeconds(seconds).UtcDateTime;
+
+        /// <summary>
         /// This method returns the number of milliseconds in Unix time. 
         /// The number of milliseconds that have elapsed since 1970-01-01T00:00:00.000Z.
         /// </summary>
@@ -60,6 +71,17 @@ namespace Zed.Extensions {
         /// For date and time values before 1970-01-01T00:00:00Z, this method returns a negative value.
         /// </remarks>
         public static long ToUnixTimeMilliseconds(this DateTime dateTime) => ((DateTimeOffset)dateTime).ToUnixTimeMilliseconds();
+
+        /// <summary>
+        /// Converts a Unix time expressed as the number of milliseconds that have elapsed since 1970-01-01T00:00:00Z
+        /// to a UTC DateTime value.
+        /// </summary>
+        /// <param name="miliseconds">
+        /// A Unix time, expressed as the number of milliseconds that have elapsed since 1970-01-01T00:00:00Z (January 1, 1970, at 12:00 AM UTC).
+        /// For Unix times before this date, its value is negative.
+        /// </param>
+        /// <returns>A date and time value that represents the same moment in time as the Unix time.</returns>
+        public static DateTime FromUnixTimeMiliseconds(long miliseconds) => DateTimeOffset.FromUnixTimeMilliseconds(miliseconds).UtcDateTime;
 
     }
 }
