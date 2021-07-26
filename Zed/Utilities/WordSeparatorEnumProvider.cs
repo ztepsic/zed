@@ -1,7 +1,6 @@
 ﻿using System;
 
 namespace Zed.Utilities {
-
     /// <summary>
     /// Word Separator
     /// </summary>
@@ -44,5 +43,4 @@ namespace Zed.Utilities {
         }
 
     }
-
 }

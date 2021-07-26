@@ -1,5 +1,4 @@
-﻿using Zed.Tests.Domain.Entities.DomainObjectsSignatureImpl;
-using Zed.Domain;
+﻿using Zed.Domain;
 
 namespace Zed.Tests.Domain.Entities.DomainObjectsSignatureImpl {
     class Car : DosEntity {

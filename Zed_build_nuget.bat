@@ -1,1 +1,1 @@
-nuget pack Zed/Zed.csproj -IncludeReferencedProjects -Prop Configuration=Release -Symbols
+dotnet pack Zed/Zed.csproj --configuration Release --output ./

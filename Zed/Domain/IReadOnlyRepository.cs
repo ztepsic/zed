@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Zed.Domain {
-
     /// <summary>
     /// A general repository that allows only read operations
     /// for entities with an identifier of type int

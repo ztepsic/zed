@@ -44,7 +44,7 @@ namespace Zed.Utilities {
         /// This method first converts the current instance to UTC before returning its Unix time.
         /// For date and time values before 1970-01-01T00:00:00Z, this method returns a negative value.
         /// </remarks>
-        public static long ToUnixTimeSeconds(this DateTime dateTime) => ((DateTimeOffset) dateTime).ToUnixTimeSeconds();
+        public static long ToUnixTimeSeconds(this DateTime dateTime) => ((DateTimeOffset)dateTime).ToUnixTimeSeconds();
 
         /// <summary>
         /// Converts a Unix time expressed as the number of seconds that have elapsed since 1970-01-01T00:00:00Z

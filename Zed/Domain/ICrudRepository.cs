@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 namespace Zed.Domain {
-
     /// <summary>
     /// A general repository that provides basuc CRUD operations
     /// for entities with an identifier of type int

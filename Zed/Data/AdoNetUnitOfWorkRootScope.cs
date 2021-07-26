@@ -20,7 +20,7 @@ namespace Zed.Data {
         /// </summary>
         /// <param name="dbConnectionFactory">Database connection factory</param>
         /// <param name="isImplicitTransactionsEnabled">An indication if implicit transactions are enabled. Default is false.</param>
-        public AdoNetUnitOfWorkRootScope(IDbConnectionFactory dbConnectionFactory, bool isImplicitTransactionsEnabled = false) 
+        public AdoNetUnitOfWorkRootScope(IDbConnectionFactory dbConnectionFactory, bool isImplicitTransactionsEnabled = false)
             : base(dbConnectionFactory, isImplicitTransactionsEnabled) { }
 
         #endregion
@@ -33,9 +33,9 @@ namespace Zed.Data {
         public override void BeginTransaction() {
             if (DbConnectionFactory.GetCurrentConnection() == null ||
                 DbConnectionFactory.GetCurrentConnection().State == ConnectionState.Closed) {
-                    DbConnectionFactory.Open();    
+                DbConnectionFactory.Open();
             }
-            
+
             base.BeginTransaction();
         }
 

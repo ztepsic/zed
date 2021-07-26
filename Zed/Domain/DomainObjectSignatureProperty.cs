@@ -2,7 +2,6 @@
 using System.Reflection;
 
 namespace Zed.Domain {
-
     /// <summary>
     /// Wrapper class of <see cref="PropertyInfo"/> representing DomainObjectSignatureProperty
     /// </summary>
@@ -16,7 +15,7 @@ namespace Zed.Domain {
         /// <summary>
         /// Gets precision attribute of domain object signature property
         /// </summary>
-        public PrecisionAttribute Precision { get { return precisionAttribute; } }
+        public PrecisionAttribute Precision => precisionAttribute;
 
         #endregion
 

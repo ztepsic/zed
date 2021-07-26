@@ -1,7 +1,6 @@
 ﻿using System;
 
 namespace Zed.Domain {
-
     /// <summary>
     /// Facilitates indicating which property is not value member property.
     /// </summary>

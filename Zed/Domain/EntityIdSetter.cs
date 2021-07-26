@@ -22,7 +22,7 @@ namespace Zed.Domain {
         public static void SetIdOf<TId>(Entity<TId> entity, TId id) {
             PropertyInfo idPropertyInfo = entity.GetType().GetProperty(IDENTIFIER_NAME, BindingFlags.Public | BindingFlags.Instance);
             if (idPropertyInfo == null) {
-                throw new MissingMemberException(String.Format("No identifier property {0}.", IDENTIFIER_NAME));
+                throw new MissingMemberException($"No identifier property {IDENTIFIER_NAME}.");
             }
 
             idPropertyInfo.SetValue(entity, id, null);

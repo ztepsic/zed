@@ -19,12 +19,12 @@ namespace Zed.Data {
         /// <summary>
         /// Gets database connection factory
         /// </summary>
-        protected IDbConnectionFactory DbConnectionFactory { get { return dbConnectionFactory; } }
+        protected IDbConnectionFactory DbConnectionFactory => dbConnectionFactory;
 
         /// <summary>
         /// Gets current connection
         /// </summary>
-        protected DecoratedDbConnection DbConnection { get { return dbConnectionFactory.GetCurrentConnection(); } }
+        protected DecoratedDbConnection DbConnection => dbConnectionFactory.GetCurrentConnection();
 
         #endregion
 
@@ -35,11 +35,7 @@ namespace Zed.Data {
         /// </summary>
         /// <param name="dbConnectionFactory">Database connection factory</param>
         protected AdoNetRepository(IDbConnectionFactory dbConnectionFactory) {
-            if (dbConnectionFactory == null) {
-                throw new ArgumentNullException("dbConnectionFactory");
-            }
-
-            this.dbConnectionFactory = dbConnectionFactory;
+            this.dbConnectionFactory = dbConnectionFactory ?? throw new ArgumentNullException(nameof(dbConnectionFactory));
         }
 
         #endregion

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Zed.Domain {
-
     /// <summary>
     /// ValueObject is an immutable object that is used to describe certain aspects of a domain,
     /// and which does not have identity. Value Objects should be kept thin and simple.

@@ -9,7 +9,7 @@ namespace Zed.Data {
     /// Ado.Net Unit Of Work scope
     /// </summary>
     /// <remarks>Based on article: http://www.planetgeek.ch/2012/05/05/what-is-that-all-about-the-repository-anti-pattern/ </remarks>
-    class AdoNetUnitOfWorkScope : IUnitOfWorkScope {
+    internal class AdoNetUnitOfWorkScope : IUnitOfWorkScope {
 
         #region Fields and Properties
 
@@ -21,12 +21,12 @@ namespace Zed.Data {
         /// <summary>
         /// Gets database connection factory
         /// </summary>
-        protected IDbConnectionFactory DbConnectionFactory { get { return dbConnectionFactory; } }
+        protected IDbConnectionFactory DbConnectionFactory => dbConnectionFactory;
 
         /// <summary>
         /// Gets current database connection
         /// </summary>
-        protected DecoratedDbConnection DbConnection { get { return dbConnectionFactory.GetCurrentConnection(); } }
+        protected DecoratedDbConnection DbConnection => dbConnectionFactory.GetCurrentConnection();
 
         /// <summary>
         /// Gets Ado.Net transaction
@@ -47,7 +47,7 @@ namespace Zed.Data {
         /// An indicator if transaction is active or not
         /// </summary>
         /// <returns></returns>
-        public bool IsTransactionActive =>  DbConnection != null && DbConnection.IsTransactionActive;
+        public bool IsTransactionActive => DbConnection != null && DbConnection.IsTransactionActive;
 
         /// <summary>
         /// An indication if implicit transactions are enabled
@@ -72,7 +72,7 @@ namespace Zed.Data {
             if (dbConnectionFactory != null) {
                 this.dbConnectionFactory = dbConnectionFactory;
             } else {
-                throw new ArgumentNullException("dbConnectionFactory");
+                throw new ArgumentNullException(nameof(dbConnectionFactory));
             }
 
             this.isImplicitTransactionsEnabled = isImplicitTransactionsEnabled;
@@ -115,7 +115,7 @@ namespace Zed.Data {
             await Task.CompletedTask.ConfigureAwait(false); ;
         }
 
-        
+
         /// <summary>
         /// Commits transaction
         /// </summary>
@@ -202,8 +202,8 @@ namespace Zed.Data {
                     Rollback();
                 }
 
-                if (isTransactionCreated && DbTransaction != null) {
-                    DbTransaction.Dispose();
+                if (isTransactionCreated) {
+                    DbTransaction?.Dispose();
                 }
             }
         }

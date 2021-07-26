@@ -4,7 +4,6 @@ using System.Linq;
 using Zed.Domain;
 
 namespace Zed.Tests.Domain.Entities.DomainObjectsSignatureImpl {
-
     /// <summary>
     /// DomainObjectSignatureEntity
     /// Example of implementation of IDomainObjectSignature for Entity class

@@ -1,7 +1,6 @@
 ﻿using System;
 
 namespace Zed.Domain {
-
     /// <summary>
     /// Entity class is a base class for objects (entities) which will be persisted to the database.
     /// Benefits include the addition of an Id property along with a consistent manner for comparing

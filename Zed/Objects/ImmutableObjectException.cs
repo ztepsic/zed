@@ -9,7 +9,7 @@ namespace Zed.Objects {
         #region Fields
 
         /// <summary>
-        /// Poruka
+        /// Message
         /// </summary>
         private const string MESSAGE = "Object {0} is immutable, so it can't be changed.";
 

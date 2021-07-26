@@ -8,17 +8,17 @@ namespace Zed.Tests.Domain {
         [Test]
         public void Two_Transient_Entities_Are_Equal_If_They_Have_Same_Business_Key() {
             // Arrange
-            Car carA = new Car {
+            var carA = new Car {
                 Name = "BMW",
                 TopSpeed = 200
             };
 
-            Car carB = new Car {
+            var carB = new Car {
                 Name = "Audi",
                 TopSpeed = 200
             };
 
-            Car carC = new Car {
+            var carC = new Car {
                 Name = "BMW",
                 TopSpeed = 250
             };

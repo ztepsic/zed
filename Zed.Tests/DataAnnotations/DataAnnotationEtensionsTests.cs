@@ -3,7 +3,6 @@ using NUnit.Framework;
 using Zed.DataAnnotations;
 
 namespace Zed.Tests.DataAnnotations {
-
     class TestClass {
         [Display(Description = "NUMBER ONE")]
         [System.ComponentModel.Description("Number one")]

@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Zed.Tests.Domain.Entities.SameHierarchyEquivalenceEntityImpl {
-    class Wolf : Zed.Tests.Domain.Entities.SameHierarchyEquivalenceEntityImpl.Mammal {
+    class Wolf : Mammal {
         public float NightVisionDistance { get; set; }
 
         public string LivesInGroup { get; set; }

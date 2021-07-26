@@ -1,7 +1,6 @@
 ﻿using System;
 
 namespace Zed.Domain {
-
     /// <summary>
     /// Attribute that indicates the precission of the property for float and double types.
     /// Used for easier comparison between float and double types
@@ -34,9 +33,7 @@ namespace Zed.Domain {
         /// <summary>
         /// Gets the double error margin that the difference is compared to.
         /// </summary>
-        public double EpsilonDouble {
-            get { return epsilonDouble; }
-        }
+        public double EpsilonDouble => epsilonDouble;
 
         #endregion
 

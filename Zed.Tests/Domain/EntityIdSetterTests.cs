@@ -17,6 +17,7 @@ namespace Zed.Tests.Domain {
 
             // Assert
             Assert.AreEqual(ID, lion.Id);
+
         }
     }
 }

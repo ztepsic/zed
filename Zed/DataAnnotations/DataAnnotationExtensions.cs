@@ -16,10 +16,10 @@ namespace Zed.DataAnnotations {
         /// <typeparam name="T">Class with property</typeparam>
         /// <param name="propertyExpression">Property expression</param>
         /// <returns>Property display name</returns>
-        public static string GetPropertyDisplayName<T>(Expression<Func<T, object>> propertyExpression) where T:class {
+        public static string GetPropertyDisplayName<T>(Expression<Func<T, object>> propertyExpression) where T : class {
             var memberInfo = ReflectionHelper.GetPropertyInfo(propertyExpression.Body);
             if (memberInfo == null) {
-                throw new ArgumentException("No property reference epxression was found.", nameof(propertyExpression));
+                throw new ArgumentException("No property reference expression was found.", nameof(propertyExpression));
             }
 
             string displayName = memberInfo.Name;
@@ -68,7 +68,7 @@ namespace Zed.DataAnnotations {
         public static string GetPropertyDescription<T>(Expression<Func<T, object>> propertyExpression) where T : class {
             var memberInfo = ReflectionHelper.GetPropertyInfo(propertyExpression.Body);
             if (memberInfo == null) {
-                throw new ArgumentException("No property reference epxression was found.", nameof(propertyExpression));
+                throw new ArgumentException("No property reference expression was found.", nameof(propertyExpression));
             }
 
             string description = memberInfo.Name;

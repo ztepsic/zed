@@ -66,7 +66,7 @@ namespace Zed.Tests.Data {
 
             // Assert
             Assert.AreEqual("AdoNetUnitOfWorkRootScope", unitOfWorkScope.GetType().Name);
-            Assert.AreEqual(ConnectionState.Open , connectionFactory.GetCurrentConnection().State);
+            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace Zed.Tests.Data {
             // Assert
             Assert.AreEqual("AdoNetUnitOfWorkRootScope", unitOfWorkRootScope.GetType().Name);
             Assert.AreEqual("AdoNetUnitOfWorkScope", unitOfWorkScope.GetType().Name);
-            
+
         }
 
         [Test]
@@ -162,7 +162,7 @@ namespace Zed.Tests.Data {
 
             // Assert
             Assert.IsFalse(unitOfWorkScope.IsTransactionActive);
-            Assert.AreEqual(ConnectionState.Open , connectionFactory.GetCurrentConnection().State);
+            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
         }
 
         [Test]
@@ -284,7 +284,7 @@ namespace Zed.Tests.Data {
             // Act
             IUnitOfWorkScope unitOfWorkScope = null;
             using (unitOfWorkScope = unitOfWork.Start()) {
-                
+
             }
 
 

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -59,7 +62,7 @@ namespace Zed.Data {
             } else {
                 throw new ArgumentNullException(nameof(connection));
             }
-            
+
         }
 
         #endregion
@@ -198,7 +201,7 @@ namespace Zed.Data {
                 }
 
                 connection.Dispose();
-                
+
             }
             //connection = null;
 

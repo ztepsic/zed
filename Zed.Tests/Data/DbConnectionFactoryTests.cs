@@ -10,7 +10,7 @@ namespace Zed.Tests.Data {
     public class DbConnectionFactoryTests {
 
         private const string CONNECTION_STRING = "Data Source=:memory:;Version=3;New=True;";
-        
+
 
         [SetUp]
         public void SetUp() { }

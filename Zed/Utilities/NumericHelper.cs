@@ -2,7 +2,7 @@
 
 namespace Zed.Utilities {
     /// <summary>
-    /// NumbericHelper is a helper/extension class for numeric data types.
+    /// Numeric Helper is a helper/extension class for numeric data types.
     /// </summary>
     public static class NumericHelper {
 
