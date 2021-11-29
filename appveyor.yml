@@ -1,10 +1,10 @@
 environment:
   version_major: 2
-  version_minor: 0
+  version_minor: 1
   version_patch: 0
 version: $(version_major).$(version_minor).$(version_patch).{build}
 skip_tags: true
-image: Visual Studio 2019
+image: Visual Studio 2022
 configuration: Release
 assembly_info:
   patch: false
