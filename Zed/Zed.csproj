@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -12,6 +12,8 @@
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/ztepsic/zed</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/ztepsic/zed</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
     <PackageTags>Zed</PackageTags>
     <Copyright>Copyright 2021</Copyright>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
