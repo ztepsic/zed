@@ -25,7 +25,7 @@ before_build:
 build:
   verbosity: minimal
 after_build:
-- cmd: Zed_build_nuget.bat
+- cmd: dotnet pack Zed/Zed.csproj --configuration Release --output ./
 artifacts:
 - path: Zed.$(version_major).$(version_minor).$(version_patch).nupkg
   name: Zed.$(version_major).$(version_minor).$(version_patch).nupkg

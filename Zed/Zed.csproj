@@ -14,6 +14,7 @@
     <PackageProjectUrl>https://github.com/ztepsic/zed</PackageProjectUrl>
     <PackageTags>Zed</PackageTags>
     <Copyright>Copyright 2021</Copyright>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
 </Project>
