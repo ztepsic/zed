@@ -2,23 +2,20 @@
 using System.Data;
 using System.Data.SQLite;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
 using Zed.Data;
 
 namespace Zed.Tests.Data {
-    [TestFixture]
+    
     public class DbConnectionFactoryTests {
 
         private const string CONNECTION_STRING = "Data Source=:memory:;Version=3;New=True;";
 
+        public DbConnectionFactoryTests() {
 
-        [SetUp]
-        public void SetUp() { }
+        }
 
-        [TearDown]
-        public void TearDown() { }
-
-        [Test]
+        [Fact]
         public void Ctor_DbConnectionFactory_Created() {
             // Arrange
 
@@ -26,10 +23,10 @@ namespace Zed.Tests.Data {
             var dbConnectionFactory = new DbConnectionFactory(() => new SQLiteConnection(CONNECTION_STRING));
 
             // Assert
-            Assert.IsNotNull(dbConnectionFactory);
+            Assert.NotNull(dbConnectionFactory);
         }
 
-        [Test]
+        [Fact]
         public void Open_DbConnection_CreatedAndOpenedDbConnection() {
             // Arrange
             var dbConnectionFactory = new DbConnectionFactory(() => new SQLiteConnection(CONNECTION_STRING));
@@ -38,11 +35,11 @@ namespace Zed.Tests.Data {
             var dbConnection = dbConnectionFactory.Open();
 
             // Assert
-            Assert.IsNotNull(dbConnection);
-            Assert.AreEqual(ConnectionState.Open, dbConnection.State);
+            Assert.NotNull(dbConnection);
+            Assert.Equal(ConnectionState.Open, dbConnection.State);
         }
 
-        [Test]
+        [Fact]
         public async Task OpenAsync_DbConnection_CreatedAndOpenedDbConnection() {
             // Arrange
             var dbConnectionFactory = new DbConnectionFactory(() => new SQLiteConnection(CONNECTION_STRING));
@@ -51,11 +48,11 @@ namespace Zed.Tests.Data {
             var dbConnection = await dbConnectionFactory.OpenAsync();
 
             // Assert
-            Assert.IsNotNull(dbConnection);
-            Assert.AreEqual(ConnectionState.Open, dbConnection.State);
+            Assert.NotNull(dbConnection);
+            Assert.Equal(ConnectionState.Open, dbConnection.State);
         }
 
-        [Test]
+        [Fact]
         public void Open_CurrentDbConnectionExists_ThrownException() {
             // Arrange
             var dbConnectionFactory = new DbConnectionFactory(() => new SQLiteConnection(CONNECTION_STRING));
@@ -65,7 +62,7 @@ namespace Zed.Tests.Data {
             Assert.Throws<InvalidOperationException>(() => dbConnectionFactory.Open());
         }
 
-        [Test]
+        [Fact]
         public void GetCurrentConnection_ReturnsCurrentConnection() {
             // Arrange
             var dbConnectionFactory = new DbConnectionFactory(() => new SQLiteConnection(CONNECTION_STRING));
@@ -75,11 +72,11 @@ namespace Zed.Tests.Data {
             var currentConnection = dbConnectionFactory.GetCurrentConnection();
 
             // Assert
-            Assert.IsNotNull(currentConnection);
-            Assert.AreEqual(dbConnection, currentConnection);
+            Assert.NotNull(currentConnection);
+            Assert.Equal(dbConnection, currentConnection);
         }
 
-        [Test]
+        [Fact]
         public void Unbind_CurrentDbConnection_UnbindedDbConnection() {
             // Arrange
             var dbConnectionFactory = new DbConnectionFactory(() => new SQLiteConnection(CONNECTION_STRING));
@@ -90,8 +87,8 @@ namespace Zed.Tests.Data {
             var unbindedDbConnection = dbConnectionFactory.UnbindCurrentConnection();
 
             // Assert
-            Assert.IsNull(dbConnectionFactory.GetCurrentConnection());
-            Assert.AreEqual(currentConnection, unbindedDbConnection);
+            Assert.Null(dbConnectionFactory.GetCurrentConnection());
+            Assert.Equal(currentConnection, unbindedDbConnection);
         }
 
 

@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using Zed.Objects;
 
 namespace Zed.Tests.Objects {
-    [TestFixture]
+    
     public class ImmutableObjectTests {
 
         class Car : ImmutableObject {
@@ -34,7 +34,7 @@ namespace Zed.Tests.Objects {
 
         }
 
-        [Test]
+        [Fact]
         public void IsImmutable_FreezedObject_IsImmutable() {
             // Arrange
             Car car = new Car();
@@ -46,11 +46,11 @@ namespace Zed.Tests.Objects {
             var isImmutable = car.IsImmutable;
 
             // Assert
-            Assert.IsTrue(isImmutable);
+            Assert.True(isImmutable);
 
         }
 
-        [Test]
+        [Fact]
         public void OnFrozen_AfterFreezeCallOnImmutableObject_OnFrozenIsCalled() {
             // Arrange
             Car car = new Car();
@@ -61,12 +61,12 @@ namespace Zed.Tests.Objects {
             // Act
 
             // Assert
-            Assert.IsTrue(car.IsImmutable);
-            Assert.AreEqual("BMW is Frozen", car.Name);
+            Assert.True(car.IsImmutable);
+            Assert.Equal("BMW is Frozen", car.Name);
 
         }
 
-        [Test]
+        [Fact]
         public void DataChangeAfterFreeze_ThrowsImmutableObjectException() {
             // Arrange
             Car car = new Car();

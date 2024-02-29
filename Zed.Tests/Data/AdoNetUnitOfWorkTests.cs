@@ -2,12 +2,12 @@
 using System.Data.Common;
 using System.Data.SQLite;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 using Zed.Data;
 using Zed.Transaction;
 
 namespace Zed.Tests.Data {
-    [TestFixture]
+    
     public class AdoNetUnitOfWorkTests {
 
         public class WrappedDecoratedDbConnection : DecoratedDbConnection {
@@ -20,8 +20,7 @@ namespace Zed.Tests.Data {
         private const string CONNECTION_STRING = "Data Source=:memory:;Version=3;New=True;";
         private IDbConnectionFactory connectionFactory;
 
-        [SetUp]
-        public void SetUp() {
+        public AdoNetUnitOfWorkTests() {
             connectionFactory = new DbConnectionFactory(() => new SQLiteConnection(CONNECTION_STRING));
             var connection = connectionFactory.Open();
 
@@ -32,7 +31,7 @@ namespace Zed.Tests.Data {
             connection.Close();
         }
 
-        [Test]
+        [Fact]
         public void Ctor_AdoNetUnitOfWork_Created() {
             // Arrange
 
@@ -40,11 +39,11 @@ namespace Zed.Tests.Data {
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
 
             // Assert
-            Assert.IsNotNull(unitOfWork);
+            Assert.NotNull(unitOfWork);
 
         }
 
-        [Test]
+        [Fact]
         public void Start_AdoNetUnitOfWork_UnitOfWorkCreated() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
@@ -53,10 +52,10 @@ namespace Zed.Tests.Data {
             var unitOfWorkScope = unitOfWork.Start();
 
             // Assert
-            Assert.IsNotNull(unitOfWorkScope);
+            Assert.NotNull(unitOfWorkScope);
         }
 
-        [Test]
+        [Fact]
         public void Start_ConnectionIsNullOrClosed_CreatesUnitOfWorkRootScopeAndOpensConnection() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
@@ -65,11 +64,11 @@ namespace Zed.Tests.Data {
             var unitOfWorkScope = unitOfWork.Start();
 
             // Assert
-            Assert.AreEqual("AdoNetUnitOfWorkRootScope", unitOfWorkScope.GetType().Name);
-            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
+            Assert.Equal("AdoNetUnitOfWorkRootScope", unitOfWorkScope.GetType().Name);
+            Assert.Equal(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
         }
 
-        [Test]
+        [Fact]
         public void Start_SecondCallToStartWhileFirstUoWIsStillActive_CreatesDependentUnitOfWorkScope() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
@@ -79,12 +78,12 @@ namespace Zed.Tests.Data {
             var unitOfWorkScope = unitOfWork.Start();
 
             // Assert
-            Assert.AreEqual("AdoNetUnitOfWorkRootScope", unitOfWorkRootScope.GetType().Name);
-            Assert.AreEqual("AdoNetUnitOfWorkScope", unitOfWorkScope.GetType().Name);
+            Assert.Equal("AdoNetUnitOfWorkRootScope", unitOfWorkRootScope.GetType().Name);
+            Assert.Equal("AdoNetUnitOfWorkScope", unitOfWorkScope.GetType().Name);
 
         }
 
-        [Test]
+        [Fact]
         public void Start_Scope_TransactionStarted() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
@@ -93,10 +92,10 @@ namespace Zed.Tests.Data {
             var unitOfWorkScope = unitOfWork.Start();
 
             // Assert
-            Assert.IsTrue(unitOfWorkScope.IsTransactionActive);
+            Assert.True(unitOfWorkScope.IsTransactionActive);
         }
 
-        [Test]
+        [Fact]
         public void Start_CalledBeginTransactionOnUnitOfWorkScope_NoEffects() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
@@ -109,10 +108,10 @@ namespace Zed.Tests.Data {
             var transaction2 = connectionFactory.GetCurrentConnection().Transaction;
 
             // Assert
-            Assert.AreSame(transaction1, transaction2);
+            Assert.Same(transaction1, transaction2);
         }
 
-        [Test]
+        [Fact]
         public void Start_OnTwoDependedScopes_OneTransaction() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
@@ -124,12 +123,12 @@ namespace Zed.Tests.Data {
             var transaction2 = connectionFactory.GetCurrentConnection().Transaction;
 
             // Assert
-            Assert.AreNotEqual(unitOfWorkRootScope, unitOfWorkScope);
-            Assert.AreSame(transaction1, transaction2);
+            Assert.NotEqual(unitOfWorkRootScope, unitOfWorkScope);
+            Assert.Same(transaction1, transaction2);
         }
 
 
-        [Test]
+        [Fact]
         public void Start_OnCommitedScope_CreatesDependedUnitOfWorkScopeWithNewTransaction() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
@@ -143,15 +142,15 @@ namespace Zed.Tests.Data {
 
 
             // Assert
-            Assert.AreEqual("AdoNetUnitOfWorkRootScope", unitOfWorkScope.GetType().Name);
-            Assert.AreEqual("AdoNetUnitOfWorkScope", unitOfWorkScope2.GetType().Name);
+            Assert.Equal("AdoNetUnitOfWorkRootScope", unitOfWorkScope.GetType().Name);
+            Assert.Equal("AdoNetUnitOfWorkScope", unitOfWorkScope2.GetType().Name);
 
-            Assert.AreNotSame(transaction1, transaction2);
+            Assert.NotSame(transaction1, transaction2);
 
-            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
+            Assert.Equal(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
         }
 
-        [Test]
+        [Fact]
         public void Commit_IUnitOfWorkScope_CommitedTransactionAndConnectionStillOpen() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
@@ -161,11 +160,11 @@ namespace Zed.Tests.Data {
             unitOfWorkScope.Commit();
 
             // Assert
-            Assert.IsFalse(unitOfWorkScope.IsTransactionActive);
-            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
+            Assert.False(unitOfWorkScope.IsTransactionActive);
+            Assert.Equal(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
         }
 
-        [Test]
+        [Fact]
         public void Commit_IUnitOfWorkScope__WithImplicitTransactions_AfterCommitedNewTransactionIsStarted() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory, true);
@@ -175,12 +174,12 @@ namespace Zed.Tests.Data {
             unitOfWorkScope.Commit();
 
             // Assert
-            Assert.IsTrue(unitOfWorkScope.IsTransactionActive);
-            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
+            Assert.True(unitOfWorkScope.IsTransactionActive);
+            Assert.Equal(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
         }
 
 
-        [Test]
+        [Fact]
         public void Commit_IUnitOfWorkScope_InSameUnitOfWorkAfterFirstCommitCanStartNewTransaction() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
@@ -194,12 +193,12 @@ namespace Zed.Tests.Data {
             var transaction2 = connectionFactory.GetCurrentConnection().Transaction;
 
             // Assert
-            Assert.AreNotSame(transaction1, transaction2);
-            Assert.IsTrue(unitOfWorkScope.IsTransactionActive);
-            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
+            Assert.NotSame(transaction1, transaction2);
+            Assert.True(unitOfWorkScope.IsTransactionActive);
+            Assert.Equal(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
         }
 
-        [Test]
+        [Fact]
         public void Commit_IUnitOfWorkScope_TwoDependentScopesOnlyRootScopeReallyCommits() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
@@ -217,14 +216,14 @@ namespace Zed.Tests.Data {
             var isTransactionFromScope1AfterItsCommitActive = unitOfWorkScope.IsTransactionActive;
 
             // Assert
-            Assert.IsTrue(isTransactionFromScope2Active);
-            Assert.IsTrue(isTransactionFromScope1BeforeItsCommitActive);
-            Assert.IsFalse(isTransactionFromScope1AfterItsCommitActive);
-            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
+            Assert.True(isTransactionFromScope2Active);
+            Assert.True(isTransactionFromScope1BeforeItsCommitActive);
+            Assert.False(isTransactionFromScope1AfterItsCommitActive);
+            Assert.Equal(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
         }
 
-        [Test]
-        [Ignore("System.NotSupportedException : Invalid setup on a non-virtual member x => x.BeginTransaction()")]
+        // Ignore test: System.NotSupportedException : Unsupported expression: x => x.BeginTransaction()
+        //[Fact]
         public void Commit_IUnitOfWorkScope_CommitCalledOnTransaction() {
             // Arrange
             Mock<DbTransaction> transactionMock = new Mock<DbTransaction>();
@@ -248,7 +247,7 @@ namespace Zed.Tests.Data {
         }
 
 
-        [Test]
+        [Fact]
         public void Rollback_IUnitOfWorkScope_RollbackedTransactionAndConnectionStillOpen() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
@@ -258,11 +257,11 @@ namespace Zed.Tests.Data {
             unitOfWorkScope.Rollback();
 
             // Assert
-            Assert.IsFalse(unitOfWorkScope.IsTransactionActive);
-            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
+            Assert.False(unitOfWorkScope.IsTransactionActive);
+            Assert.Equal(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
         }
 
-        [Test]
+        [Fact]
         public void Rollback_IUnitOfWorkScope_WithImplicitTransactions_AfterRollbackedTransactionNewTransationIsStarted() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory, true);
@@ -272,11 +271,11 @@ namespace Zed.Tests.Data {
             unitOfWorkScope.Rollback();
 
             // Assert
-            Assert.IsTrue(unitOfWorkScope.IsTransactionActive);
-            Assert.AreEqual(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
+            Assert.True(unitOfWorkScope.IsTransactionActive);
+            Assert.Equal(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
         }
 
-        [Test]
+        [Fact]
         public void Dispose_IUnitOfWorkScope_WithImplicitTransactions_ActiveTransactionIsRolledback() {
             // Arrange
             var unitOfWork = new AdoNetUnitOfWork(connectionFactory, true);
@@ -289,12 +288,12 @@ namespace Zed.Tests.Data {
 
 
             // Assert
-            Assert.IsFalse(unitOfWorkScope.IsTransactionActive);
-            Assert.IsNull(connectionFactory.GetCurrentConnection());
+            Assert.False(unitOfWorkScope.IsTransactionActive);
+            Assert.Null(connectionFactory.GetCurrentConnection());
         }
 
-        [Test]
-        [Ignore("System.NotSupportedException : Invalid setup on a non-virtual member x => x.BeginTransaction()")]
+        // Ignore test: System.NotSupportedException : Unsupported expression: x => x.BeginTransaction()
+        //[Fact]
         public void Rollback_IUnitOfWorkScope_RollbackCalledOnTransaction() {
             // Arrange
             Mock<DbTransaction> transactionMock = new Mock<DbTransaction>();

@@ -1,14 +1,14 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using Zed.Tests.Domain.ValueObjects;
 
 namespace Zed.Tests.Domain {
-    [TestFixture]
+    
     public class ValueObjectTests {
 
         /// <summary>
         /// For any non-null reference value x, x.Equals(null) must return false
         /// </summary>
-        [Test]
+        [Fact]
         public void Equals_Returns_False_For_Provided_Null_Value() {
             // Arrange
             ColoredPoint2D coloredPoint2D = new ColoredPoint2D(1, 2, "Red");
@@ -17,14 +17,14 @@ namespace Zed.Tests.Domain {
             var valueObjectEquivalenceResult = coloredPoint2D.Equals(null);
 
             // Assert
-            Assert.IsNotNull(coloredPoint2D);
-            Assert.IsFalse(valueObjectEquivalenceResult);
+            Assert.NotNull(coloredPoint2D);
+            Assert.False(valueObjectEquivalenceResult);
         }
 
         /// <summary>
         /// For any non-null reference value x, x.Equals(x) must return true.
         /// </summary>
-        [Test]
+        [Fact]
         public void Equals_Implements_Reflexive_Equivalence_Relation() {
             // Arrange
             ColoredPoint2D coloredPoint2D = new ColoredPoint2D(1, 2, "Red");
@@ -35,9 +35,9 @@ namespace Zed.Tests.Domain {
             var hashCodeEquivalenceResult = coloredPoint2D.GetHashCode().Equals(coloredPoint2D.GetHashCode());
 
             // Assert
-            Assert.IsNotNull(coloredPoint2D);
-            Assert.IsTrue(valueObjectEquivalenceResult);
-            Assert.IsTrue(hashCodeEquivalenceResult);
+            Assert.NotNull(coloredPoint2D);
+            Assert.True(valueObjectEquivalenceResult);
+            Assert.True(hashCodeEquivalenceResult);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Zed.Tests.Domain {
         /// Equivalence is based on the same inheritance hierarcy and the same identifiers or business keys.
         /// For any non-null reference values x and y, x.Equals(y) must return true if and only if y.Equals(x) returns true.
         /// </summary>
-        [Test]
+        [Fact]
         public void Two_ValueObjects_Are_Equal_If_They_Have_Same_Properties_And_Type_Equals_Implements_Symmetric_Equivalence_Relation() {
             // Arrange
             ColoredPoint2D coloredPoint2DX = new ColoredPoint2D(1, 2, "Red");
@@ -57,18 +57,18 @@ namespace Zed.Tests.Domain {
             var hashCodeEquivalenceResult = coloredPoint2DX.GetHashCode().Equals(coloredPoint2DY.GetHashCode());
 
             // Assert
-            Assert.IsNotNull(coloredPoint2DX);
-            Assert.IsNotNull(coloredPoint2DY);
-            Assert.IsTrue(valueObjectsEquivalenceResultXY);
-            Assert.IsTrue(valueObjectsEquivalenceResultYX);
-            Assert.IsTrue(hashCodeEquivalenceResult);
+            Assert.NotNull(coloredPoint2DX);
+            Assert.NotNull(coloredPoint2DY);
+            Assert.True(valueObjectsEquivalenceResultXY);
+            Assert.True(valueObjectsEquivalenceResultYX);
+            Assert.True(hashCodeEquivalenceResult);
         }
 
         /// <summary>
         /// Two ValueObjects of the same type and different properties(ValueMembers) are not equal.
         /// For any non-null reference values x and y, x.Equals(y) must return true if and only if y.Equals(x) returns true.
         /// </summary>
-        [Test]
+        [Fact]
         public void Two_ValueObjects_Of_Same_Type_And_Different_Properties_Are_Not_Equal_Equals_Implements_Symmetric_Equivalence_Relation() {
             // Arrange
             ColoredPoint2D coloredPoint2DX = new ColoredPoint2D(1, 2, "Red");
@@ -79,17 +79,17 @@ namespace Zed.Tests.Domain {
             var valueObjectsEquivalenceResultYX = coloredPoint2DY.Equals(coloredPoint2DX);
 
             // Assert
-            Assert.IsNotNull(coloredPoint2DX);
-            Assert.IsNotNull(coloredPoint2DY);
-            Assert.IsFalse(valueObjectsEquivalenceResultXY);
-            Assert.IsFalse(valueObjectsEquivalenceResultYX);
+            Assert.NotNull(coloredPoint2DX);
+            Assert.NotNull(coloredPoint2DY);
+            Assert.False(valueObjectsEquivalenceResultXY);
+            Assert.False(valueObjectsEquivalenceResultYX);
         }
 
         /// <summary>
         /// Two ValueObjects of different type in the same type hierarchy are not equal.
         /// For any non-null reference values x and y, x.Equals(y) must return true if and only if y.Equals(x) returns true.
         /// </summary>
-        [Test]
+        [Fact]
         public void Two_ValueObjects_Of_Different_Type_In_Same_Type_Hierarchy_Are_Not_Equal_Equals_Implements_Symmetric_Equivalence_Relation() {
             // Arrange
             ColoredPoint2D coloredPoint2DX = new ColoredPoint2D(1, 2, "Red");
@@ -100,17 +100,17 @@ namespace Zed.Tests.Domain {
             var valueObjectsEquivalenceResultYX = point3DY.Equals(coloredPoint2DX);
 
             // Assert
-            Assert.IsNotNull(coloredPoint2DX);
-            Assert.IsNotNull(point3DY);
-            Assert.IsFalse(valueObjectsEquivalenceResultXY);
-            Assert.IsFalse(valueObjectsEquivalenceResultYX);
+            Assert.NotNull(coloredPoint2DX);
+            Assert.NotNull(point3DY);
+            Assert.False(valueObjectsEquivalenceResultXY);
+            Assert.False(valueObjectsEquivalenceResultYX);
         }
 
         /// <summary>
         /// Two ValueObjects of different type are not equal.
         /// For any non-null reference values x and y, x.Equals(y) must return true if and only if y.Equals(x) returns true.
         /// </summary>
-        [Test]
+        [Fact]
         public void Two_ValueObjects_Of_Different_Type_Are_Not_Equal_Equals_Implements_Symmetric_Equivalence_Relation() {
             // Arrange
             ColoredPoint2D coloredPoint2DX = new ColoredPoint2D(1, 2, "Red");
@@ -121,10 +121,10 @@ namespace Zed.Tests.Domain {
             var valueObjectsEquivalenceResultYX = moneyY.Equals(coloredPoint2DX);
 
             // Assert
-            Assert.IsNotNull(coloredPoint2DX);
-            Assert.IsNotNull(moneyY);
-            Assert.IsFalse(valueObjectsEquivalenceResultXY);
-            Assert.IsFalse(valueObjectsEquivalenceResultYX);
+            Assert.NotNull(coloredPoint2DX);
+            Assert.NotNull(moneyY);
+            Assert.False(valueObjectsEquivalenceResultXY);
+            Assert.False(valueObjectsEquivalenceResultYX);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Zed.Tests.Domain {
         /// For any non-null reference values x, y, z, if x.Equals(y) returns true and
         /// y.Equals(z) return true, then x.Equals(z) must return true.
         /// </summary>
-        [Test]
+        [Fact]
         public void Three_ValueObjects_Are_Equal_If_They_Have_Same_Properties_And_Type_Equals_Implements_Transitive_Equivalence_Relation() {
             ColoredPoint2D coloredPoint2DX = new ColoredPoint2D(1, 2, "Red");
             ColoredPoint2D coloredPoint2DY = new ColoredPoint2D(1, 2, "Red");
@@ -147,18 +147,18 @@ namespace Zed.Tests.Domain {
             var hashCodeEquivalenceResultXZ = coloredPoint2DX.GetHashCode().Equals(coloredPoint2DZ.GetHashCode());
 
             // Assert
-            Assert.IsNotNull(coloredPoint2DX);
-            Assert.IsNotNull(coloredPoint2DY);
-            Assert.IsNotNull(coloredPoint2DZ);
-            Assert.IsTrue(entitiesEquivalenceResultXY);
-            Assert.IsTrue(entitiesEquivalenceResultYZ);
-            Assert.IsTrue(entitiesEquivalenceResultXZ);
-            Assert.IsTrue(hashCodeEquivalenceResultXY);
-            Assert.IsTrue(hashCodeEquivalenceResultYZ);
-            Assert.IsTrue(hashCodeEquivalenceResultXZ);
+            Assert.NotNull(coloredPoint2DX);
+            Assert.NotNull(coloredPoint2DY);
+            Assert.NotNull(coloredPoint2DZ);
+            Assert.True(entitiesEquivalenceResultXY);
+            Assert.True(entitiesEquivalenceResultYZ);
+            Assert.True(entitiesEquivalenceResultXZ);
+            Assert.True(hashCodeEquivalenceResultXY);
+            Assert.True(hashCodeEquivalenceResultYZ);
+            Assert.True(hashCodeEquivalenceResultXZ);
         }
 
-        [Test]
+        [Fact]
         public void In_Equals_Comparison_NonValueMember_Properties_Are_Ignored() {
             // Arrange
             Money moneyX = new Money(12, "EUR") {
@@ -176,14 +176,14 @@ namespace Zed.Tests.Domain {
             var hashCodeEquivalenceResult = moneyX.GetHashCode().Equals(moneyY.GetHashCode());
 
             // Assert
-            Assert.IsNotNull(moneyX);
-            Assert.IsNotNull(moneyY);
-            Assert.IsTrue(valueObjectsEquivalenceResultXY);
-            Assert.IsTrue(valueObjectsEquivalenceResultYX);
-            Assert.IsTrue(hashCodeEquivalenceResult);
+            Assert.NotNull(moneyX);
+            Assert.NotNull(moneyY);
+            Assert.True(valueObjectsEquivalenceResultXY);
+            Assert.True(valueObjectsEquivalenceResultYX);
+            Assert.True(hashCodeEquivalenceResult);
         }
 
-        [Test]
+        [Fact]
         public void Compare_Float_And_Decimal_Value_With_Precision_Attribute() {
             // Arrange
             float floatA = 1.2f * 3f;
@@ -197,7 +197,7 @@ namespace Zed.Tests.Domain {
             // Act
 
             // Assert
-            Assert.AreEqual(valueObjectA, valueObjectB);
+            Assert.Equal(valueObjectA, valueObjectB);
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using Zed.Tests.Domain.Entities.DomainObjectsSignatureImpl;
 
 namespace Zed.Tests.Domain {
-    [TestFixture]
+    
     public class DosEntityTests {
 
-        [Test]
+        [Fact]
         public void Two_Transient_Entities_Are_Equal_If_They_Have_Same_Business_Key() {
             // Arrange
             var carA = new Car {
@@ -28,12 +28,12 @@ namespace Zed.Tests.Domain {
             var areEqualCarACarC = carA.Equals(carC);
 
             // Assert
-            Assert.AreEqual(default(int), carA.Id);
-            Assert.AreEqual(default(int), carB.Id);
-            Assert.AreEqual(default(int), carC.Id);
-            Assert.IsFalse(areEqualCarACarB);
-            Assert.IsTrue(areEqualCarACarC);
-            Assert.IsFalse(ReferenceEquals(carA, carB));
+            Assert.Equal(default, carA.Id);
+            Assert.Equal(default, carB.Id);
+            Assert.Equal(default, carC.Id);
+            Assert.False(areEqualCarACarB);
+            Assert.True(areEqualCarACarC);
+            Assert.False(ReferenceEquals(carA, carB));
 
         }
     }

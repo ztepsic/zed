@@ -3,27 +3,38 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SQLite;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
 using Zed.Data;
 
 namespace Zed.Tests.Data {
-    [TestFixture]
-    public class DecoratedDbConnectionTests {
+    
+    public class DecoratedDbConnectionTests : IDisposable {
 
         private const string CONNECTION_STRING = "Data Source=:memory:;Version=3;New=True;";
         private DbConnection origDbConnection;
+        private bool disposedValue;
 
-        [SetUp]
-        public void SetUp() {
+        public DecoratedDbConnectionTests() {
             origDbConnection = new SQLiteConnection(CONNECTION_STRING);
         }
 
-        [TearDown]
-        public void TearDown() {
-            origDbConnection.Close();
+        protected virtual void Dispose(bool disposing) {
+            if (!disposedValue) {
+                if (disposing) {
+                    origDbConnection.Close();
+                }
+
+                disposedValue = true;
+            }
         }
 
-        [Test]
+        public void Dispose() {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        [Fact]
         public void Ctor_DbConnection_Created() {
             // Arrange
 
@@ -31,12 +42,12 @@ namespace Zed.Tests.Data {
             var dbConnection = new DecoratedDbConnection(origDbConnection);
 
             // Assert
-            Assert.IsNotNull(dbConnection);
-            Assert.AreEqual(ConnectionState.Closed, dbConnection.State);
-            Assert.IsNull(dbConnection.Transaction);
+            Assert.NotNull(dbConnection);
+            Assert.Equal(ConnectionState.Closed, dbConnection.State);
+            Assert.Null(dbConnection.Transaction);
         }
 
-        [Test]
+        [Fact]
         public void Ctor_NullConnection_ExceptionThrown() {
             // Arrange
 
@@ -46,7 +57,7 @@ namespace Zed.Tests.Data {
             Assert.Throws<ArgumentNullException>(() => new DecoratedDbConnection(null));
         }
 
-        [Test]
+        [Fact]
         public void Open_DbConnection_OpenedConnection() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
@@ -55,14 +66,14 @@ namespace Zed.Tests.Data {
             dbConnection.Open();
 
             // Assert
-            Assert.AreEqual(ConnectionState.Open, dbConnection.State);
-            Assert.IsFalse(dbConnection.HasTransaction);
-            Assert.IsFalse(dbConnection.IsTransactionActive);
+            Assert.Equal(ConnectionState.Open, dbConnection.State);
+            Assert.False(dbConnection.HasTransaction);
+            Assert.False(dbConnection.IsTransactionActive);
 
             dbConnection.Close();
         }
 
-        [Test]
+        [Fact]
         public async Task OpenAsync_DbConnection_OpenedConnection() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
@@ -71,14 +82,14 @@ namespace Zed.Tests.Data {
             await dbConnection.OpenAsync();
 
             // Assert
-            Assert.AreEqual(ConnectionState.Open, dbConnection.State);
-            Assert.IsFalse(dbConnection.HasTransaction);
-            Assert.IsFalse(dbConnection.IsTransactionActive);
+            Assert.Equal(ConnectionState.Open, dbConnection.State);
+            Assert.False(dbConnection.HasTransaction);
+            Assert.False(dbConnection.IsTransactionActive);
 
             dbConnection.Close();
         }
 
-        [Test]
+        [Fact]
         public void Open_MultipleCalls_ExceptionThrown() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
@@ -95,7 +106,7 @@ namespace Zed.Tests.Data {
         }
 
 
-        [Test]
+        [Fact]
         public void Close_DbConnection_ClosedConnection() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
@@ -105,13 +116,13 @@ namespace Zed.Tests.Data {
             dbConnection.Close();
 
             // Assert
-            Assert.AreEqual(ConnectionState.Closed, dbConnection.State);
-            Assert.IsNull(dbConnection.Transaction);
-            Assert.IsFalse(dbConnection.HasTransaction);
-            Assert.IsFalse(dbConnection.IsTransactionActive);
+            Assert.Equal(ConnectionState.Closed, dbConnection.State);
+            Assert.Null(dbConnection.Transaction);
+            Assert.False(dbConnection.HasTransaction);
+            Assert.False(dbConnection.IsTransactionActive);
         }
 
-        [Test]
+        [Fact]
         public void Close_OngoingTransaction_ClosedConnectionAndTransactionIsNull() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
@@ -122,11 +133,11 @@ namespace Zed.Tests.Data {
             dbConnection.Close();
 
             // Assert
-            Assert.AreEqual(ConnectionState.Closed, dbConnection.State);
-            Assert.IsNull(dbConnection.Transaction);
+            Assert.Equal(ConnectionState.Closed, dbConnection.State);
+            Assert.Null(dbConnection.Transaction);
         }
 
-        [Test]
+        [Fact]
         public void BeginTransaction_DbConnection_InitiatedTransaction() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
@@ -136,13 +147,13 @@ namespace Zed.Tests.Data {
             dbConnection.BeginTransaction();
 
             // Assert
-            Assert.IsNotNull(dbConnection.Transaction);
-            Assert.AreEqual(dbConnection.Connection, dbConnection.Transaction.Connection);
-            Assert.IsTrue(dbConnection.HasTransaction);
-            Assert.IsTrue(dbConnection.IsTransactionActive);
+            Assert.NotNull(dbConnection.Transaction);
+            Assert.Equal(dbConnection.Connection, dbConnection.Transaction.Connection);
+            Assert.True(dbConnection.HasTransaction);
+            Assert.True(dbConnection.IsTransactionActive);
         }
 
-        [Test]
+        [Fact]
         public void BeginTransaction_MultipleCalls_ExceptionThrown() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
@@ -156,7 +167,7 @@ namespace Zed.Tests.Data {
 
         }
 
-        [Test]
+        [Fact]
         public void HasTransaction_IfTransactionIsNotCreated_ConnectionDoesntHaveTransaction() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
@@ -166,12 +177,12 @@ namespace Zed.Tests.Data {
             var hasTransaction = dbConnection.HasTransaction;
 
             // Assert
-            Assert.IsFalse(hasTransaction);
+            Assert.False(hasTransaction);
 
             dbConnection.Close();
         }
 
-        [Test]
+        [Fact]
         public void HasTransaction_IfTransactionIsCreated_ConnectionHasTransaction() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
@@ -182,12 +193,12 @@ namespace Zed.Tests.Data {
             var hasTransaction = dbConnection.HasTransaction;
 
             // Assert
-            Assert.IsTrue(hasTransaction);
+            Assert.True(hasTransaction);
 
             dbConnection.Close();
         }
 
-        [Test]
+        [Fact]
         public void IsTransactionActive_IfBeginTransactionWasCalled_TransactionIsActive() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
@@ -198,10 +209,10 @@ namespace Zed.Tests.Data {
             var isTransactionActive = dbConnection.IsTransactionActive;
 
             // Assert
-            Assert.IsTrue(isTransactionActive);
+            Assert.True(isTransactionActive);
         }
 
-        [Test]
+        [Fact]
         public void IsTransactionActive_IfBeginTransactionWasNotCalled_TransactionIsNotActive() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
@@ -211,10 +222,10 @@ namespace Zed.Tests.Data {
             var isTransactionActive = dbConnection.IsTransactionActive;
 
             // Assert
-            Assert.IsFalse(isTransactionActive);
+            Assert.False(isTransactionActive);
         }
 
-        [Test]
+        [Fact]
         public void IsTransactionActive_AfterCommit_TransactionIsNotActive() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
@@ -226,12 +237,12 @@ namespace Zed.Tests.Data {
             var isTransactionActive = dbConnection.IsTransactionActive;
 
             // Assert
-            Assert.IsNull(dbConnection.Transaction.Connection);
-            Assert.IsFalse(isTransactionActive);
+            Assert.Null(dbConnection.Transaction.Connection);
+            Assert.False(isTransactionActive);
         }
 
 
-        [Test]
+        [Fact]
         public void IsTransactionActive_AfterRollback_TransactionIsNotActive() {
             // Arrange
             var dbConnection = new DecoratedDbConnection(origDbConnection);
@@ -243,8 +254,8 @@ namespace Zed.Tests.Data {
             var isTransactionActive = dbConnection.IsTransactionActive;
 
             // Assert
-            Assert.IsNull(dbConnection.Transaction.Connection);
-            Assert.IsFalse(isTransactionActive);
+            Assert.Null(dbConnection.Transaction.Connection);
+            Assert.False(isTransactionActive);
         }
 
     }

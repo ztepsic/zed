@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using NUnit.Framework;
+using Xunit;
 using Zed.DataAnnotations;
 
 namespace Zed.Tests.DataAnnotations {
@@ -41,10 +41,9 @@ namespace Zed.Tests.DataAnnotations {
         Four
     }
 
-    [TestFixture]
     public class EnumExteDataAnnotationEtensionsTestsnsionsTests {
 
-        [Test]
+        [Fact]
         public void GetPropertyDescription_SomeClassType_PropertyDescriptionFromDisplayAttribute() {
             // Arrange
 
@@ -52,10 +51,10 @@ namespace Zed.Tests.DataAnnotations {
             var description = DataAnnotationExtensions.GetPropertyDescription<TestClass>(x => x.One);
 
             // Assert
-            Assert.AreEqual("NUMBER ONE", description);
+            Assert.Equal("NUMBER ONE", description);
         }
 
-        [Test]
+        [Fact]
         public void GetPropertyDescription_SomeClassType_PropertyDescriptionFromDescriptionAttribute() {
             // Arrange
 
@@ -63,10 +62,10 @@ namespace Zed.Tests.DataAnnotations {
             var description = DataAnnotationExtensions.GetPropertyDescription<TestClass>(x => x.Two);
 
             // Assert
-            Assert.AreEqual("Number two", description);
+            Assert.Equal("Number two", description);
         }
 
-        [Test]
+        [Fact]
         public void GetPropertyDescription_SomeClassTypeWithoudDecoration_PropertyDescriptionAsPropertyName() {
             // Arrange
 
@@ -74,10 +73,10 @@ namespace Zed.Tests.DataAnnotations {
             var description = DataAnnotationExtensions.GetPropertyDescription<TestClass>(x => x.Four);
 
             // Assert
-            Assert.AreEqual(TestEnum.Four.ToString(), description);
+            Assert.Equal(TestEnum.Four.ToString(), description);
         }
 
-        [Test]
+        [Fact]
         public void GetPropertyDisplayName_SomeClassType_PropertyDisplayNameFromDisplayAttribute() {
             // Arrange
 
@@ -85,10 +84,10 @@ namespace Zed.Tests.DataAnnotations {
             var displayName = DataAnnotationExtensions.GetPropertyDisplayName<TestClass>(x => x.Two);
 
             // Assert
-            Assert.AreEqual("Two", displayName);
+            Assert.Equal("Two", displayName);
         }
 
-        [Test]
+        [Fact]
         public void GetPropertyDisplayName_SomeClassType_PropertyDisplayNameFromDisplayNameAttribute() {
             // Arrange
 
@@ -96,10 +95,10 @@ namespace Zed.Tests.DataAnnotations {
             var displayName = DataAnnotationExtensions.GetPropertyDisplayName<TestClass>(x => x.Three);
 
             // Assert
-            Assert.AreEqual("THREE", displayName);
+            Assert.Equal("THREE", displayName);
         }
 
-        [Test]
+        [Fact]
         public void GetPropertyDisplayName_SomeClassTypeWithoudDecoration_PropertyDisplayNameAsPropertyName() {
             // Arrange
 
@@ -107,10 +106,10 @@ namespace Zed.Tests.DataAnnotations {
             var displayName = DataAnnotationExtensions.GetPropertyDisplayName<TestClass>(x => x.Four);
 
             // Assert
-            Assert.AreEqual(nameof(TestClass.Four), displayName);
+            Assert.Equal(nameof(TestClass.Four), displayName);
         }
 
-        [Test]
+        [Fact]
         public void GetPropertyDescription_SomeClassInstance_PropertyDescriptionFromDisplayAttribute() {
             // Arrange
             var testInstance = new TestClass();
@@ -119,10 +118,10 @@ namespace Zed.Tests.DataAnnotations {
             var description = testInstance.GetPropertyDescription(x => x.One);
 
             // Assert
-            Assert.AreEqual("NUMBER ONE", description);
+            Assert.Equal("NUMBER ONE", description);
         }
 
-        [Test]
+        [Fact]
         public void GetEnumDescription_SomeEnumType_EnumDescriptionFromDisplayAttribute() {
             // Arrange
 
@@ -130,10 +129,10 @@ namespace Zed.Tests.DataAnnotations {
             var description = TestEnum.One.GetEnumDescription();
 
             // Assert
-            Assert.AreEqual("NUMBER ONE", description);
+            Assert.Equal("NUMBER ONE", description);
         }
 
-        [Test]
+        [Fact]
         public void GetEnumDescription_SomeEnumType_EnumDescriptionFromDescriptionAttribute() {
             // Arrange
 
@@ -141,10 +140,10 @@ namespace Zed.Tests.DataAnnotations {
             var description = TestEnum.Two.GetEnumDescription();
 
             // Assert
-            Assert.AreEqual("Number two", description);
+            Assert.Equal("Number two", description);
         }
 
-        [Test]
+        [Fact]
         public void GetEnumDescription_SomeEnumTypeWithoudDecoration_EnumDescriptionAsPropertyName() {
             // Arrange
 
@@ -152,10 +151,10 @@ namespace Zed.Tests.DataAnnotations {
             var description = TestEnum.Four.GetEnumDescription();
 
             // Assert
-            Assert.AreEqual(TestEnum.Four.ToString(), description);
+            Assert.Equal(TestEnum.Four.ToString(), description);
         }
 
-        [Test]
+        [Fact]
         public void GetEnumDisplayName_SomeEnumType_EnumDisplayNameFromDisplayAttribute() {
             // Arrange
 
@@ -163,10 +162,10 @@ namespace Zed.Tests.DataAnnotations {
             var displayName = TestEnum.Two.GetEnumDisplayName();
 
             // Assert
-            Assert.AreEqual("Two", displayName);
+            Assert.Equal("Two", displayName);
         }
 
-        [Test]
+        [Fact]
         public void GetEnumDisplayName_SomeEnumType_EnumDisplayNameFromDisplayNameAttribute() {
             // Arrange
 
@@ -174,11 +173,11 @@ namespace Zed.Tests.DataAnnotations {
             var displayName = TestEnum.Three.GetEnumDisplayName();
 
             // Assert
-            Assert.AreEqual("THREE", displayName);
+            Assert.Equal("THREE", displayName);
         }
 
 
-        [Test]
+        [Fact]
         public void GetEnumDisplayName_SomeEnumTypeWithoudDecoration_EnumDisplayNameAsPropertyName() {
             // Arrange
 
@@ -186,7 +185,7 @@ namespace Zed.Tests.DataAnnotations {
             var displayName = TestEnum.Four.GetEnumDisplayName();
 
             // Assert
-            Assert.AreEqual(TestEnum.Four.ToString(), displayName);
+            Assert.Equal(TestEnum.Four.ToString(), displayName);
         }
     }
 }

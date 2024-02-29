@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using Zed.Domain;
 using Zed.Tests.Domain.Entities.SameHierarchyEquivalenceEntityImpl;
 
 namespace Zed.Tests.Domain {
-    [TestFixture]
+    
     public class SheEntityTests {
 
         /// <summary>
@@ -11,7 +11,7 @@ namespace Zed.Tests.Domain {
         /// For any non-null reference values x, y, z, if x.Equals(y) returns true and
         /// y.Equals(z) return true, then x.Equals(z) must return true.
         /// </summary>
-        [Test]
+        [Fact]
         public void Three_Entities_Are__Not_Equal_If_They_Have_Same_Identifier_And_Different_Type_In_Same_Hierarchy_Equals_Implements_Transitive_Equivalence_Relation() {
             Wolf wolfX = new Wolf() {
                 Age = 10,
@@ -57,15 +57,15 @@ namespace Zed.Tests.Domain {
             var lionsHashCodeEquivalenceResultXZ = wolfX.GetHashCode().Equals(lionZ.GetHashCode());
 
             // Assert
-            Assert.IsNotNull(wolfX);
-            Assert.IsNotNull(dogY);
-            Assert.IsNotNull(lionZ);
-            Assert.IsTrue(wolfDogEntityEquivalenceResult);
-            Assert.IsTrue(dogLionEntityEquivalenceResult);
-            Assert.IsTrue(wolfLionEntityEquivalenceResult);
-            Assert.IsTrue(lionsHashCodeEquivalenceResultXY);
-            Assert.IsTrue(lionsHashCodeEquivalenceResultYZ);
-            Assert.IsTrue(lionsHashCodeEquivalenceResultXZ);
+            Assert.NotNull(wolfX);
+            Assert.NotNull(dogY);
+            Assert.NotNull(lionZ);
+            Assert.True(wolfDogEntityEquivalenceResult);
+            Assert.True(dogLionEntityEquivalenceResult);
+            Assert.True(wolfLionEntityEquivalenceResult);
+            Assert.True(lionsHashCodeEquivalenceResultXY);
+            Assert.True(lionsHashCodeEquivalenceResultYZ);
+            Assert.True(lionsHashCodeEquivalenceResultXZ);
         }
     }
 }

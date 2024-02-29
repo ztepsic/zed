@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Zed.Utilities;
 
 namespace Zed.Tests.Utilities {
-    [TestFixture]
+    
     public class TextHelperExtensionTests {
 
         #region LimitWords Test
 
-        [Test]
+        [Fact]
         public void LimitWords_StringWithWords_StringWithLimitedNumberOfWords() {
             // Arrange
             const int numberOfWords = 4;
@@ -21,14 +21,14 @@ namespace Zed.Tests.Utilities {
             var result04 = "Šđžćč čćlš đščć đšžćč ššđđ ćčđ.".LimitWords(numberOfWords);
 
             // Assert
-            Assert.AreEqual("Here is a nice…", result01);
-            Assert.AreEqual("He////re 5555 is $$&%$$…", result02);
-            Assert.AreEqual("Here is a.", result03);
-            Assert.AreEqual("Šđžćč čćlš đščć đšžćč…", result04);
+            Assert.Equal("Here is a nice…", result01);
+            Assert.Equal("He////re 5555 is $$&%$$…", result02);
+            Assert.Equal("Here is a.", result03);
+            Assert.Equal("Šđžćč čćlš đščć đšžćč…", result04);
 
         }
 
-        [Test]
+        [Fact]
         public void LimitWords_StringWithWordsAndWhiteSpaces_LimitingWordsPreserveWhiteSpaceCharacters() {
             // Arrange
             const int numberOfWords = 4;
@@ -38,15 +38,15 @@ namespace Zed.Tests.Utilities {
             var result02 = "  Here\t\t\t is    a nice text string consisting of eleven words.".LimitWords(numberOfWords);
 
             // Assert
-            Assert.AreEqual("  Here is a nice…", result01);
-            Assert.AreEqual("  Here\t\t\t is    a nice…", result02);
+            Assert.Equal("  Here is a nice…", result01);
+            Assert.Equal("  Here\t\t\t is    a nice…", result02);
         }
 
         #endregion
 
         #region LimitCharacters Tests
 
-        [Test]
+        [Fact]
         public void Can_Limit_Characters() {
             // Arrange
             const int numberOfCharacters = 20;
@@ -55,11 +55,11 @@ namespace Zed.Tests.Utilities {
             var result01 = "Here is a nice text string consisting of eleven words.".LimitCharacters(numberOfCharacters);
 
             // Assert
-            Assert.AreEqual("Here is a nice text…", result01);
-            Assert.IsTrue(result01.Length <= numberOfCharacters, "Truncated text should have a number of characters less then or equal to a specified number of characters.");
+            Assert.Equal("Here is a nice text…", result01);
+            Assert.True(result01.Length <= numberOfCharacters, "Truncated text should have a number of characters less then or equal to a specified number of characters.");
         }
 
-        [Test]
+        [Fact]
         public void Limit_Characters_Should_Remove_WhiteSpace_Characters() {
             // Arrange
             const int numberOfCharacters = 20;
@@ -68,12 +68,12 @@ namespace Zed.Tests.Utilities {
             var result01 = "   Here is a nice\r\n text string\n\t\t consisting of eleven words.   ".LimitCharacters(numberOfCharacters);
 
             // Assert
-            Assert.AreEqual("Here is a nice text…", result01);
+            Assert.Equal("Here is a nice text…", result01);
         }
 
         #endregion
 
-        [Test]
+        [Fact]
         public void Ellipsize_LongString_EllipsizedString() {
             // Arrange
             const int maxLength = 32;
@@ -87,24 +87,24 @@ namespace Zed.Tests.Utilities {
             var resultOneChar = "t".Ellipsize(2, 0.5f);
 
             // Assert
-            Assert.AreEqual("this_s…_might_break_my_design.jpg", result02);
-            Assert.AreEqual(maxLength + TextHelper.CHAR_ELLIPSIS.Length, result02.Length);
+            Assert.Equal("this_s…_might_break_my_design.jpg", result02);
+            Assert.Equal(maxLength + TextHelper.CHAR_ELLIPSIS.Length, result02.Length);
 
-            Assert.AreEqual("this_string_is_e…ak_my_design.jpg", result05);
-            Assert.AreEqual(maxLength + TextHelper.CHAR_ELLIPSIS.Length, result05.Length);
+            Assert.Equal("this_string_is_e…ak_my_design.jpg", result05);
+            Assert.Equal(maxLength + TextHelper.CHAR_ELLIPSIS.Length, result05.Length);
 
-            Assert.AreEqual("this_string_is_entirely_too_long…", result10);
-            Assert.AreEqual(maxLength + TextHelper.CHAR_ELLIPSIS.Length, result10.Length);
+            Assert.Equal("this_string_is_entirely_too_long…", result10);
+            Assert.Equal(maxLength + TextHelper.CHAR_ELLIPSIS.Length, result10.Length);
 
-            Assert.AreEqual("this_string_is_entirely_too_long…", result25);
-            Assert.AreEqual(maxLength + TextHelper.CHAR_ELLIPSIS.Length, result25.Length);
+            Assert.Equal("this_string_is_entirely_too_long…", result25);
+            Assert.Equal(maxLength + TextHelper.CHAR_ELLIPSIS.Length, result25.Length);
 
-            Assert.AreEqual("t", resultOneChar);
+            Assert.Equal("t", resultOneChar);
         }
 
         #region WrapWord Tests
 
-        [Test]
+        [Fact]
         public void Can_WordWrap() {
             // Arange
 
@@ -116,16 +116,16 @@ namespace Zed.Tests.Utilities {
             const string expected20 = "The quick brown fox"
                 + "\njumped over the lazy"
                 + "\ndog.";
-            Assert.AreEqual(expected20, result20);
+            Assert.Equal(expected20, result20);
 
             const string expected25 = "Here is a simple string"
                 + "\nof text that will help us"
                 + "\ndemonstrate this"
                 + "\nfunction.";
-            Assert.AreEqual(expected25, result25);
+            Assert.Equal(expected25, result25);
         }
 
-        [Test]
+        [Fact]
         public void Can_WordWrap_Including_Long_Words() {
             // Arange
 
@@ -137,11 +137,11 @@ namespace Zed.Tests.Utilities {
                 + "\nlong"
                 + "\nwooooooo"
                 + "\nooooord.";
-            Assert.AreEqual(expected08, result08);
+            Assert.Equal(expected08, result08);
 
         }
 
-        [Test]
+        [Fact]
         public void Can_Preserve_LineBreak_With_WordWrap() {
             // Arrange
 
@@ -168,7 +168,7 @@ namespace Zed.Tests.Utilities {
                 + "\nover"
                 + "\nthe lazy"
                 + "\ndog";
-            Assert.AreEqual(unixExpected08MultipleLines, unixResult08MultipleLines);
+            Assert.Equal(unixExpected08MultipleLines, unixResult08MultipleLines);
 
             const string windowsExpected08MultipleLines = "The"
                 + "\r\nquick"
@@ -179,10 +179,10 @@ namespace Zed.Tests.Utilities {
                 + "\r\nover"
                 + "\r\nthe lazy"
                 + "\r\ndog";
-            Assert.AreEqual(windowsExpected08MultipleLines, windowsResult08MultipleLines);
+            Assert.Equal(windowsExpected08MultipleLines, windowsResult08MultipleLines);
         }
 
-        [Test]
+        [Fact]
         public void Can_WordWrap_Reduce_Multiple_Line_Spaces() {
             // Arrange
 
@@ -193,10 +193,10 @@ namespace Zed.Tests.Utilities {
             const string expected20 = "The quick brown fox"
                 + "\njumped over the lazy"
                 + "\ndog.";
-            Assert.AreEqual(expected20, result20);
+            Assert.Equal(expected20, result20);
         }
 
-        [Test]
+        [Fact]
         public void Can_WordWrap_With_Word_Break_If_Word_Length_Is_Greater_Than_Line_Length() {
             // Arrange
 
@@ -219,10 +219,10 @@ namespace Zed.Tests.Utilities {
                 + "\ny"
                 + "\ndog"
                 + "\n.";
-            Assert.AreEqual(expected10, result10);
+            Assert.Equal(expected10, result10);
         }
 
-        [Test]
+        [Fact]
         public void Can_WordWrap_Without_Word_Break_If_Word_Length_Is_Greater_Than_Line_Length() {
             // Arrange
 
@@ -239,12 +239,12 @@ namespace Zed.Tests.Utilities {
                 + "\nthe"
                 + "\nlazy"
                 + "\ndog.";
-            Assert.AreEqual(expected10, result10);
+            Assert.Equal(expected10, result10);
         }
 
         #endregion
 
-        [Test]
+        [Fact]
         public void ToAscii_AccentedForeignCharacters_TranslatedToAsciiCharacters() {
             // Arrange
             StringBuilder foreignCharacters = new StringBuilder();
@@ -458,12 +458,12 @@ namespace Zed.Tests.Utilities {
             var result = foreignCharacters.ToString().ToAscii();
 
             // Assert
-            Assert.AreEqual(asciiCharacters.ToString(), result);
+            Assert.Equal(asciiCharacters.ToString(), result);
         }
 
         #region ToSlug Tests
 
-        [Test]
+        [Fact]
         public void ToSlug_StringWithSpacesAndSpecialCharacters_TranslatedToNormalizedString() {
             // Arrange
             string text = "What's wrong with **CSS**?";
@@ -473,11 +473,11 @@ namespace Zed.Tests.Utilities {
             string resultWithUnderscoreSeparator = text.ToSlug(WordSeparator.Underscore);
 
             // Assert
-            Assert.AreEqual("whats-wrong-with-css", resultWithDashSeparator);
-            Assert.AreEqual("whats_wrong_with_css", resultWithUnderscoreSeparator);
+            Assert.Equal("whats-wrong-with-css", resultWithDashSeparator);
+            Assert.Equal("whats_wrong_with_css", resultWithUnderscoreSeparator);
         }
 
-        [Test]
+        [Fact]
         public void ToSlug_StringWithDots_DotsReplacedWithValidSeparator() {
             // Arrange
             const string text = "string.with dots.";
@@ -486,7 +486,7 @@ namespace Zed.Tests.Utilities {
             var result = text.ToSlug();
 
             // Assert
-            Assert.AreEqual("string-with-dots", result);
+            Assert.Equal("string-with-dots", result);
         }
 
         #endregion

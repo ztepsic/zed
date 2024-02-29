@@ -1,13 +1,13 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
 using Zed.Utilities;
 
 namespace Zed.Tests.Utilities {
 
-    [TestFixture]
+    
     public class DateTimeHelperTests {
 
-        [Test]
+        [Fact]
         public void ToUnixTimeSeconds_SomeDateTime_UnixTimeSeconds() {
             // Arrange
             const long currentUnixTimesampSeconds = 1551742604;
@@ -17,11 +17,11 @@ namespace Zed.Tests.Utilities {
             var resultUnixTime = currentDateTime.ToUnixTimeSeconds();
 
             // Assert
-            Assert.AreEqual(currentUnixTimesampSeconds, resultUnixTime);
+            Assert.Equal(currentUnixTimesampSeconds, resultUnixTime);
         }
 
 
-        [Test]
+        [Fact]
         public void ToUnixTimeMiliseconds_SomeDateTime_UnixTimeMiliseconds() {
             // Arrange
             const long currentUnixTimesampMiliseconds = 1551742838747;
@@ -31,10 +31,10 @@ namespace Zed.Tests.Utilities {
             var resultUnixTime = currentDateTime.ToUnixTimeMilliseconds();
 
             // Assert
-            Assert.AreEqual(currentUnixTimesampMiliseconds, resultUnixTime);
+            Assert.Equal(currentUnixTimesampMiliseconds, resultUnixTime);
         }
 
-        [Test]
+        [Fact]
         public void FromUnixTimeSeconds_SomeUnixTime_DateTime() {
             // Arrange
             const long currentUnixTimesampSeconds = 1551742604;
@@ -44,11 +44,11 @@ namespace Zed.Tests.Utilities {
             var resultDateTime = DateTimeHelper.FromUnixTimeSeconds(currentUnixTimesampSeconds);
 
             // Assert
-            Assert.AreEqual(currentDateTime, resultDateTime);
+            Assert.Equal(currentDateTime, resultDateTime);
         }
 
 
-        [Test]
+        [Fact]
         public void FromUnixTimeMiliseconds_SomeUnixTime_DateTime() {
             // Arrange
             const long currentUnixTimesampMiliseconds = 1551742838747;
@@ -58,7 +58,7 @@ namespace Zed.Tests.Utilities {
             var resultDateTime = DateTimeHelper.FromUnixTimeMiliseconds(currentUnixTimesampMiliseconds);
 
             // Assert
-            Assert.AreEqual(currentDateTime, resultDateTime);
+            Assert.Equal(currentDateTime, resultDateTime);
         }
 
     }
