@@ -2,7 +2,7 @@ name: .NET
 
 on:
   push:
-    branches: ["master", "develop", "github-actions-cicd"]
+    branches: ["master", "develop"]
   pull_request:
     branches: ["master", "develop"]
 
@@ -10,11 +10,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
+          cache: true
       - name: Restore dependencies
         run: dotnet restore
       - name: Build

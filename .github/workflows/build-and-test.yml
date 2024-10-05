@@ -1,0 +1,44 @@
+name: build and test
+
+# https://learn.microsoft.com/en-us/dotnet/devops/dotnet-test-github-action
+
+on:
+  push:
+  pull_request:
+    branches: ["github-actions-cicd"]
+    paths: # where any files changed ending with .cs or .csproj file extensions
+      - "**.cs"
+      - "**.csproj"
+
+env:
+  DOTNET_VERSION: 8.0.X
+
+jobs:
+  build-and-test:
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{env.DOTNET_VERSION}}
+          #cache: true
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-results
+          path: TestResults
+        if: ${{always()}}
