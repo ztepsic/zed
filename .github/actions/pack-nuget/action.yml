@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
+
+name: Pack NuGet
+description: Pack NuGet package
+
+inputs:
+  dotnet-version:
+    description: "The .NET SDK version"
+    default: "8.x"
+  nuget-dir:
+    description: "NuGet output directory"
+    default: ${{github.workspace}}/nuget
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{inputs.dotnet-version}}
+        #cache: true
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v3.0.0
+      with:
+        versionSpec: "6.x"
+
+    - name: Determine Version
+      id: version_tep # step id used for output values
+      uses: gittools/actions/gitversion/execute@v3.0.0
+      #with:
+      #updateAssemblyInfo: true
+      #updateAssemblyInfoFilename: true
+
+    - name: Create NuGet package
+      run: dotnet pack --configuration Release --output ${{inputs.nuget-dir}} --version ${{env.GitVersion_FullSemVer}}
+      shell: bash
+
+    - name: Upload NuGet package
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget
+        if-no-files-found: error
+        retention-days: 7
+        path: ${{inputs.nuget-dir}}/*.nupkg

@@ -1,0 +1,132 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+# GitHub Actions workflow to build and publish the NuGet package each time
+#   - a GitHub Release is published
+#   - a new commit is pushed to master
+#   - a new push request is created
+#
+# The workflow creates the package, runs validations, runs tests,
+# and publishsd the package if the validations and tests succeed.
+
+# Based on https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm
+
+name: publish
+on:
+  workflow_dispatch: # Allow running the workflow manually from the GitHub UI
+  push:
+    branches:
+      - "master" # Run the workflow when pushing to the master branch
+  pull_request:
+    branches:
+      - "*" # Run the workflow for all pull requests
+  release:
+    types:
+      - published # Run the workflow when a new GitHub release is published
+
+env:
+  DOTNET_VERSION: 8.X
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  NUGET_DIR: ${{github.workspace}}/nuget
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  run_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+      - name: Run tests
+        run: dotnet test --configuration Release
+
+  create_nuget:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Get all history to allow automatic versioning
+
+      # Install the .NET SDK
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{env.DOTNET_VERSION}}
+          #cache: true
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v3.0.0
+        with:
+          versionSpec: "6.x"
+
+      - name: Determine Version
+        id: version_tep # step id used for output values
+        uses: gittools/actions/gitversion/execute@v3.0.0
+        with:
+          updateAssemblyInfo: true
+          updateAssemblyInfoFilename: true
+
+      # Create the NuGet package in the folder from the environment variable NuGetDirectory
+      - run: dotnet pack --configuration Release --output ${{env.NUGET_DIR}} --version ${{env.GitVersion_FullSemVer}}
+
+      # Publish the NuGet package as an artifact, so they can be used in the following jobs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nuget
+          if-no-files-found: error
+          retention-days: 7
+          path: ${{env.NUGET_DIR}}/*.nupkg
+
+  validate_nuget:
+    runs-on: ubuntu-latest
+    needs: [create_nuget]
+    steps:
+      # Install the .NET SDK indicated in the global.json file
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+
+      # Download the NuGet package created in the previous job
+      - uses: actions/download-artifact@v4
+        with:
+          name: nuget
+          path: ${{ env.NuGetDirectory }}
+
+      - name: Install nuget validator
+        run: dotnet tool update Meziantou.Framework.NuGetPackageValidation.Tool --global
+
+      # Validate metadata and content of the NuGet package
+      # https://www.nuget.org/packages/Meziantou.Framework.NuGetPackageValidation.Tool#readme-body-tab
+      # If some rules are not applicable, you can disable them
+      # using the --excluded-rules or --excluded-rule-ids option
+      - name: Validate package
+        run: meziantou.validate-nuget-package (Get-ChildItem "${{env.NUGET_DIR}}/*.nupkg")
+
+  deploy:
+    # Publish only when creating a GitHub Release
+    # https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
+    if: github.event == 'release'
+    runs-on: ubuntu-latest
+    needs: [validate_nuget, run_test]
+    steps:
+      # Download the NuGet package created in the previous job
+      - uses: actions/download-artifact@v4
+        with:
+          name: nuget
+          path: ${{env.NUGET_DIR}}
+      # Install the .NET SDK indicated in the global.json file
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+
+      # Publish all NuGet packages to NuGet.org
+      # Use --skip-duplicate to prevent errors if a package with the same version already exists.
+      # If you retry a failed workflow, already published packages will be skipped without error.
+      - name: Publish NuGet package
+        run: |
+          foreach($file in (Get-ChildItem "${{env.NUGET_DIR}}" -Recurse -Include *.nupkg)) {
+              dotnet nuget push $file --api-key "${{secrets.NUGET_APIKEY}}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          }
