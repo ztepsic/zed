@@ -9,7 +9,7 @@ on:
       - "*"
 
 env:
-  DOTNET_VERSION: 6.x
+  DOTNET_VERSION: 9.x
   NUGET_DIR: ${{github.workspace}}/nuget
 
 jobs:
@@ -92,7 +92,11 @@ jobs:
           dotnet test \
             --configuration Release \
             --logger "trx" \
-            --results-directory "TestResults"
+            --results-directory "TestResults" \
+            --logger:"junit;LogFilePath=../TestResults/{assembly}_junit.test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose" \
+            -p:CollectCoverage=true \
+            -p:CoverletOutput="../TestResults/" \
+            -p:CoverletOutputFormat=\"json,cobertura,opencover\"
 
       - name: Upload test results
         uses: actions/upload-artifact@v4

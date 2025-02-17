@@ -1,13 +1,14 @@
-﻿using System.Data;
+﻿using Moq;
+using Moq.Protected;
+using System.Data;
 using System.Data.Common;
 using System.Data.SQLite;
-using Moq;
 using Xunit;
 using Zed.Data;
 using Zed.Transaction;
 
 namespace Zed.Tests.Data {
-    
+
     public class AdoNetUnitOfWorkTests {
 
         public class WrappedDecoratedDbConnection : DecoratedDbConnection {
@@ -222,23 +223,33 @@ namespace Zed.Tests.Data {
             Assert.Equal(ConnectionState.Open, connectionFactory.GetCurrentConnection().State);
         }
 
-        // Ignore test: System.NotSupportedException : Unsupported expression: x => x.BeginTransaction()
-        //[Fact]
+        [Fact]
         public void Commit_IUnitOfWorkScope_CommitCalledOnTransaction() {
             // Arrange
-            Mock<DbTransaction> transactionMock = new Mock<DbTransaction>();
+            var transactionMock = new Mock<DbTransaction>();
 
-            Mock<WrappedDecoratedDbConnection> connectionMock = new Mock<WrappedDecoratedDbConnection>();
-            connectionMock.Setup(x => x.Transaction).Returns(transactionMock.Object);
-            connectionMock.Setup(x => x.BeginTransaction()).Returns(transactionMock.Object);
-            connectionMock.Setup(x => x.State).Returns(ConnectionState.Closed);
+            var connectionMock = new Mock<WrappedDecoratedDbConnection>(MockBehavior.Strict);
+            connectionMock
+                .Setup(x => x.Transaction)
+                .Returns(transactionMock.Object);
 
-            Mock<IDbConnectionFactory> connectionFactoryMock = new Mock<IDbConnectionFactory>();
-            connectionFactoryMock.Setup(x => x.GetCurrentConnection()).Returns(connectionMock.Object);
+            connectionMock.Protected()
+                .Setup<DbTransaction>("BeginDbTransaction", IsolationLevel.Unspecified)
+                .Returns(transactionMock.Object);
+
+            connectionMock
+                .Setup(x => x.State)
+                .Returns(ConnectionState.Closed);
+
+            var connectionFactoryMock = new Mock<IDbConnectionFactory>();
+            connectionFactoryMock
+                .Setup(x => x.GetCurrentConnection())
+                .Returns(connectionMock.Object);
 
             var unitOfWork = new AdoNetUnitOfWork(connectionFactoryMock.Object);
 
             // Act
+            var t = connectionMock.Object.BeginTransaction();
             var unitOfWorkScope = unitOfWork.Start();
             unitOfWorkScope.Commit();
 
@@ -292,15 +303,16 @@ namespace Zed.Tests.Data {
             Assert.Null(connectionFactory.GetCurrentConnection());
         }
 
-        // Ignore test: System.NotSupportedException : Unsupported expression: x => x.BeginTransaction()
-        //[Fact]
+        [Fact]
         public void Rollback_IUnitOfWorkScope_RollbackCalledOnTransaction() {
             // Arrange
-            Mock<DbTransaction> transactionMock = new Mock<DbTransaction>();
+            var transactionMock = new Mock<DbTransaction>();
 
-            Mock<DecoratedDbConnection> connectionMock = new Mock<DecoratedDbConnection>();
+            var connectionMock = new Mock<WrappedDecoratedDbConnection>(MockBehavior.Strict);
             connectionMock.Setup(x => x.Transaction).Returns(transactionMock.Object);
-            connectionMock.Setup(x => x.BeginTransaction()).Returns(transactionMock.Object);
+            connectionMock.Protected()
+                .Setup<DbTransaction>("BeginDbTransaction", IsolationLevel.Unspecified)
+                .Returns(transactionMock.Object);
             connectionMock.Setup(x => x.State).Returns(ConnectionState.Closed);
 
             Mock<IDbConnectionFactory> connectionFactoryMock = new Mock<IDbConnectionFactory>();

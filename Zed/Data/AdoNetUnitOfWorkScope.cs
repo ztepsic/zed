@@ -112,7 +112,7 @@ namespace Zed.Data {
         public virtual async Task BeginTransactionAsync(CancellationToken cancellationToken) {
             cancellationToken.ThrowIfCancellationRequested();
             BeginTransaction();
-            await Task.CompletedTask.ConfigureAwait(false); ;
+            await Task.CompletedTask.ConfigureAwait(false);
         }
 
 
