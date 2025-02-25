@@ -128,7 +128,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: pack
     environment:
-      name: ${{ github.ref == 'refs/heads/master' && 'prod' || 'dev' }}
+      # name: ${{ github.ref == 'refs/heads/master' && 'prod' || 'dev' }}
+      name: ${{ 'dev' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -141,7 +142,8 @@ jobs:
           dotnet-version: ${{env.DOTNET_VERSION}}
           nuget-dir: ${{env.NUGET_DIR}}
           nuget-source: ${{vars.NUGET_SOURCE}}
-          nuget-apikey: ${{ github.ref == 'refs/heads/master' && secrets.NUGET_APIKEY || secrets.GITHUB_TOKEN }}
+          # nuget-apikey: ${{ github.ref == 'refs/heads/master' && secrets.NUGET_APIKEY || secrets.GITHUB_TOKEN }}
+          nuget-apikey: ${{ secrets.GITHUB_TOKEN }}
 
   release:
     name: Release (NuGet)
