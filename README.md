@@ -28,3 +28,19 @@
     npm install --save-dev commitizen
     npm install --save-dev @commitlint/cz-commitlint commitizen inquirer@9
     ```
+
+### Versioning with [GitVersion](https://gitversion.net/)
+
+- Install .net global tool
+
+  ```sh
+  dotnet tool install --global GitVersion.Tool
+  ```
+
+- Run
+
+  ```sh
+  dotnet-gitversion
+  ```
+
+- [Arguments](https://gitversion.net/docs/usage/cli/arguments)
