@@ -90,7 +90,7 @@ namespace Zed.Data {
         /// </summary>
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>Unit of work scope</returns>
-        public async Task<IUnitOfWorkScope> StartAsync(CancellationToken cancellationToken) {
+        public async Task<IUnitOfWorkScope> StartAsync(CancellationToken cancellationToken = default) {
             cancellationToken.ThrowIfCancellationRequested();
 
             IUnitOfWorkScope scope = dbConnectionFactory.GetCurrentConnection() == null || dbConnectionFactory.GetCurrentConnection().State == ConnectionState.Closed
@@ -101,14 +101,6 @@ namespace Zed.Data {
                 await scope.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
             }
             return scope;
-        }
-
-        /// <summary>
-        /// Starts async unit of work scope
-        /// </summary>
-        /// <returns>Unit of work scope</returns>
-        public async Task<IUnitOfWorkScope> StartAsync() {
-            return await StartAsync(CancellationToken.None).ConfigureAwait(false);
         }
 
         #endregion

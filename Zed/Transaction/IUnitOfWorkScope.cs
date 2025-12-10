@@ -38,16 +38,9 @@ namespace Zed.Transaction {
         /// This is the asynchronous version of <see cref="IUnitOfWorkScope.BeginTransaction()"/>.
         /// Begins/starts with transaction
         /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        Task BeginTransactionAsync();
-
-        /// <summary>
-        /// This is the asynchronous version of <see cref="IUnitOfWorkScope.BeginTransaction()"/>.
-        /// Begins/starts with transaction
-        /// </summary>
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        Task BeginTransactionAsync(CancellationToken cancellationToken);
+        Task BeginTransactionAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// This is the asynchronous version of <see cref="IUnitOfWorkScope.Commit()"/>.
@@ -55,14 +48,7 @@ namespace Zed.Transaction {
         /// </summary>
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        Task CommitAsync(CancellationToken cancellationToken);
-
-        /// <summary>
-        /// This is the asynchronous version of <see cref="IUnitOfWorkScope.Commit()"/>.
-        /// Commits transaction
-        /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        Task CommitAsync();
+        Task CommitAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// This is the asynchronous version of <see cref="IUnitOfWorkScope.Rollback()"/>.
@@ -70,14 +56,7 @@ namespace Zed.Transaction {
         /// </summary>
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        Task RollbackAsync(CancellationToken cancellationToken);
-
-        /// <summary>
-        /// This is the asynchronous version of <see cref="IUnitOfWorkScope.Rollback()"/>.
-        /// Rollbacks transaction
-        /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        Task RollbackAsync();
+        Task RollbackAsync(CancellationToken cancellationToken = default);
 
     }
 }

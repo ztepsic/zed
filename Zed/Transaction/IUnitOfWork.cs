@@ -22,15 +22,9 @@ namespace Zed.Transaction {
         /// <summary>
         /// Starts async unit of work scope
         /// </summary>
-        /// <returns>Unit of work scope</returns>
-        Task<IUnitOfWorkScope> StartAsync();
-
-        /// <summary>
-        /// Starts async unit of work scope
-        /// </summary>
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>Unit of work scope</returns>
-        Task<IUnitOfWorkScope> StartAsync(CancellationToken cancellationToken);
+        Task<IUnitOfWorkScope> StartAsync(CancellationToken cancellationToken = default);
 
     }
 }

@@ -28,7 +28,7 @@ namespace Zed.Domain {
         /// </summary>
         /// <param name="entity">Entity/aggregate root which is saved or updated</param>
         /// <param name="cancellationToken">The cancellation instruction.</param>
-        Task SaveOrUpdateAsync(TEntity entity, CancellationToken cancellationToken);
+        Task SaveOrUpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// This is the asynchronous version of <see cref="SaveOrUpdate"/>.
@@ -49,7 +49,7 @@ namespace Zed.Domain {
         /// </summary>
         /// <param name="entity">Entity/aggregate which needs to be deleted.</param>
         /// <param name="cancellationToken">The cancellation instruction.</param>
-        Task DeleteAsync(TEntity entity, CancellationToken cancellationToken);
+        Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// This is the asynchronous version of <see cref="Delete"/>.

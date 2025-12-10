@@ -22,7 +22,7 @@ namespace Zed.Domain {
         /// </summary>
         /// <param name="id">Entity/aggregate identity</param>
         /// <returns>Entity/aggregate, null if the object does not exist.</returns>
-        TEntity GetById(TId id);
+        TEntity? GetById(TId id);
 
         /// <summary>
         /// This is the asynchronous version of <see cref="GetById"/>.
@@ -31,14 +31,7 @@ namespace Zed.Domain {
         /// <param name="id">Entity/Aggregat root identifier</param>
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>Entity/aggregate, null if the object does not exist.</returns>
-        Task<TEntity> GetByIdAsync(TId id, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Gets entity/aggregate root bases on it's identity.
-        /// </summary>
-        /// <param name="id">Entity/Aggregat root identifier</param>
-        /// <returns>Entity/aggregate, null if the object does not exist.</returns>
-        Task<TEntity> GetByIdAsync(TId id);
+        Task<TEntity?> GetByIdAsync(TId id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Return the persistent instance of the given entity class with the given identifier,
@@ -65,20 +58,7 @@ namespace Zed.Domain {
         /// It is permissible for Load to not hit the database (no query/select against a database) when it is called,
         /// it is free to return a proxy instead.
         /// </remarks>
-        Task<TEntity> LoadAsync(TId id, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Return the persistent instance of the given entity class with the given identifier,
-        /// assuming that the instnace exists.
-        /// </summary>
-        /// <param name="id">A valid identifier of an existing persistent instance of the class</param>
-        /// <returns>Entity/aggregate root</returns>
-        /// <remarks>
-        /// Load never return null. It will always return an entity or throw an exception.
-        /// It is permissible for Load to not hit the database (no query/select against a database) when it is called,
-        /// it is free to return a proxy instead.
-        /// </remarks>
-        Task<TEntity> LoadAsync(TId id);
+        Task<TEntity> LoadAsync(TId id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets all persistent entites/aggregates
@@ -92,13 +72,7 @@ namespace Zed.Domain {
         /// </summary>
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>All persisted entities/aggregate roots</returns>
-        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
 
-        /// <summary>
-        /// This is the asynchronous version of <see cref="GetAll()"/>.
-        /// Gets all persisted entities/aggregate roots
-        /// </summary>
-        /// <returns>All persisted entities/aggregate roots</returns>
-        Task<IEnumerable<TEntity>> GetAllAsync();
     }
 }
