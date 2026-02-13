@@ -9,7 +9,7 @@ namespace Zed.Data {
     /// Ado.Net Unit Of Work scope
     /// </summary>
     /// <remarks>Based on article: http://www.planetgeek.ch/2012/05/05/what-is-that-all-about-the-repository-anti-pattern/ </remarks>
-    internal class AdoNetUnitOfWorkScope : IUnitOfWorkScope {
+    internal class AdoNetUnitOfWorkScope : IUnitOfWork {
 
         #region Fields and Properties
 
@@ -160,9 +160,7 @@ namespace Zed.Data {
             await Task.CompletedTask.ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
@@ -172,6 +170,24 @@ namespace Zed.Data {
             if (disposing) {
                 if (!isScopeCompleted && DbConnection.IsTransactionActive) {
                     Rollback();
+                }
+
+                if (isTransactionCreated) {
+                    DbTransaction?.Dispose();
+                }
+            }
+        }
+
+        /// <inheritdoc/>
+        public async ValueTask DisposeAsync() {
+            await DisposeAsync(true).ConfigureAwait(false);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual async ValueTask DisposeAsync(bool disposing) {
+            if (disposing) {
+                if (!isScopeCompleted && DbConnection.IsTransactionActive) {
+                    await RollbackAsync().ConfigureAwait(false);
                 }
 
                 if (isTransactionCreated) {
