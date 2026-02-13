@@ -10,6 +10,9 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: read
+
 env:
   DOTNET_VERSION: 10.x
   NUGET_DIR: ${{github.workspace}}/nuget
