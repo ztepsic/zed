@@ -41,21 +41,11 @@ namespace Zed.Data {
 
         /// <summary>
         /// This is the asynchronous version of <see cref="BeginTransaction"/>.
-        /// This method invokes the virtual method <see cref="BeginTransactionAsync()"/> with CancellationToken.None.
-        /// Begins/starts with transaction
-        /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        public override async Task BeginTransactionAsync() {
-            await base.BeginTransactionAsync(CancellationToken.None).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// This is the asynchronous version of <see cref="BeginTransaction"/>.
         /// Begins/starts with transaction
         /// </summary>
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public override async Task BeginTransactionAsync(CancellationToken cancellationToken) {
+        public override async Task BeginTransactionAsync(CancellationToken cancellationToken = default) {
             cancellationToken.ThrowIfCancellationRequested();
 
             if (DbConnectionFactory.GetCurrentConnection() == null ||

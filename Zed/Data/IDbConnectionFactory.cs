@@ -14,14 +14,6 @@ namespace Zed.Data {
         DecoratedDbConnection Open();
 
         /// <summary>
-        /// An asynchronous version of Open, which opens a database connection with the settings
-        /// specified by the ConnectionString. 
-        /// This method invokes the virtual method OpenAsync with CancellationToken.None.
-        /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        Task<DecoratedDbConnection> OpenAsync();
-
-        /// <summary>
         /// This is the asynchronous version of Open. Providers should override with an appropriate
         /// implementation. The cancellation token can optionally be honored.
         /// 
@@ -36,7 +28,7 @@ namespace Zed.Data {
         /// </summary>
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        Task<DecoratedDbConnection> OpenAsync(CancellationToken cancellationToken);
+        Task<DecoratedDbConnection> OpenAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Obtains the current connection.

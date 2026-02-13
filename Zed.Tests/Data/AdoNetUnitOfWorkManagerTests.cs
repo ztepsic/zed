@@ -9,7 +9,7 @@ using Zed.Transaction;
 
 namespace Zed.Tests.Data {
 
-    public class AdoNetUnitOfWorkTests {
+    public class AdoNetUnitOfWorkManagerTests {
 
         public class WrappedDecoratedDbConnection : DecoratedDbConnection {
             protected WrappedDecoratedDbConnection() : base(new SQLiteConnection(CONNECTION_STRING)) { }
@@ -21,7 +21,7 @@ namespace Zed.Tests.Data {
         private const string CONNECTION_STRING = "Data Source=:memory:;Version=3;New=True;";
         private IDbConnectionFactory connectionFactory;
 
-        public AdoNetUnitOfWorkTests() {
+        public AdoNetUnitOfWorkManagerTests() {
             connectionFactory = new DbConnectionFactory(() => new SQLiteConnection(CONNECTION_STRING));
             var connection = connectionFactory.Open();
 
@@ -37,7 +37,7 @@ namespace Zed.Tests.Data {
             // Arrange
 
             // Act
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory);
 
             // Assert
             Assert.NotNull(unitOfWork);
@@ -47,7 +47,7 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Start_AdoNetUnitOfWork_UnitOfWorkCreated() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory);
 
             // Act
             var unitOfWorkScope = unitOfWork.Start();
@@ -59,7 +59,7 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Start_ConnectionIsNullOrClosed_CreatesUnitOfWorkRootScopeAndOpensConnection() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory);
 
             // Act
             var unitOfWorkScope = unitOfWork.Start();
@@ -72,7 +72,7 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Start_SecondCallToStartWhileFirstUoWIsStillActive_CreatesDependentUnitOfWorkScope() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory);
 
             // Act
             var unitOfWorkRootScope = unitOfWork.Start();
@@ -87,7 +87,7 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Start_Scope_TransactionStarted() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory);
 
             // Act
             var unitOfWorkScope = unitOfWork.Start();
@@ -99,7 +99,7 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Start_CalledBeginTransactionOnUnitOfWorkScope_NoEffects() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory);
 
             // Act
             var unitOfWorkScope = unitOfWork.Start();
@@ -115,7 +115,7 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Start_OnTwoDependedScopes_OneTransaction() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory);
 
             // Act
             var unitOfWorkRootScope = unitOfWork.Start();
@@ -132,7 +132,7 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Start_OnCommitedScope_CreatesDependedUnitOfWorkScopeWithNewTransaction() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory);
             var unitOfWorkScope = unitOfWork.Start();
             var transaction1 = connectionFactory.GetCurrentConnection().Transaction;
             unitOfWorkScope.Commit();
@@ -154,7 +154,7 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Commit_IUnitOfWorkScope_CommitedTransactionAndConnectionStillOpen() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory);
 
             // Act
             var unitOfWorkScope = unitOfWork.Start();
@@ -168,7 +168,7 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Commit_IUnitOfWorkScope__WithImplicitTransactions_AfterCommitedNewTransactionIsStarted() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory, true);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory, true);
 
             // Act
             var unitOfWorkScope = unitOfWork.Start();
@@ -183,7 +183,7 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Commit_IUnitOfWorkScope_InSameUnitOfWorkAfterFirstCommitCanStartNewTransaction() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory);
 
             // Act
             var unitOfWorkScope = unitOfWork.Start();
@@ -202,7 +202,7 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Commit_IUnitOfWorkScope_TwoDependentScopesOnlyRootScopeReallyCommits() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory);
 
             // Act
             var unitOfWorkScope = unitOfWork.Start();
@@ -246,7 +246,7 @@ namespace Zed.Tests.Data {
                 .Setup(x => x.GetCurrentConnection())
                 .Returns(connectionMock.Object);
 
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactoryMock.Object);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactoryMock.Object);
 
             // Act
             var t = connectionMock.Object.BeginTransaction();
@@ -261,7 +261,7 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Rollback_IUnitOfWorkScope_RollbackedTransactionAndConnectionStillOpen() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory);
 
             // Act
             var unitOfWorkScope = unitOfWork.Start();
@@ -275,7 +275,7 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Rollback_IUnitOfWorkScope_WithImplicitTransactions_AfterRollbackedTransactionNewTransationIsStarted() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory, true);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory, true);
 
             // Act
             var unitOfWorkScope = unitOfWork.Start();
@@ -289,10 +289,10 @@ namespace Zed.Tests.Data {
         [Fact]
         public void Dispose_IUnitOfWorkScope_WithImplicitTransactions_ActiveTransactionIsRolledback() {
             // Arrange
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactory, true);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactory, true);
 
             // Act
-            IUnitOfWorkScope unitOfWorkScope = null;
+            IUnitOfWork unitOfWorkScope = null;
             using (unitOfWorkScope = unitOfWork.Start()) {
 
             }
@@ -318,7 +318,7 @@ namespace Zed.Tests.Data {
             Mock<IDbConnectionFactory> connectionFactoryMock = new Mock<IDbConnectionFactory>();
             connectionFactoryMock.Setup(x => x.GetCurrentConnection()).Returns(connectionMock.Object);
 
-            var unitOfWork = new AdoNetUnitOfWork(connectionFactoryMock.Object);
+            var unitOfWork = new AdoNetUnitOfWorkManager(connectionFactoryMock.Object);
 
             // Act
             var unitOfWorkScope = unitOfWork.Start();

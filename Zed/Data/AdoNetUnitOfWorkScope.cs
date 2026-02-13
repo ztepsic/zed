@@ -9,7 +9,7 @@ namespace Zed.Data {
     /// Ado.Net Unit Of Work scope
     /// </summary>
     /// <remarks>Based on article: http://www.planetgeek.ch/2012/05/05/what-is-that-all-about-the-repository-anti-pattern/ </remarks>
-    internal class AdoNetUnitOfWorkScope : IUnitOfWorkScope {
+    internal class AdoNetUnitOfWorkScope : IUnitOfWork {
 
         #region Fields and Properties
 
@@ -95,21 +95,11 @@ namespace Zed.Data {
 
         /// <summary>
         /// This is the asynchronous version of <see cref="BeginTransaction"/>.
-        /// This method invokes the virtual method <see cref="BeginTransactionAsync()"/> with CancellationToken.None.
-        /// Begins/starts with transaction
-        /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        public virtual async Task BeginTransactionAsync() {
-            await BeginTransactionAsync(CancellationToken.None).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// This is the asynchronous version of <see cref="BeginTransaction"/>.
         /// Begins/starts with transaction
         /// </summary>
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public virtual async Task BeginTransactionAsync(CancellationToken cancellationToken) {
+        public virtual async Task BeginTransactionAsync(CancellationToken cancellationToken = default) {
             cancellationToken.ThrowIfCancellationRequested();
             BeginTransaction();
             await Task.CompletedTask.ConfigureAwait(false);
@@ -137,19 +127,10 @@ namespace Zed.Data {
         /// </summary>
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task CommitAsync(CancellationToken cancellationToken) {
+        public async Task CommitAsync(CancellationToken cancellationToken = default) {
             cancellationToken.ThrowIfCancellationRequested();
             Commit();
             await Task.CompletedTask.ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// This is the asynchronous version of <see cref="Commit"/>.
-        /// Commits transaction
-        /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task CommitAsync() {
-            await CommitAsync(CancellationToken.None).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -173,24 +154,13 @@ namespace Zed.Data {
         /// </summary>
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task RollbackAsync(CancellationToken cancellationToken) {
+        public async Task RollbackAsync(CancellationToken cancellationToken = default) {
             cancellationToken.ThrowIfCancellationRequested();
             Rollback();
             await Task.CompletedTask.ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// This is the asynchronous version of <see cref="Rollback"/>.
-        /// Rollbacks transaction
-        /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task RollbackAsync() {
-            await RollbackAsync(CancellationToken.None).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
@@ -200,6 +170,24 @@ namespace Zed.Data {
             if (disposing) {
                 if (!isScopeCompleted && DbConnection.IsTransactionActive) {
                     Rollback();
+                }
+
+                if (isTransactionCreated) {
+                    DbTransaction?.Dispose();
+                }
+            }
+        }
+
+        /// <inheritdoc/>
+        public async ValueTask DisposeAsync() {
+            await DisposeAsync(true).ConfigureAwait(false);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual async ValueTask DisposeAsync(bool disposing) {
+            if (disposing) {
+                if (!isScopeCompleted && DbConnection.IsTransactionActive) {
+                    await RollbackAsync().ConfigureAwait(false);
                 }
 
                 if (isTransactionCreated) {

@@ -18,7 +18,7 @@
     ```sh
         npm install --save-dev husky
         npx husky init
-        echo "npx --no commitlint --edit `$1" > .husky/commit-msg
+        echo "npx --no -- commitlint --edit \$1" > .husky/commit-msg
     ```
 - [Commitizen](http://commitizen.github.io/cz-cli/)
 

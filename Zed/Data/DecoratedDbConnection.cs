@@ -154,17 +154,6 @@ namespace Zed.Data {
         }
 
         /// <summary>
-        /// An asynchronous version of <see cref="Open"/>, which opens
-        /// a database connection with the settings specified by the <see cref="ConnectionString"/>.
-        /// This method invokes the method <see cref="OpenAsync(CancellationToken)"/>
-        /// with CancellationToken.None.
-        /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        public new async Task OpenAsync() {
-            await OpenAsync(CancellationToken.None).ConfigureAwait(false);
-        }
-
-        /// <summary>
         /// This is the asynchronous version of Open. Providers should override with an appropriate
         /// implementation. The cancellation token can optionally be honored.
         /// 
@@ -179,7 +168,7 @@ namespace Zed.Data {
         /// </summary>
         /// <param name="cancellationToken">The cancellation instruction.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public override async Task OpenAsync(CancellationToken cancellationToken) {
+        public override async Task OpenAsync(CancellationToken cancellationToken = default) {
             await base.OpenAsync(cancellationToken).ConfigureAwait(false);
             Transaction = null;
         }
