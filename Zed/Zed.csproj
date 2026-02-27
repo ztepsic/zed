@@ -20,4 +20,9 @@
     <Copyright>Copyright 2024</Copyright>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentResults" />
+    <PackageReference Include="FluentValidation" />
+  </ItemGroup>
+
 </Project>

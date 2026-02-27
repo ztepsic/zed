@@ -2,6 +2,8 @@
   <Folder Name="/Solution Items/">
     <File Path="appveyor.yml" />
   </Folder>
+  <Project Path="Zed.Test.NUnit/Zed.Test.NUnit.csproj" Id="83bb54e2-2543-4e28-934d-994d08ccfa28" />
+  <Project Path="Zed.Test.Xunit/Zed.Test.Xunit.csproj" />
   <Project Path="Zed.Tests/Zed.Tests.csproj" />
   <Project Path="Zed/Zed.csproj" />
 </Solution>

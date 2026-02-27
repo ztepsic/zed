@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Zed.Test.Xunit\Zed.Test.Xunit.csproj" />
     <ProjectReference Include="..\Zed\Zed.csproj" />
   </ItemGroup>
 
