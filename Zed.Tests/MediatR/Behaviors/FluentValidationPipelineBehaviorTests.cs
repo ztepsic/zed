@@ -1,22 +1,19 @@
+using FluentResults;
+using FluentValidation;
+using MediatR;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentResults;
-using FluentValidation;
-using MediatR;
 using Xunit;
 using Zed.Errors;
 using Zed.MediatR.Behaviors;
 
-namespace Zed.Tests.Mediatr.Behaviors
-{
-    public class FluentValidationPipelineBehaviorTests
-    {
+namespace Zed.Tests.MediatR.Behaviors {
+    public class FluentValidationPipelineBehaviorTests {
 
         [Fact]
-        public void Constructor_WithNullValidators_ThrowsArgumentNullException()
-        {
+        public void Constructor_WithNullValidators_ThrowsArgumentNullException() {
             // Act
             var exception = Assert.Throws<ArgumentNullException>(() => new FluentValidationPipelineBehavior<ResultRequest, Result>(null!));
 
@@ -25,15 +22,13 @@ namespace Zed.Tests.Mediatr.Behaviors
         }
 
         [Fact]
-        public async Task Handle_WithValidResultRequest_InvokesNextDelegate()
-        {
+        public async Task Handle_WithValidResultRequest_InvokesNextDelegate() {
             // Arrange
             var request = new ResultRequest("valid");
             var validators = new IValidator<ResultRequest>[] { new ResultRequestValidator() };
             var behavior = new FluentValidationPipelineBehavior<ResultRequest, Result>(validators);
             var nextInvocationCount = 0;
-            RequestHandlerDelegate<Result> next = cancellationToken =>
-            {
+            RequestHandlerDelegate<Result> next = cancellationToken => {
                 nextInvocationCount++;
                 return Task.FromResult(Result.Ok());
             };
@@ -47,15 +42,13 @@ namespace Zed.Tests.Mediatr.Behaviors
         }
 
         [Fact]
-        public async Task Handle_WithNoValidators_InvokesNextDelegate()
-        {
+        public async Task Handle_WithNoValidators_InvokesNextDelegate() {
             // Arrange
             var request = new ResultRequest("valid");
             var validators = Array.Empty<IValidator<ResultRequest>>();
             var behavior = new FluentValidationPipelineBehavior<ResultRequest, Result>(validators);
             var nextInvocationCount = 0;
-            RequestHandlerDelegate<Result> next = cancellationToken =>
-            {
+            RequestHandlerDelegate<Result> next = cancellationToken => {
                 nextInvocationCount++;
                 return Task.FromResult(Result.Ok());
             };
@@ -69,15 +62,13 @@ namespace Zed.Tests.Mediatr.Behaviors
         }
 
         [Fact]
-        public async Task Handle_WithInvalidResultRequest_ReturnsFailedResultWithoutInvokingNextDelegate()
-        {
+        public async Task Handle_WithInvalidResultRequest_ReturnsFailedResultWithoutInvokingNextDelegate() {
             // Arrange
             var request = new ResultRequest(string.Empty);
             var validators = new IValidator<ResultRequest>[] { new ResultRequestValidator() };
             var behavior = new FluentValidationPipelineBehavior<ResultRequest, Result>(validators);
             var nextWasInvoked = false;
-            RequestHandlerDelegate<Result> next = cancellationToken =>
-            {
+            RequestHandlerDelegate<Result> next = cancellationToken => {
                 nextWasInvoked = true;
                 return Task.FromResult(Result.Ok());
             };
@@ -95,8 +86,7 @@ namespace Zed.Tests.Mediatr.Behaviors
         }
 
         [Fact]
-        public async Task Handle_WithMultipleValidationFailures_ReturnsFailedResultContainingAllValidationErrors()
-        {
+        public async Task Handle_WithMultipleValidationFailures_ReturnsFailedResultContainingAllValidationErrors() {
             // Arrange
             var request = new ResultRequest(string.Empty);
             var validators = new IValidator<ResultRequest>[] { new ResultRequestValidator(), new SecondaryResultRequestValidator() };
@@ -115,15 +105,13 @@ namespace Zed.Tests.Mediatr.Behaviors
         }
 
         [Fact]
-        public async Task Handle_WithInvalidGenericResultRequest_ReturnsFailedResultWithoutInvokingNextDelegate()
-        {
+        public async Task Handle_WithInvalidGenericResultRequest_ReturnsFailedResultWithoutInvokingNextDelegate() {
             // Arrange
             var request = new GenericResultRequest(string.Empty);
             var validators = new IValidator<GenericResultRequest>[] { new GenericResultRequestValidator() };
             var behavior = new FluentValidationPipelineBehavior<GenericResultRequest, Result<string>>(validators);
             var nextWasInvoked = false;
-            RequestHandlerDelegate<Result<string>> next = cancellationToken =>
-            {
+            RequestHandlerDelegate<Result<string>> next = cancellationToken => {
                 nextWasInvoked = true;
                 return Task.FromResult(Result.Ok("value"));
             };
@@ -141,15 +129,13 @@ namespace Zed.Tests.Mediatr.Behaviors
         }
 
         [Fact]
-        public async Task Handle_WithInvalidNonResultResponse_ThrowsValidationExceptionWithoutInvokingNextDelegate()
-        {
+        public async Task Handle_WithInvalidNonResultResponse_ThrowsValidationExceptionWithoutInvokingNextDelegate() {
             // Arrange
             var request = new StringResponseRequest(string.Empty);
             var validators = new IValidator<StringResponseRequest>[] { new StringResponseRequestValidator() };
             var behavior = new FluentValidationPipelineBehavior<StringResponseRequest, string>(validators);
             var nextWasInvoked = false;
-            RequestHandlerDelegate<string> next = cancellationToken =>
-            {
+            RequestHandlerDelegate<string> next = cancellationToken => {
                 nextWasInvoked = true;
                 return Task.FromResult("value");
             };
@@ -166,8 +152,7 @@ namespace Zed.Tests.Mediatr.Behaviors
         }
 
         [Fact]
-        public async Task Handle_WithNullRequest_ThrowsArgumentNullException()
-        {
+        public async Task Handle_WithNullRequest_ThrowsArgumentNullException() {
             // Arrange
             var validators = new IValidator<ResultRequest>[] { new ResultRequestValidator() };
             var behavior = new FluentValidationPipelineBehavior<ResultRequest, Result>(validators);
@@ -180,8 +165,7 @@ namespace Zed.Tests.Mediatr.Behaviors
         }
 
         [Fact]
-        public async Task Handle_WithNullNextDelegate_ThrowsArgumentNullException()
-        {
+        public async Task Handle_WithNullNextDelegate_ThrowsArgumentNullException() {
             // Arrange
             var request = new ResultRequest("valid");
             var validators = new IValidator<ResultRequest>[] { new ResultRequestValidator() };
@@ -196,24 +180,20 @@ namespace Zed.Tests.Mediatr.Behaviors
 
         private sealed record ResultRequest(string Name) : IRequest<Result>;
 
-        private sealed class ResultRequestValidator : AbstractValidator<ResultRequest>
-        {
+        private sealed class ResultRequestValidator : AbstractValidator<ResultRequest> {
             public const string ErrorMessage = "Name is required.";
 
-            public ResultRequestValidator()
-            {
+            public ResultRequestValidator() {
                 RuleFor(request => request.Name)
                     .NotEmpty()
                     .WithMessage(ErrorMessage);
             }
         }
 
-        private sealed class SecondaryResultRequestValidator : AbstractValidator<ResultRequest>
-        {
+        private sealed class SecondaryResultRequestValidator : AbstractValidator<ResultRequest> {
             public const string ErrorMessage = "Name must include non-whitespace characters.";
 
-            public SecondaryResultRequestValidator()
-            {
+            public SecondaryResultRequestValidator() {
                 RuleFor(request => request.Name)
                     .Must(name => !string.IsNullOrWhiteSpace(name))
                     .WithMessage(ErrorMessage);
@@ -222,12 +202,10 @@ namespace Zed.Tests.Mediatr.Behaviors
 
         private sealed record GenericResultRequest(string Name) : IRequest<Result<string>>;
 
-        private sealed class GenericResultRequestValidator : AbstractValidator<GenericResultRequest>
-        {
+        private sealed class GenericResultRequestValidator : AbstractValidator<GenericResultRequest> {
             public const string ErrorMessage = "Name is required.";
 
-            public GenericResultRequestValidator()
-            {
+            public GenericResultRequestValidator() {
                 RuleFor(request => request.Name)
                     .NotEmpty()
                     .WithMessage(ErrorMessage);
@@ -236,12 +214,10 @@ namespace Zed.Tests.Mediatr.Behaviors
 
         private sealed record StringResponseRequest(string Name) : IRequest<string>;
 
-        private sealed class StringResponseRequestValidator : AbstractValidator<StringResponseRequest>
-        {
+        private sealed class StringResponseRequestValidator : AbstractValidator<StringResponseRequest> {
             public const string ErrorMessage = "Name is required.";
 
-            public StringResponseRequestValidator()
-            {
+            public StringResponseRequestValidator() {
                 RuleFor(request => request.Name)
                     .NotEmpty()
                     .WithMessage(ErrorMessage);
