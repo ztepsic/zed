@@ -33,12 +33,11 @@ runs:
         path: ${{inputs.nuget-dir}}
 
     - name: Download build artifact from tag
-      uses: robinraju/release-downloader@v1.11
       if: inputs.tag != ''
-      with:
-        tag: ${{inputs.tag}}
-        fileName: "*.nupkg"
-        out-file-path: ${{inputs.nuget-dir}}
+      run: gh release download "${{inputs.tag}}" --pattern "*.nupkg" --dir "${{inputs.nuget-dir}}" --repo "${{github.repository}}"
+      shell: bash
+      env:
+        GH_TOKEN: ${{github.token}}
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v5
