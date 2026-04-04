@@ -1,0 +1,3 @@
+- Zed is a DDD-oriented .NET 10 / C# 14 NuGet library for core application concepts: entities, value objects, repositories, errors, validation, immutable objects, and unit of work abstractions.
+- Key projects: Zed (core library), Zed.Mediatr (MediatR integration), Zed.Test.Xunit and Zed.Test.NUnit (test helpers), Zed.Tests (xUnit test suite).
+- Repository uses central package management and nullable reference types.

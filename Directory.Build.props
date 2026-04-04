@@ -4,6 +4,10 @@
     this folder or subfolders, recursively.
   -->
   <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    
     <Version>0.0.0</Version>
     
     <!-- Enable Build Acceleration in Visual Studio. Learn more at https://aka.ms/vs-build-acceleration. -->

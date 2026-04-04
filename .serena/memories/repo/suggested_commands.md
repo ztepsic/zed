@@ -1,0 +1,5 @@
+- Build: dotnet build
+- Test: dotnet test
+- Coverage: dotnet test /p:CollectCoverage=true
+- Solution file: Zed.slnx
+- Useful Windows shell commands in this environment: git status, git diff, rg, Get-ChildItem, Get-Content, dotnet test .\\Zed.Tests\\Zed.Tests.csproj
