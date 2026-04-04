@@ -1,0 +1,5 @@
+- Public members require XML documentation.
+- Organize class internals with #region blocks.
+- Private fields use camelCase without underscore; constants use UPPER_SNAKE_CASE.
+- Prefer null guards with throw expressions.
+- Tests use xUnit + AutoFixture + Moq; test classes follow [Subject]Tests and methods follow [Method]_[Scenario]_[ExpectedResult].

@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Zed.Test.Xunit\Zed.Test.Xunit.csproj" />
+    <ProjectReference Include="..\Zed.Mediatr\Zed.MediatR.csproj" />
     <ProjectReference Include="..\Zed\Zed.csproj" />
   </ItemGroup>
 

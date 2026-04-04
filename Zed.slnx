@@ -1,7 +1,11 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path="appveyor.yml" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="NuGet.Config" />
   </Folder>
+  <Project Path="Zed.MediatR/Zed.MediatR.csproj" Id="3db43f0b-9019-4df1-aa24-c34d866d99e0" />
   <Project Path="Zed.Test.NUnit/Zed.Test.NUnit.csproj" Id="83bb54e2-2543-4e28-934d-994d08ccfa28" />
   <Project Path="Zed.Test.Xunit/Zed.Test.Xunit.csproj" />
   <Project Path="Zed.Tests/Zed.Tests.csproj" />
