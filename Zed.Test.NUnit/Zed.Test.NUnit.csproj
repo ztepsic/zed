@@ -4,6 +4,22 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>Zed.Test.NUnit</PackageId>
+    <Title>Zed.Test.NUnit</Title>
+    <AssemblyTitle>Zed.Test.NUnit</AssemblyTitle>
+    <Description>Zed.Test.NUnit provides AutoFixture and AutoMoq integration helpers for NUnit consumers of the Zed library.</Description>
+    <PackageReleaseNotes>Zed.Test.NUnit provides AutoFixture and AutoMoq integration helpers for NUnit consumers of the Zed library.</PackageReleaseNotes>
+    <Authors>ztepsic</Authors>
+    <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ztepsic/zed</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ztepsic/zed</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Zed NUnit AutoFixture AutoMoq Testing</PackageTags>
+    <Copyright>Copyright 2026</Copyright>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AutoFixture" />
     <PackageReference Include="AutoFixture.AutoMoq" />

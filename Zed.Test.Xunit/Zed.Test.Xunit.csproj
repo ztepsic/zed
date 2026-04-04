@@ -4,6 +4,22 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>Zed.Test.Xunit</PackageId>
+    <Title>Zed.Test.Xunit</Title>
+    <AssemblyTitle>Zed.Test.Xunit</AssemblyTitle>
+    <Description>Zed.Test.Xunit provides AutoFixture and AutoMoq integration helpers for xUnit consumers of the Zed library.</Description>
+    <PackageReleaseNotes>Zed.Test.Xunit provides AutoFixture and AutoMoq integration helpers for xUnit consumers of the Zed library.</PackageReleaseNotes>
+    <Authors>ztepsic</Authors>
+    <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ztepsic/zed</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ztepsic/zed</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Zed xUnit AutoFixture AutoMoq Testing</PackageTags>
+    <Copyright>Copyright 2026</Copyright>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AutoFixture" />
     <PackageReference Include="AutoFixture.AutoMoq" />

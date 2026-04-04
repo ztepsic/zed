@@ -1,7 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>2.0.0</Version>
     <PackageId>Zed</PackageId>
     <Title>Zed</Title>
     <AssemblyTitle>Zed</AssemblyTitle>
@@ -14,7 +13,7 @@
     <RepositoryUrl>https://github.com/ztepsic/zed</RepositoryUrl>
 	  <RepositoryType>git</RepositoryType>
     <PackageTags>Zed</PackageTags>
-    <Copyright>Copyright 2024</Copyright>
+    <Copyright>Copyright 2026</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
