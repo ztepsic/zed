@@ -86,6 +86,7 @@ Drive a closed-loop workflow:
 - Continue the loop until both of these are true:
   - `COMMENTS.md` has no blocking issues
   - `COMMENTS.md` has no warnings
+  - `COMMENTS.md` has no suggestions
 
 ## Required Workflow
 
